@@ -5,23 +5,15 @@ import { comparePassword } from '@/utils/db'
 import { createJWT } from '@/utils/jwt'
 import { Status } from '@/utils/enums'
 import { CustomError } from '@/utils/error'
+import { UserData } from '@/types'
 
 // Define the interface for User document
-interface IUser extends Document {
-  username: string
-  email: string
-  password: string
-}
+interface IUser extends UserData, Document {}
 
 // Define methods for the User document
 interface IUserMethods {
   generateAuthToken: () => string
 }
-
-// Define static methods for the User model
-// interface IUserModel extends IUserMethods {
-//   findByCredentials: (email: string, password: string) => Promise<IUser>
-// }
 
 export interface IUserModel
   extends Model<IUser, Record<string, never>, IUserMethods> {

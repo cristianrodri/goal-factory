@@ -9,22 +9,6 @@ interface UserData {
   password: string
 }
 
-export interface UserModelData extends UserData, Document {
-  generateAuthToken(): string
-}
-
-interface IUserMethods {
-  generateAuthToken(): string
-}
-
-export interface UserModel
-  extends Model<UserModelData, Record<string, never>, IUserMethods> {
-  findByCredentials(
-    email: string,
-    password: string
-  ): Promise<Require_id<UserModelData>>
-}
-
 export interface UserClientId {
   id: string
 }
