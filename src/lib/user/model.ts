@@ -7,13 +7,13 @@ import { Status } from '@/utils/enums'
 import { CustomError } from '@/utils/error'
 import { UserData } from '@/types'
 
-// Define the interface for User document
-interface IUser extends UserData, Document {}
-
 // Define methods for the User document
 interface IUserMethods {
   generateAuthToken: () => string
 }
+
+// Define the interface for User document
+interface IUser extends UserData, IUserMethods, Document {}
 
 export interface IUserModel
   extends Model<IUser, Record<string, never>, IUserMethods> {
@@ -72,7 +72,7 @@ userSchema.statics.findByCredentials = async function (
   email: string,
   password: string
 ) {
-  const user = await this.findOne({ email })
+  const user = await (this as IUserModel).findOne({ email })
 
   if (!user) {
     throw new CustomError('User not found', Status.NOT_FOUND)
