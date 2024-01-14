@@ -3,7 +3,6 @@ import { UserData } from '@/types'
 import { publicApi } from '@/utils/api'
 import { user } from '@/utils/classes/User'
 import { createTokenCookie } from '@/utils/cookie'
-import { Status } from '@/utils/enums'
 import { NextResponse } from 'next/server'
 
 export const POST = publicApi<UserData>(async ({ email, password }) => {
@@ -15,7 +14,5 @@ export const POST = publicApi<UserData>(async ({ email, password }) => {
 
   createTokenCookie(token)
 
-  return NextResponse.json(foundUser, {
-    status: Status.CREATED
-  })
+  return NextResponse.json(foundUser)
 })

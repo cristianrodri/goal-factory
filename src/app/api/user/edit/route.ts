@@ -43,8 +43,6 @@ export const PUT = privateApi<RequestBody>(
 
     await user.save()
 
-    return NextResponse.json(user, {
-      status: Status.CREATED
-    })
+    return NextResponse.json(user)
   }
 )
