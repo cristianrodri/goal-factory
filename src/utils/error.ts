@@ -11,9 +11,18 @@ export class CustomErrorMongoose extends Error.ValidationError {
 
 export class CustomError extends Error {
   status?: number
+  message: string
 
   constructor(message: string, status?: number) {
     super(message)
+
+    this.message = message
     this.status = status
+
+    // If the error is a mongoose error, check if it's a duplicate user email is the error
+    if (/E11000.*email/.test(message)) {
+      this.status = 409
+      this.message = 'User already exists'
+    }
   }
 }

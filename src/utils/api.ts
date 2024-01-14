@@ -68,12 +68,10 @@ export const connectToDb = async <T>(
   } catch (err) {
     const error = err as CustomError | CustomErrorMongoose
 
-    const errorMessage = Object.values(
-      (error as CustomErrorMongoose)?.errors ?? ({} as CustomErrorMongoose)
-    )[0]?.message
+    const customError = new CustomError(error.message)
 
     return NextResponse.json(
-      { message: errorMessage ?? error.message },
+      { message: customError.message },
       { status: error?.status ?? Status.BAD_REQUEST }
     )
   }
