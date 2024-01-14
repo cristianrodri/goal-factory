@@ -10,4 +10,6 @@ export const comparePassword = async (
   if (!matchedPassword) {
     throw new Error(errorMessage)
   }
+
+  return matchedPassword
 }
