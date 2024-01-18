@@ -26,3 +26,22 @@ interface IAspiration {
   progress: number
   user: Schema.Types.ObjectId
 }
+
+/* Goal types */
+enum GoalType {
+  PERFORMANCE = 'Performance',
+  DISTANT = 'DISTANT',
+  SOON = 'SOON',
+  RESULT = 'RESULT',
+  LEARNING = 'LEARNING'
+}
+interface IGoal {
+  type: GoalType
+  description: string
+  deadline: Date
+  active: boolean
+  reached: boolean
+  progress: number
+  goal: Schema.Types.ObjectId
+  aspiration: Schema.Types.ObjectId
+}
