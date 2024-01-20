@@ -42,6 +42,7 @@ interface IGoal {
   active: boolean
   reached: boolean
   progress: number
+  order: number
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
 }
