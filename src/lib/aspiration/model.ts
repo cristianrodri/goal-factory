@@ -46,8 +46,7 @@ const aspirationSchema = new Schema<IAspiration>({
 aspirationSchema.virtual('goal', {
   ref: 'Goal', // Reference the Goal model
   localField: '_id', // Field from the User model
-  foreignField: 'aspiration', // Field from the Goal model
-  justOne: true
+  foreignField: 'aspiration' // Field from the Goal model
 })
 
 const Aspiration =
