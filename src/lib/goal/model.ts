@@ -38,7 +38,6 @@ const goalSchema = new Schema<IGoal>({
   },
   goal: {
     type: Schema.Types.ObjectId,
-    required: true,
     ref: 'Goal'
   },
   aspiration: {
