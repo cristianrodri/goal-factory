@@ -39,3 +39,11 @@ interface IGoal {
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
 }
+
+/* Activity types */
+interface IActivity {
+  order: number
+  done: boolean
+  repeat: boolean
+  goal: Schema.Types.ObjectId
+}
