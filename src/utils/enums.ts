@@ -8,3 +8,11 @@ export enum Status {
   METHOD_NOT_ALLOWED = 405,
   GATEWAY_TIMEOUT = 504
 }
+
+export enum GOALTYPE {
+  PERFORMANCE = 'Performance',
+  DISTANT = 'DISTANT',
+  SOON = 'SOON',
+  RESULT = 'RESULT',
+  LEARNING = 'LEARNING'
+}

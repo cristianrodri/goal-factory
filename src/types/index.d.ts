@@ -28,13 +28,6 @@ interface IAspiration {
 }
 
 /* Goal types */
-enum GoalType {
-  PERFORMANCE = 'Performance',
-  DISTANT = 'DISTANT',
-  SOON = 'SOON',
-  RESULT = 'RESULT',
-  LEARNING = 'LEARNING'
-}
 interface IGoal {
   type: GoalType
   description: string
