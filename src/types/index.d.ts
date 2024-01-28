@@ -62,3 +62,13 @@ interface IGoalDairy {
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
 }
+
+/* Goal Weekly types */
+interface IGoalWeekly {
+  goals: IGoal[]
+  weeklyProgress: number
+  achievements: string[]
+  reward: string
+  goal: Schema.Types.ObjectId
+  aspiration: Schema.Types.ObjectId
+}
