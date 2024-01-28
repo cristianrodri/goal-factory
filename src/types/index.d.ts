@@ -48,3 +48,17 @@ interface IActivity {
   repeat: boolean
   goal: Schema.Types.ObjectId
 }
+
+/* Goal Dairy types */
+interface IGoalDairy {
+  activities: IActivity[]
+  contingences: string[]
+  alternativeStrategies: string[]
+  conclusions: string[]
+  improvements: string[]
+  achievements: string[]
+  reward: string
+  date: Date
+  goal: Schema.Types.ObjectId
+  aspiration: Schema.Types.ObjectId
+}
