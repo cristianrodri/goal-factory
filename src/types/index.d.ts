@@ -42,6 +42,7 @@ interface IGoal {
 
 /* Activity types */
 interface IActivity {
+  description: string
   order: number
   done: boolean
   repeat: boolean
