@@ -18,7 +18,14 @@ const aspirationSchema = new Schema<IAspiration>({
   },
   deadline: {
     type: Date,
-    required: [true, 'Deadline is required']
+    required: [true, 'Deadline is required'],
+    validate: {
+      validator: function (value: Date) {
+        // Check if the provided date is greater than or equal to the current day
+        return value >= new Date()
+      },
+      message: 'Deadline must be greater than or equal to the current day'
+    }
   },
   reached: {
     type: Boolean,
