@@ -53,7 +53,7 @@ const goalSchema = new Schema<IGoal>({
 })
 
 // Define a virtual property to populate the associated activity
-goalSchema.virtual('activity', {
+goalSchema.virtual('activities', {
   ref: 'Activity', // Reference the Activity model
   localField: '_id', // Field from the Goal model
   foreignField: 'goal' // Field from the Activity model

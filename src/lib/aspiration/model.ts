@@ -50,7 +50,7 @@ const aspirationSchema = new Schema<IAspiration>({
 })
 
 // Define a virtual property to populate the associated goal
-aspirationSchema.virtual('goal', {
+aspirationSchema.virtual('goals', {
   ref: 'Goal', // Reference the Goal model
   localField: '_id', // Field from the Aspiration model
   foreignField: 'aspiration' // Field from the Goal model
