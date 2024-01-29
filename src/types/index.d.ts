@@ -1,3 +1,5 @@
+import { REWARD } from '@/utils/enums'
+
 /* User Data */
 export interface UserDb {
   user: Schema.Types.ObjectId
@@ -71,4 +73,11 @@ interface IGoalWeekly {
   reward: string
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
+}
+
+/* Reward types */
+interface IReward {
+  type: REWARD
+  rewards: string[]
+  user: Schema.Types.ObjectId
 }

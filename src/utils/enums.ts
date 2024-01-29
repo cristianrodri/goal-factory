@@ -16,3 +16,9 @@ export enum GOALTYPE {
   RESULT = 'RESULT',
   LEARNING = 'LEARNING'
 }
+
+export enum REWARD {
+  SMALL = 'Small',
+  MEDIUM = 'Medium',
+  BIG = 'Big'
+}
