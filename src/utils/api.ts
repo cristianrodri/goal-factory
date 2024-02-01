@@ -6,21 +6,32 @@ import { getJWT } from './jwt'
 import { CustomError, CustomErrorMongoose } from './error'
 import { user } from './classes/User'
 
-type HandlerFnPublic<T> = (
-  body: T,
+type BaseApiRequest<T> = {
+  body: T
   req: Request
+}
+
+type AdditionalApiRequest<T, S> = BaseApiRequest<T> & {
+  params: S
+}
+
+type ApiRequest<T, S = void> = S extends void
+  ? BaseApiRequest<T>
+  : AdditionalApiRequest<T, S>
+
+type HandlerFnPublic<T, S> = (
+  reqApi: ApiRequest<T, S>
 ) => Promise<NextResponse<unknown>>
-type HandlerFnPrivate<T> = (
+type HandlerFnPrivate<T, K> = (
   userId: string,
-  body: T,
-  req: Request
+  reqApi: ApiRequest<T, K>
 ) => Promise<NextResponse<unknown>>
 type ApiType = 'public' | 'private'
 
 // Public API middleware
 export const publicApi =
-  <T>(handler: HandlerFnPublic<T>) =>
-  async (request: Request) => {
+  <T, K = void>(handler: HandlerFnPublic<T, K>) =>
+  async (req: Request, url: { params: K }) => {
     // If the user is already logged in, don't let them navigating to the public APIs
     if (cookies().get('token')) {
       return NextResponse.json(
@@ -29,13 +40,13 @@ export const publicApi =
       )
     }
 
-    return await connectToDb<T>('public', request, handler)
+    return await connectToDb<T, K>('public', req, url.params, handler)
   }
 
 // Private API middleware
 export const privateApi =
-  <T>(handler: HandlerFnPrivate<T>) =>
-  async (req: Request) => {
+  <T, K = void>(handler: HandlerFnPrivate<T, K>) =>
+  async (req: Request, url: { params: K }) => {
     // If the user is not logged in, don't let them access the private API
     if (!cookies().get('token')) {
       return NextResponse.json(
@@ -44,15 +55,16 @@ export const privateApi =
       )
     }
 
-    return await connectToDb<T>('private', req, handler)
+    return await connectToDb<T, K>('private', req, url.params, handler)
   }
 
 // Connect to the database previous to executing the handler
-export const connectToDb = async <T>(
+export const connectToDb = async <T, K>(
   apiType: ApiType,
   req: Request,
+  params: K,
   // Depending on the API type, the handler will receive different parameters (CHECK HERE)
-  handler: HandlerFnPublic<T> | HandlerFnPrivate<T>
+  handler: HandlerFnPublic<T, K> | HandlerFnPrivate<T, K>
 ) => {
   try {
     const reqBody =
@@ -70,12 +82,18 @@ export const connectToDb = async <T>(
       // Set the user id, so the user id can be get by the user class
       user.setId(userId as string)
 
-      // ERROR
-      return await (handler as HandlerFnPrivate<T>)(user.id, reqBody as T, req)
+      return await (handler as HandlerFnPrivate<T, K>)(user.id, {
+        body: reqBody,
+        req,
+        params
+      } as ApiRequest<T, K>)
     }
 
-    // ERROR
-    return await (handler as HandlerFnPublic<T>)(reqBody as T, req)
+    return await (handler as HandlerFnPublic<T, K>)({
+      body: reqBody,
+      req,
+      params
+    } as ApiRequest<T, K>)
   } catch (err) {
     const error = err as CustomError | CustomErrorMongoose
 

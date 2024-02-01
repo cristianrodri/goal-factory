@@ -11,7 +11,10 @@ interface RequestBody extends Pick<UserData, 'email' | 'username'> {
 }
 
 export const PUT = privateApi<RequestBody>(
-  async (userId, { email, username, currentPassword, newPassword }) => {
+  async (
+    userId,
+    { body: { email, username, currentPassword, newPassword } }
+  ) => {
     const user = await User.findById(userId)
 
     if (!user) {

@@ -5,7 +5,7 @@ import { Status } from '@/utils/enums'
 import { NextResponse } from 'next/server'
 
 export const POST = privateApi<Omit<IAspiration, 'user'>>(
-  async (userId, body) => {
+  async (userId, { body }) => {
     const aspiration = new Aspiration({
       ...body,
       reached: false,

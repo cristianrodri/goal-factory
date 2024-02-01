@@ -6,7 +6,7 @@ import { createTokenCookie } from '@/utils/cookie'
 import { Status } from '@/utils/enums'
 import { NextResponse } from 'next/server'
 
-export const POST = publicApi<UserData>(async body => {
+export const POST = publicApi<UserData>(async ({ body }) => {
   const createdUser = await createUser(body)
   const token = createdUser.generateAuthToken()
 

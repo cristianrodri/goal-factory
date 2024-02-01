@@ -5,7 +5,7 @@ export interface UserDb {
   user: Schema.Types.ObjectId
 }
 
-interface UserData {
+export interface UserData {
   username: string
   email: string
   password: string
