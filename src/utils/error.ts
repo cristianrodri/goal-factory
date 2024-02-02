@@ -10,8 +10,8 @@ export class CustomErrorMongoose extends Error.ValidationError {
 }
 
 export class CustomError extends Error {
-  status?: number
   message: string
+  status?: number
 
   constructor(message: string, status?: number) {
     super(message)
