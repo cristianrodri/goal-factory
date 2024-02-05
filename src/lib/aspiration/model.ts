@@ -1,5 +1,9 @@
 import { IAspiration } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { Document, Model, Schema, model, models } from 'mongoose'
+import Goal from '../goal/model'
+import Activity from '../activity/model'
+import GoalDairy from '../goal-dairy/model'
+import GoalWeekly from '../goal-weekly/model'
 
 const aspirationSchema = new Schema<IAspiration>({
   generalResult: {
@@ -54,6 +58,16 @@ aspirationSchema.virtual('goals', {
   ref: 'Goal', // Reference the Goal model
   localField: '_id', // Field from the Aspiration model
   foreignField: 'aspiration' // Field from the Goal model
+})
+
+aspirationSchema.pre('findOneAndDelete', async function () {
+  // Remove all the associated goals
+  const id = (this as unknown as Document)._id
+
+  await Goal.deleteMany({ aspiration: id })
+  await Activity.deleteMany({ aspiration: id })
+  await GoalDairy.deleteMany({ aspiration: id })
+  await GoalWeekly.deleteMany({ aspiration: id })
 })
 
 const Aspiration =
