@@ -4,7 +4,7 @@ import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { NextResponse } from 'next/server'
 
-export const POST = privateApi<Omit<IAspiration, 'user'>, { id: string }>(
+export const PUT = privateApi<Omit<IAspiration, 'user'>, { id: string }>(
   async (userId, { body, params }) => {
     const aspiration = await Aspiration.findOneAndUpdate(
       { user: userId, _id: params.id },
