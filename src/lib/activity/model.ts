@@ -24,6 +24,11 @@ const activitySchema = new Schema<IActivity>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Goal'
+  },
+  aspiration: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Aspiration'
   }
 })
 

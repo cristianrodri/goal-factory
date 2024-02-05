@@ -49,6 +49,7 @@ interface IActivity {
   done: boolean
   repeat: boolean
   goal: Schema.Types.ObjectId
+  aspiration: Schema.Types.ObjectId
 }
 
 /* Goal Dairy types */
