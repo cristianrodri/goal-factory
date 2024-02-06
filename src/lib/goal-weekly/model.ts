@@ -34,6 +34,11 @@ const goalWeeklySchema = new Schema<IGoalWeekly>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Aspiration'
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
 })
 

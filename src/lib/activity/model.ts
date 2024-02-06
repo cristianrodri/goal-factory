@@ -29,6 +29,11 @@ const activitySchema = new Schema<IActivity>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Aspiration'
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
 })
 

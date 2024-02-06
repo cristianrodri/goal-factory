@@ -49,6 +49,11 @@ const goalSchema = new Schema<IGoal>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Aspiration'
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
 })
 

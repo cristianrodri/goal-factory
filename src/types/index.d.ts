@@ -40,6 +40,7 @@ interface IGoal {
   order: number
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
+  user: Schema.Types.ObjectId
 }
 
 /* Activity types */
@@ -50,6 +51,7 @@ interface IActivity {
   repeat: boolean
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
+  user: Schema.Types.ObjectId
 }
 
 /* Goal Dairy types */
@@ -64,6 +66,7 @@ interface IGoalDairy {
   date: Date
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
+  user: Schema.Types.ObjectId
 }
 
 /* Goal Weekly types */
@@ -74,6 +77,7 @@ interface IGoalWeekly {
   reward: string
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
+  user: Schema.Types.ObjectId
 }
 
 /* Reward types */
