@@ -75,7 +75,6 @@ interface IGoalWeekly {
   weeklyProgress: number
   achievements: string[]
   reward: string
-  goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }

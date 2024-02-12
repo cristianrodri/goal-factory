@@ -21,14 +21,8 @@ const goalWeeklySchema = new Schema<IGoalWeekly>({
   ],
   reward: {
     type: String,
-    required: [true, 'Reward is required'],
     minlength: [3, 'Reward must be at least 3 characters long'],
     maxlength: [50, 'Reward must be at most 100 characters long']
-  },
-  goal: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'Goal'
   },
   aspiration: {
     type: Schema.Types.ObjectId,
