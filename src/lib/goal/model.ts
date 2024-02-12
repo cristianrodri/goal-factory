@@ -71,6 +71,13 @@ goalSchema.virtual('activities', {
   foreignField: 'goal' // Field from the Activity model
 })
 
+// Define a virtual schema for inner goals
+goalSchema.virtual('innerGoals', {
+  ref: 'Goal', // reference the same model
+  localField: '_id', // the local field that contains the ID of the document
+  foreignField: 'goal' // the field in the referenced model that matches the localField
+})
+
 const Goal =
   (models['Goal'] as Model<IGoal>) || model<IGoal>('Goal', goalSchema)
 
