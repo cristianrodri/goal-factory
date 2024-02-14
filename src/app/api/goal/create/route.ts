@@ -5,26 +5,11 @@ import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { NextResponse } from 'next/server'
 
-export const POST = privateApi<Omit<IGoal[], 'user'>>(
+export const POST = privateApi<Omit<IGoal, 'user'>>(
   async (userId, { body }) => {
-    const areGoalsSharingSameAspiration = body.every(
-      goal => goal.aspiration === body[0].aspiration
-    )
-
-    if (!areGoalsSharingSameAspiration) {
-      return NextResponse.json(
-        {
-          message: 'All goals must share the same aspiration'
-        },
-        {
-          status: Status.BAD_REQUEST
-        }
-      )
-    }
-
     // Check if the given aspiration exists and belongs to the user
     const aspirationExists = await Aspiration.exists({
-      _id: body[0].aspiration,
+      _id: body.aspiration,
       user: userId
     })
 
@@ -39,14 +24,11 @@ export const POST = privateApi<Omit<IGoal[], 'user'>>(
       )
     }
 
-    // Add the user id to each goal
-    const newGoals = body.map(goal => ({ ...goal, user: userId }))
+    const goal = new Goal({ ...body, user: userId })
 
-    const goal = new Goal(newGoals)
+    const createdGoal = await goal.save()
 
-    const createdGoals = await goal.save()
-
-    return NextResponse.json(createdGoals, {
+    return NextResponse.json(createdGoal, {
       status: Status.CREATED
     })
   }
