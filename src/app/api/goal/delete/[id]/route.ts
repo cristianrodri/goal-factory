@@ -6,19 +6,19 @@ import { NextResponse } from 'next/server'
 
 export const DELETE = privateApi<unknown, { id: string }>(
   async (userId, { params }) => {
-    const data = await Goal.findOne({
+    const goal = await Goal.findOne({
       user: userId,
       _id: params.id
     }).populate<{ innerGoals: IGoal[] }>('innerGoals')
 
     // If the goal has no inner goals, delete the associated activities
-    if (data?.innerGoals.length === 0) {
-      await Activity.deleteMany({ goal: data?._id, user: userId })
+    if (goal?.innerGoals.length === 0) {
+      await Activity.deleteMany({ goal: goal?._id, user: userId })
     }
 
     // Delete the goal
-    await data?.deleteOne()
+    await goal?.deleteOne()
 
-    return NextResponse.json(data)
+    return NextResponse.json(goal)
   }
 )
