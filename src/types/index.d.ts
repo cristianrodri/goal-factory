@@ -49,6 +49,15 @@ interface IActivity {
   order: number
   done: boolean
   repeat: boolean
+  days: {
+    monday: boolean
+    tuesday: boolean
+    wednesday: boolean
+    thursday: boolean
+    friday: boolean
+    saturday: boolean
+    sunday: boolean
+  }
   goal: Schema.Types.ObjectId
   aspiration: Schema.Types.ObjectId
   user: Schema.Types.ObjectId

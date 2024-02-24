@@ -17,8 +17,39 @@ const activitySchema = new Schema<IActivity>({
     default: false
   },
   repeat: {
-    type: Boolean,
-    default: false
+    type: Boolean
+  },
+  days: {
+    type: {
+      monday: {
+        type: Boolean,
+        default: false
+      },
+      tuesday: {
+        type: Boolean,
+        default: false
+      },
+      wednesday: {
+        type: Boolean,
+        default: false
+      },
+      thursday: {
+        type: Boolean,
+        default: false
+      },
+      friday: {
+        type: Boolean,
+        default: false
+      },
+      saturday: {
+        type: Boolean,
+        default: false
+      },
+      sunday: {
+        type: Boolean,
+        default: false
+      }
+    }
   },
   goal: {
     type: Schema.Types.ObjectId,
@@ -35,6 +66,22 @@ const activitySchema = new Schema<IActivity>({
     required: true,
     ref: 'User'
   }
+})
+
+// Pre-save hook to set all days to false if repeat is false
+activitySchema.pre('save', function (next) {
+  if (!this.repeat) {
+    this.days = {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
+      sunday: false
+    }
+  }
+  next()
 })
 
 const Activity =
