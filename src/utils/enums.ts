@@ -11,10 +11,10 @@ export enum Status {
 
 export enum GOALTYPE {
   PERFORMANCE = 'Performance',
-  DISTANT = 'DISTANT',
-  SOON = 'SOON',
-  RESULT = 'RESULT',
-  LEARNING = 'LEARNING'
+  DISTANT = 'Distant',
+  SOON = 'Soon',
+  RESULT = 'Result',
+  LEARNING = 'Learning'
 }
 
 export enum REWARD {
