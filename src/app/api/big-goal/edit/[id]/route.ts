@@ -1,12 +1,12 @@
-import Aspiration from '@/lib/aspiration/model'
-import { IAspiration } from '@/types'
+import BigGoal from '@/lib/big-goal/model'
+import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { NextResponse } from 'next/server'
 
-export const PUT = privateApi<Omit<IAspiration, 'user'>, { id: string }>(
+export const PUT = privateApi<Omit<IBigGoal, 'user'>, { id: string }>(
   async (userId, { body, params }) => {
-    const aspiration = await Aspiration.findOneAndUpdate(
+    const bigGoal = await BigGoal.findOneAndUpdate(
       { user: userId, _id: params.id },
       {
         ...body,
@@ -15,7 +15,7 @@ export const PUT = privateApi<Omit<IAspiration, 'user'>, { id: string }>(
       { new: true }
     )
 
-    return NextResponse.json(aspiration, {
+    return NextResponse.json(bigGoal, {
       status: Status.CREATED
     })
   }

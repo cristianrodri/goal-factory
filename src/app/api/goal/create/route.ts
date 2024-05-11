@@ -1,4 +1,4 @@
-import Aspiration from '@/lib/aspiration/model'
+import BigGoal from '@/lib/big-goal/model'
 import Goal from '@/lib/goal/model'
 import { IGoal } from '@/types'
 import { privateApi } from '@/utils/api'
@@ -7,16 +7,16 @@ import { NextResponse } from 'next/server'
 
 export const POST = privateApi<Omit<IGoal, 'user'>>(
   async (userId, { body }) => {
-    // Check if the given aspiration exists and belongs to the user
-    const aspirationExists = await Aspiration.exists({
-      _id: body.aspiration,
+    // Check if the given big goal exists and belongs to the user
+    const bigGoalExists = await BigGoal.exists({
+      _id: body.bigGoal,
       user: userId
     })
 
-    if (!aspirationExists) {
+    if (!bigGoalExists) {
       return NextResponse.json(
         {
-          message: 'Aspiration does not exist or does not belong to the user'
+          message: 'Big goal does not exist or does not belong to the user'
         },
         {
           status: Status.BAD_REQUEST

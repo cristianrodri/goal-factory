@@ -6,11 +6,11 @@ import { NextResponse } from 'next/server'
 
 export const PUT = privateApi<Omit<IGoal, 'user'>, { id: string }>(
   async (userId, { body, params }) => {
-    const { aspiration } = body
+    const { bigGoal } = body
 
-    if (aspiration) {
+    if (bigGoal) {
       return NextResponse.json(
-        { error: 'Aspiration cannot be updated' },
+        { error: 'Big Goal cannot be updated' },
         { status: Status.BAD_REQUEST }
       )
     }

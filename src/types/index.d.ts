@@ -19,8 +19,8 @@ export interface UserClientId {
 // Types used in the client side
 export type AuthUser = ClientId & Omit<UserData, 'password'>
 
-/* Aspiration types */
-interface IAspiration {
+/* BigGoal types */
+interface IBigGoal {
   generalResult: string
   specificResult: string
   deadline: Date
@@ -40,7 +40,7 @@ interface IGoal {
   progress: number
   order: number
   goal: Schema.Types.ObjectId
-  aspiration: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
 
@@ -60,7 +60,7 @@ interface IActivity {
     sunday: boolean
   }
   goal: Schema.Types.ObjectId
-  aspiration: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
 
@@ -75,7 +75,7 @@ interface IGoalDairy {
   reward: string
   date: Date
   goal: Schema.Types.ObjectId
-  aspiration: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
 
@@ -85,7 +85,7 @@ interface IGoalWeekly {
   weeklyProgress: number
   achievements: string[]
   reward: string
-  aspiration: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
 

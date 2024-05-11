@@ -56,10 +56,10 @@ const activitySchema = new Schema<IActivity>({
     required: true,
     ref: 'Goal'
   },
-  aspiration: {
+  bigGoal: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Aspiration'
+    ref: 'Big Goal'
   },
   user: {
     type: Schema.Types.ObjectId,

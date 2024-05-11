@@ -24,10 +24,10 @@ const goalWeeklySchema = new Schema<IGoalWeekly>({
     minlength: [3, 'Reward must be at least 3 characters long'],
     maxlength: [50, 'Reward must be at most 100 characters long']
   },
-  aspiration: {
+  bigGoal: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Aspiration'
+    ref: 'BigGoal'
   },
   user: {
     type: Schema.Types.ObjectId,

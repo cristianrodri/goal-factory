@@ -4,12 +4,12 @@ import { NextResponse } from 'next/server'
 
 export const GET = privateApi(async (userId, { req }) => {
   const { searchParams } = new URL(req.url)
-  const aspiration = searchParams.get('aspiration')?.trim()
+  const bigGoal = searchParams.get('bigGoal')?.trim()
   const parentGoal = searchParams.get('parentGoal')?.trim()
 
   const data = await Goal.find({
     user: userId,
-    aspiration,
+    bigGoal,
     ...(parentGoal ? { goal: parentGoal } : {})
   })
 

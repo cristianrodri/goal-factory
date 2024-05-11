@@ -1,10 +1,10 @@
-import Aspiration from '@/lib/aspiration/model'
 import { privateApi } from '@/utils/api'
 import { NextResponse } from 'next/server'
+import BigGoal from '@/lib/big-goal/model'
 
 export const DELETE = privateApi<unknown, { id: string }>(
   async (userId, { params }) => {
-    const data = await Aspiration.findOneAndDelete({
+    const data = await BigGoal.findOneAndDelete({
       user: userId,
       _id: params.id
     })
