@@ -32,3 +32,8 @@ export enum WeekDay {
   SATURDAY = 'saturday',
   SUNDAY = 'sunday'
 }
+
+export enum MotivationType {
+  PER_USER = 'Per User',
+  PER_GOAL = 'Per Goal'
+}

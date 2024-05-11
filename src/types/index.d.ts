@@ -1,4 +1,4 @@
-import { REWARD, WeekDay } from '@/utils/enums'
+import { MotivationType, REWARD, WeekDay } from '@/utils/enums'
 
 /* User Data */
 export interface UserDb {
@@ -93,5 +93,14 @@ interface IGoalWeekly {
 interface IReward {
   type: REWARD
   rewards: string[]
+  user: Schema.Types.ObjectId
+}
+
+/* Motivation types */
+interface IMotivation {
+  realNumberTechnique: number
+  type: MotivationType
+  isUsed: boolean
+  isApproved: boolean
   user: Schema.Types.ObjectId
 }
