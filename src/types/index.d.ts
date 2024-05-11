@@ -104,3 +104,19 @@ interface IMotivation {
   isApproved: boolean
   user: Schema.Types.ObjectId
 }
+
+/* Motivation Technique models (not all 27 techniques will be modeled) */
+
+/* Impulse model */
+interface IImpulse {
+  videoLink: string
+  rates: [
+    {
+      description?: string
+      rate: number
+      time: Date
+    }
+  ]
+  isShown: boolean
+  user: Schema.Types.ObjectId
+}
