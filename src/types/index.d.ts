@@ -120,3 +120,12 @@ interface IImpulse {
   isShown: boolean
   user: Schema.Types.ObjectId
 }
+
+/* Visual Prospective model */
+interface IVisualProspective {
+  goalAchievedDescription: string
+  specificDeadline: Date
+  thingTodoGoal: string
+  timeReduceIdeas: string[]
+  user: Schema.Types.ObjectId
+}
