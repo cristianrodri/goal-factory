@@ -3,7 +3,7 @@ import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import { comparePassword } from '@/utils/db'
 import { createJWT } from '@/utils/jwt'
-import { Status } from '@/utils/enums'
+import { Status, WeekDay } from '@/utils/enums'
 import { CustomError } from '@/utils/error'
 import { UserData } from '@/types'
 
@@ -52,6 +52,17 @@ const userSchema = new Schema<IUser>(
         validator: (value: string) => !value.toLowerCase().includes('password'),
         message: 'Password cannot contain "password"'
       }
+    },
+    dayGame: {
+      type: String,
+      required: true,
+      enum: {
+        values: Object.values(WeekDay),
+        message: 'Invalid day game'
+      }
+    },
+    games: {
+      type: [String]
     }
   },
   {

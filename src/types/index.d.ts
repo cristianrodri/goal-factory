@@ -1,4 +1,4 @@
-import { REWARD } from '@/utils/enums'
+import { REWARD, WeekDay } from '@/utils/enums'
 
 /* User Data */
 export interface UserDb {
@@ -9,8 +9,9 @@ export interface UserData {
   username: string
   email: string
   password: string
+  dayGame: WeekDay
+  games: string[]
 }
-
 export interface UserClientId {
   id: string
 }

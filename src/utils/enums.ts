@@ -22,3 +22,13 @@ export enum REWARD {
   MEDIUM = 'Medium',
   BIG = 'Big'
 }
+
+export enum WeekDay {
+  MONDAY = 'monday',
+  TUESDAY = 'tuesday',
+  WEDNESDAY = 'wednesday',
+  THURSDAY = 'thursday',
+  FRIDAY = 'friday',
+  SATURDAY = 'saturday',
+  SUNDAY = 'sunday'
+}
