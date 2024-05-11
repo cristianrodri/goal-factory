@@ -112,7 +112,7 @@ interface IImpulse {
   videoLink: string
   rates: [
     {
-      description?: string
+      description: string
       rate: number
       time: Date
     }
