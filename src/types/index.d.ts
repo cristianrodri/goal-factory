@@ -157,3 +157,10 @@ interface IPreCommitment {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Reduce Alternative types */
+interface IReduceAlternative {
+  burnedShips: string[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
