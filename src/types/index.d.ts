@@ -164,3 +164,13 @@ interface IReduceAlternative {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Contaminate Temptation types */
+interface IContaminateTemptation {
+  temptations: {
+    temptation: string
+    catastrophe: string
+  }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
