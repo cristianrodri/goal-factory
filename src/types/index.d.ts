@@ -141,12 +141,19 @@ interface IVisualProspective {
   bigGoal: Schema.Types.ObjectId
 }
 
-/* Automatic Habit model */
+/* Automatic Habit types */
 interface IAutomaticHabit {
   utilHabits: {
     habit: string
     impact: number
   }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
+
+/* Pre Commitment types */
+interface IPreCommitment {
+  preCommitments: string[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
