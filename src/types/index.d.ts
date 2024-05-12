@@ -105,9 +105,19 @@ interface IMotivationTechnique {
   user: Schema.Types.ObjectId
 }
 
+/* Motivation Calculation types */
+interface IMotivationCalculation {
+  expectation: number
+  value: number
+  impulsiveness: number
+  time: number
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
+
 /* Motivation Technique models (not all 27 techniques will be modeled) */
 
-/* Impulse model */
+/* Impulse types */
 interface IImpulse {
   videoLink: string
   rates: [
@@ -121,7 +131,7 @@ interface IImpulse {
   user: Schema.Types.ObjectId
 }
 
-/* Visual Prospective model */
+/* Visual Prospective types */
 interface IVisualProspective {
   goalAchievedDescription: string
   specificDeadline: Date
@@ -133,10 +143,10 @@ interface IVisualProspective {
 
 /* Automatic Habit model */
 interface IAutomaticHabit {
-  user: Schema.Types.ObjectId
-  bigGoal: Schema.Types.ObjectId
   utilHabits: {
     habit: string
     impact: number
   }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
 }
