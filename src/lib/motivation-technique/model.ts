@@ -1,8 +1,8 @@
-import { IMotivation } from '@/types'
+import { IMotivationTechnique } from '@/types'
 import { MotivationType } from '@/utils/enums'
 import { Model, Schema, model, models } from 'mongoose'
 
-const motivationSchema = new Schema<IMotivation>({
+const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
   realNumberTechnique: {
     type: Number,
     required: true,
@@ -33,8 +33,8 @@ const motivationSchema = new Schema<IMotivation>({
   }
 })
 
-const Motivation =
-  (models['Motivation'] as Model<IMotivation>) ||
-  model<IMotivation>('Motivation', motivationSchema)
+const MotivationTechnique =
+  (models['MotivationTechnique'] as Model<IMotivationTechnique>) ||
+  model<IMotivationTechnique>('MotivationTechnique', motivationTechniqueSchema)
 
-export default Motivation
+export default MotivationTechnique

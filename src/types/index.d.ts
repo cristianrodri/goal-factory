@@ -97,7 +97,7 @@ interface IReward {
 }
 
 /* Motivation types */
-interface IMotivation {
+interface IMotivationTechnique {
   realNumberTechnique: number
   type: MotivationType
   isUsed: boolean
