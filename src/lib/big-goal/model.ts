@@ -71,7 +71,7 @@ bigGoalSchema.pre('findOneAndDelete', async function () {
 })
 
 const BigGoal =
-  (models['Big Goal'] as Model<IBigGoal>) ||
-  model<IBigGoal>('Big Goal', bigGoalSchema)
+  (models['BigGoal'] as Model<IBigGoal>) ||
+  model<IBigGoal>('BigGoal', bigGoalSchema)
 
 export default BigGoal
