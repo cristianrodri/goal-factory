@@ -130,3 +130,13 @@ interface IVisualProspective {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Automatic Habit model */
+interface IAutomaticHabit {
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+  utilHabits: {
+    habit: string
+    impact: number
+  }[]
+}
