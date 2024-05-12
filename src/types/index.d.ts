@@ -174,3 +174,16 @@ interface IContaminateTemptation {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Interruption Stimulus types */
+interface IInterruptionStimulus {
+  externalReminders: {
+    reminder: string
+    impacts: {
+      impact: number
+      date: Date
+    }[]
+  }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
