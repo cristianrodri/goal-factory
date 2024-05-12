@@ -128,4 +128,5 @@ interface IVisualProspective {
   thingTodoGoal: string
   timeReduceIdeas: string[]
   user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
 }
