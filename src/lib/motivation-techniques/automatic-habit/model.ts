@@ -13,6 +13,7 @@ const automaticHabitSchema = new Schema<IAutomaticHabit>({
       },
       impact: {
         type: Number,
+        trim: true,
         required: [true, 'Impact is required'],
         min: [1, 'Impact must be at least 1'],
         max: [10, 'Impact must be at most 10']

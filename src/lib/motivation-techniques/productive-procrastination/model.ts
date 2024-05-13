@@ -6,6 +6,7 @@ const productiveProcrastinationSchema = new Schema<IProductiveProcrastination>({
     type: [
       {
         type: String,
+        trim: true,
         minlength: [
           2,
           'Productive procrastination item must have at least 2 character.'

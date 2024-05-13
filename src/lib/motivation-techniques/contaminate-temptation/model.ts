@@ -6,14 +6,15 @@ const contaminateTemptationSchema = new Schema<IContaminateTemptation>({
     {
       temptation: {
         type: String,
-        required: true,
+        required: [true, 'Temptation is required'],
         trim: true,
         minlength: [2, 'Temptation must be at least 2 character long'],
         maxlength: [500, 'Temptation must be at most 500 character long']
       },
       catastrophe: {
         type: String,
-        required: true,
+        required: [true, 'Catastrophe is required'],
+        trim: true,
         minlength: [2, 'Catastrophe must be at least 2 character long'],
         maxlength: [1000, 'Catastrophe must be at most 1000 character long']
       }
