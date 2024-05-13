@@ -232,3 +232,10 @@ interface IPurposePassion {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Total Structure Focus types */
+interface ITotalStructureFocus {
+  focusIdeas: string[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
