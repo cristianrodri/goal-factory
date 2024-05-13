@@ -269,3 +269,24 @@ interface IWorstContext {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Motivation Book types */
+interface IMotivationBook {
+  date: Date
+  activities: {
+    activity: Schema.Types.ObjectId
+    stability: number
+    motivation: number
+  }[]
+  impulses: {
+    impulse: Schema.Types.ObjectId
+    rate: number
+  }[]
+  procrastinations: {
+    procrastination: string
+    cause: string
+  }[]
+  hasProgress: boolean
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
