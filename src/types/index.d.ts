@@ -245,3 +245,10 @@ interface IDependency {
   dependencies: string[]
   user: Schema.Types.ObjectId
 }
+
+/* Optimal Accountability types */
+interface IOptimalAccountability {
+  trustedPeople: string[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
