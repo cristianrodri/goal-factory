@@ -5,6 +5,7 @@ const dependencySchema = new Schema<IDependency>({
   dependencies: [
     {
       type: String,
+      trim: true,
       minlength: [2, 'Dependency must be at least 2 characters long'],
       maxlength: [200, 'Dependency must be at most 200 characters long']
     }

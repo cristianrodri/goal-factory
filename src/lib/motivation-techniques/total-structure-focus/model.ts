@@ -6,6 +6,7 @@ const totalStructureFocusSchema = new Schema<ITotalStructureFocus>({
     type: [
       {
         type: String,
+        trim: true,
         minlength: [2, 'Focus idea must be at least 2 characters long'],
         maxlength: [200, 'Focus idea must be at most 200 characters long']
       }
