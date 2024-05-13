@@ -239,3 +239,9 @@ interface ITotalStructureFocus {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Dependency types */
+interface IDependency {
+  dependencies: string[]
+  user: Schema.Types.ObjectId
+}
