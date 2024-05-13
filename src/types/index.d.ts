@@ -222,3 +222,13 @@ interface IOptimizedEnergy {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Purpose Passion types */
+interface IPurposePassion {
+  dailyActivities: {
+    activity: string
+    enjoyment: number
+  }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
