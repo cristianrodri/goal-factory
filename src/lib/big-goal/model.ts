@@ -20,21 +20,21 @@ const bigGoalSchema = new Schema<IBigGoal>({
     maxlength: 100,
     minlength: 2
   },
-  deadline: {
-    type: Date,
-    required: [true, 'Deadline is required'],
-    validate: {
-      validator: function (value: Date) {
-        // Check if the provided date is greater than or equal to the current day
-        return value >= new Date()
-      },
-      message: 'Deadline must be greater than or equal to the current day'
-    }
-  },
-  reached: {
-    type: Boolean,
-    default: false
-  },
+  // deadline: {
+  //   type: Date,
+  //   required: [true, 'Deadline is required'],
+  //   validate: {
+  //     validator: function (value: Date) {
+  //       // Check if the provided date is greater than or equal to the current day
+  //       return value >= new Date()
+  //     },
+  //     message: 'Deadline must be greater than or equal to the current day'
+  //   }
+  // },
+  // reached: {
+  //   type: Boolean,
+  //   default: false
+  // },
   bigReward: {
     type: String,
     required: [true, 'Big reward is required'],
@@ -42,10 +42,10 @@ const bigGoalSchema = new Schema<IBigGoal>({
     maxlength: 100,
     minlength: 2
   },
-  progress: {
-    type: Number,
-    default: 0
-  },
+  // progress: {
+  //   type: Number,
+  //   default: 0
+  // },
   user: {
     type: Schema.Types.ObjectId,
     required: true,

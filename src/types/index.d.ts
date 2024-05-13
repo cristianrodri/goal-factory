@@ -23,10 +23,39 @@ export type AuthUser = ClientId & Omit<UserData, 'password'>
 interface IBigGoal {
   generalResult: string
   specificResult: string
-  deadline: Date
-  reached: boolean
+  realDeadline: Date
+  optimisticDeadline: Date
+  activityAnalysis: string[]
+  activitiesFrecuency: string
+  bigWhy: string
+  expectation: string
+  compromises: {
+    1: boolean
+    2: boolean
+    3: boolean
+    4: boolean
+    5: boolean
+    6: boolean
+    7: boolean
+  }
+  moderatingFactors: {
+    1: string[]
+    2: string[]
+    3: string[]
+    4: string[]
+    5: string[]
+    6: string[]
+  }
+  moderationFactorAlternatives: string[]
+  facilitators: {
+    1: string[]
+    2: string[]
+    3: string[]
+    4: string
+  }
   bigReward: string
-  progress: number
+  rewardWasTaken: boolean
+  achieved: boolean
   user: Schema.Types.ObjectId
 }
 
