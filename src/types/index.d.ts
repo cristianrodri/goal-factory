@@ -187,3 +187,9 @@ interface IInterruptionStimulus {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Productive Procrastination types */
+interface IProductiveProcrastination {
+  productiveList: string[]
+  user: Schema.Types.ObjectId
+}
