@@ -203,3 +203,12 @@ interface IDistraction {
   }[]
   user: Schema.Types.ObjectId
 }
+
+/* Task Samurai types */
+interface ITaskSamurai {
+  boredTasks: {
+    task: string
+    optimazing: string
+  }[]
+  user: Schema.Types.ObjectId
+}
