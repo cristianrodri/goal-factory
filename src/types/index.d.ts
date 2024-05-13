@@ -259,3 +259,13 @@ interface IOptimisticLevel {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Worst Context types */
+interface IWorstContext {
+  contingences: {
+    badScenario: string
+    alternative: string
+  }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
