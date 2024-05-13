@@ -193,3 +193,13 @@ interface IProductiveProcrastination {
   productiveList: string[]
   user: Schema.Types.ObjectId
 }
+
+/* Distraction types */
+interface IDistraction {
+  distractions: string[]
+  impulsivities: {
+    impulsivity: string
+    timeToDo: string
+  }[]
+  user: Schema.Types.ObjectId
+}
