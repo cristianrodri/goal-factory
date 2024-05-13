@@ -212,3 +212,13 @@ interface ITaskSamurai {
   }[]
   user: Schema.Types.ObjectId
 }
+
+/* Optimized Energy types */
+interface IOptimizedEnergy {
+  energyLevels: {
+    time: Date
+    level: number
+  }[]
+  user: Schema.Types.ObjectId
+  bigGoal: Schema.Types.ObjectId
+}
