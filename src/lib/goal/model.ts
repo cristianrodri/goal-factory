@@ -88,7 +88,7 @@ const goalSchema = new Schema<IGoal>({
   bigGoal: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Big Goal'
+    ref: 'BigGoal'
   },
   user: {
     type: Schema.Types.ObjectId,

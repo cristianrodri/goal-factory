@@ -132,15 +132,17 @@ interface IActivity {
 
 /* Goal Dairy types */
 interface IGoalDairy {
-  activities: IActivity[]
-  contingences: string[]
-  alternativeStrategies: string[]
+  date: Date
+  activities: {
+    activity: Schema.Types.ObjectId
+    done: boolean
+    description: string
+  }[]
   conclusions: string[]
   improvements: string[]
   achievements: string[]
   reward: string
-  date: Date
-  goal: Schema.Types.ObjectId
+  rewardWasTaken: boolean
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }

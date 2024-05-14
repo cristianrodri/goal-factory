@@ -2,62 +2,61 @@ import { IGoalDairy } from '@/types'
 import { Model, Schema, model, models } from 'mongoose'
 
 const goalDairySchema = new Schema<IGoalDairy>({
+  date: {
+    type: Date
+  },
   activities: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'Activity'
-    }
-  ],
-  contingences: [
-    {
-      type: String,
-      minlength: [3, 'Contingence must be at least 3 characters long'],
-      maxlength: [100, 'Contingence must be at most 100 characters long']
-    }
-  ],
-  alternativeStrategies: [
-    {
-      type: String,
-      minlength: [3, 'Alternative strategy must be at least 3 characters long'],
-      maxlength: [
-        100,
-        'Alternative strategy must be at most 100 characters long'
-      ]
+      activity: {
+        type: Schema.Types.ObjectId,
+        ref: 'Activity'
+      },
+      description: {
+        type: String,
+        required: [true, 'Description is required'],
+        minlength: [3, 'Description must be at least 3 characters long'],
+        maxlength: [100, 'Description must be at most 100 characters long']
+      },
+      done: {
+        type: Boolean,
+        default: false
+      }
     }
   ],
   conclusions: [
     {
       type: String,
-      minlength: [3, 'Conclusion must be at least 3 characters long'],
-      maxlength: [100, 'Conclusion must be at most 100 characters long']
+      minlength: [2, 'Conclusion must be at least 2 characters long'],
+      maxlength: [200, 'Conclusion must be at most 200 characters long']
     }
   ],
   improvements: [
     {
       type: String,
-      minlength: [3, 'Improvement must be at least 3 characters long'],
-      maxlength: [100, 'Improvement must be at most 100 characters long']
+      minlength: [2, 'Improvement must be at least 2 characters long'],
+      maxlength: [200, 'Improvement must be at most 200 characters long']
+    }
+  ],
+  achievements: [
+    {
+      type: String,
+      minlength: [2, 'Achievement must be at least 2 characters long'],
+      maxlength: [200, 'Achievement must be at most 200 characters long']
     }
   ],
   reward: {
     type: String,
-    required: [true, 'Reward is required'],
-    minlength: [3, 'Reward must be at least 3 characters long'],
+    minlength: [2, 'Reward must be at least 2 characters long'],
     maxlength: [50, 'Reward must be at most 100 characters long']
   },
-  date: {
-    type: Date,
-    default: Date.now
-  },
-  goal: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'Goal'
+  rewardWasTaken: {
+    type: Boolean,
+    default: false
   },
   bigGoal: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'Big Goal'
+    ref: 'BigGoal'
   },
   user: {
     type: Schema.Types.ObjectId,
