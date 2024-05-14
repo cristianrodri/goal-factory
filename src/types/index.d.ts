@@ -19,6 +19,27 @@ export interface UserClientId {
 // Types used in the client side
 export type AuthUser = ClientId & Omit<UserData, 'password'>
 
+interface BasicAspects {
+  1: boolean
+  2: boolean
+  3: boolean
+  4: boolean
+  5: boolean
+}
+
+interface OptimizingAspects {
+  1: boolean
+  2: boolean
+  3: boolean
+  4: boolean
+  5: boolean
+  6: boolean
+  7: boolean
+  8: boolean
+  9: boolean
+  10: boolean
+}
+
 /* BigGoal types */
 interface IBigGoal {
   generalResult: string
@@ -53,25 +74,8 @@ interface IBigGoal {
     3: string[]
     4: string
   }
-  basicAspects: {
-    1: boolean
-    2: boolean
-    3: boolean
-    4: boolean
-    5: boolean
-  }
-  optimizingAspects: {
-    1: boolean
-    2: boolean
-    3: boolean
-    4: boolean
-    5: boolean
-    6: boolean
-    7: boolean
-    8: boolean
-    9: boolean
-    10: boolean
-  }
+  basicAspects: BasicAspects
+  optimizingAspects: OptimizingAspects
   bigReward: string
   rewardWasTaken: boolean
   achieved: boolean
@@ -82,12 +86,18 @@ interface IBigGoal {
 interface IGoal {
   type: GoalType
   description: string
+  optimisticDeadline: Date
   deadline: Date
-  active: boolean
-  reached: boolean
   progress: number
-  order: number
-  goal: Schema.Types.ObjectId
+  basicAspects: BasicAspects
+  optimizingAspects: OptimizingAspects
+  difficulty: number
+  challenge: number
+  specific: number
+  directed: number
+  immediate: number
+  achieved: boolean
+  parentGoal?: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
