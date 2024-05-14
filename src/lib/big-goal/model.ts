@@ -104,6 +104,14 @@ const bigGoalSchema = new Schema<IBigGoal>({
     type: Map,
     of: Boolean
   },
+  futureGoals: [
+    {
+      type: String,
+      trim: true,
+      maxlength: [300, 'Future goals can not be more than 300 characters'],
+      minlength: [2, 'Future goals can not be less than 2 characters']
+    }
+  ],
   bigReward: {
     type: String,
     trim: true,

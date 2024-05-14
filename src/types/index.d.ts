@@ -76,6 +76,7 @@ interface IBigGoal {
   }
   basicAspects: BasicAspects
   optimizingAspects: OptimizingAspects
+  futureGoals: string[]
   bigReward: string
   rewardWasTaken: boolean
   achieved: boolean
