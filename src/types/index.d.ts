@@ -149,10 +149,13 @@ interface IGoalDairy {
 
 /* Goal Weekly types */
 interface IGoalWeekly {
+  date: Date
   goals: IGoal[]
   weeklyProgress: number
+  weekDay: WeekDay
   achievements: string[]
   reward: string
+  rewardWasTaken: boolean
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
