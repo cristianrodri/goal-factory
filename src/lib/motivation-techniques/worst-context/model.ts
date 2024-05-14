@@ -2,7 +2,7 @@ import { IWorstContext } from '@/types'
 import { Model, Schema, model, models } from 'mongoose'
 
 const worstContextSchema = new Schema<IWorstContext>({
-  contingences: [
+  contingencies: [
     {
       badScenario: {
         type: String,

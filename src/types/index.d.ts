@@ -40,6 +40,11 @@ interface OptimizingAspects {
   10: boolean
 }
 
+interface Contingency {
+  badScenario: string
+  alternative: string
+}
+
 /* BigGoal types */
 interface IBigGoal {
   generalResult: string
@@ -107,8 +112,6 @@ interface IGoal {
 interface IActivity {
   description: string
   order: number
-  done: boolean
-  repeat: boolean
   days: {
     monday: boolean
     tuesday: boolean
@@ -118,6 +121,10 @@ interface IActivity {
     saturday: boolean
     sunday: boolean
   }
+  fallback: string
+  contingencies: Contingency[]
+  diversionOrder: number
+  diversionIdeas: string[]
   goal: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
@@ -321,7 +328,7 @@ interface IOptimisticLevel {
 
 /* Worst Context types */
 interface IWorstContext {
-  contingences: {
+  contingencies: {
     badScenario: string
     alternative: string
   }[]

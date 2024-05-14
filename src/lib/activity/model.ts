@@ -10,14 +10,8 @@ const activitySchema = new Schema<IActivity>({
   },
   order: {
     type: Number,
-    required: [true, 'Order is required']
-  },
-  done: {
-    type: Boolean,
-    default: false
-  },
-  repeat: {
-    type: Boolean
+    required: [true, 'Order is required'],
+    min: [1, 'Order must be at least 1']
   },
   days: {
     type: {
@@ -51,6 +45,38 @@ const activitySchema = new Schema<IActivity>({
       }
     }
   },
+  fallback: {
+    type: String,
+    minlength: [3, 'Fallback must be at least 3 characters long'],
+    maxlength: [100, 'Fallback must be at most 100 characters long']
+  },
+  contingencies: [
+    {
+      badScenario: {
+        type: String,
+        required: [true, 'Bad scenario is required'],
+        minlength: [3, 'Bad scenario must be at least 3 characters long'],
+        maxlength: [100, 'Bad scenario must be at most 100 characters long']
+      },
+      alternative: {
+        type: String,
+        required: [true, 'Alternative is required'],
+        minlength: [3, 'Alternative must be at least 3 characters long'],
+        maxlength: [100, 'Alternative must be at most 100 characters long']
+      }
+    }
+  ],
+  diversionOrder: {
+    type: Number,
+    min: [1, 'Diversion order must be at least 1']
+  },
+  diversionIdeas: [
+    {
+      type: String,
+      minlength: [3, 'Diversion idea must be at least 3 characters long'],
+      maxlength: [100, 'Diversion idea must be at most 100 characters long']
+    }
+  ],
   goal: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -66,22 +92,6 @@ const activitySchema = new Schema<IActivity>({
     required: true,
     ref: 'User'
   }
-})
-
-// Pre-save hook to set all days to false if repeat is false
-activitySchema.pre('save', function (next) {
-  if (!this.repeat) {
-    this.days = {
-      monday: false,
-      tuesday: false,
-      wednesday: false,
-      thursday: false,
-      friday: false,
-      saturday: false,
-      sunday: false
-    }
-  }
-  next()
 })
 
 const Activity =
