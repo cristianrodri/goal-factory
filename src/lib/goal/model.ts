@@ -10,18 +10,16 @@ const goalSchema = new Schema<IGoal>({
       message: 'Invalid goal type.'
     },
     required: [true, 'Goal type is required'],
-    trim: true,
-    maxlength: 100,
-    minlength: 2
+    trim: true
   },
   description: {
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    maxlength: 100,
-    minlength: 2
+    maxlength: [300, 'Description must not exceed 300 characters'],
+    minlength: [2, 'Description must be at least 2 characters long']
   },
-  deadline: {
+  optimisticDeadline: {
     type: Date,
     required: [true, 'Deadline is required'],
     validate: {
@@ -32,23 +30,58 @@ const goalSchema = new Schema<IGoal>({
       message: 'Deadline must be greater than or equal to the current day'
     }
   },
-  active: {
-    type: Boolean,
-    default: false
-  },
-  reached: {
-    type: Boolean,
-    default: false
+  realDeadline: {
+    type: Date,
+    validate: {
+      validator: function (value: Date) {
+        // Check if the provided date is greater than or equal to the current day
+        return value >= new Date()
+      },
+      message: 'Real Deadline must be greater than or equal to the current day'
+    }
   },
   progress: {
     type: Number,
     default: 0
   },
-  order: {
-    type: Number,
-    required: [true, 'Order is required']
+  basicAspects: {
+    type: Map,
+    of: Boolean
   },
-  goal: {
+  optimizingAspects: {
+    type: Map,
+    of: Boolean
+  },
+  difficulty: {
+    type: Number,
+    min: 1,
+    max: 10
+  },
+  challenge: {
+    type: Number,
+    min: 1,
+    max: 10
+  },
+  specific: {
+    type: Number,
+    min: 1,
+    max: 10
+  },
+  directed: {
+    type: Number,
+    min: 1,
+    max: 10
+  },
+  immediate: {
+    type: Number,
+    min: 1,
+    max: 10
+  },
+  achieved: {
+    type: Boolean,
+    default: false
+  },
+  parentGoal: {
     type: Schema.Types.ObjectId,
     ref: 'Goal'
   },
@@ -75,7 +108,7 @@ goalSchema.virtual('activities', {
 goalSchema.virtual('innerGoals', {
   ref: 'Goal', // reference the same model
   localField: '_id', // the local field that contains the ID of the document
-  foreignField: 'goal' // the field in the referenced model that matches the localField
+  foreignField: 'parentGoal' // the field in the referenced model that matches the localField
 })
 
 const Goal =

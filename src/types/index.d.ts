@@ -87,7 +87,7 @@ interface IGoal {
   type: GoalType
   description: string
   optimisticDeadline: Date
-  deadline: Date
+  realDeadline: Date
   progress: number
   basicAspects: BasicAspects
   optimizingAspects: OptimizingAspects
