@@ -376,3 +376,14 @@ interface IHabit {
   }
   user: Schema.Types.ObjectId
 }
+
+/* HabitDairy */
+interface IHabitDairy {
+  date: Date
+  habits: {
+    habit: Schema.Types.ObjectId
+    description: string
+    done: boolean
+  }[]
+  user: Schema.Types.ObjectId
+}
