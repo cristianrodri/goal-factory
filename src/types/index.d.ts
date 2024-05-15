@@ -377,7 +377,7 @@ interface IHabit {
   user: Schema.Types.ObjectId
 }
 
-/* HabitDairy */
+/* Habit Dairy types */
 interface IHabitDairy {
   date: Date
   habits: {
@@ -385,5 +385,12 @@ interface IHabitDairy {
     description: string
     done: boolean
   }[]
+  user: Schema.Types.ObjectId
+}
+
+/* Habit Weekly types */
+interface IHabitWeekly {
+  date: Date
+  weeklyProgress: number
   user: Schema.Types.ObjectId
 }
