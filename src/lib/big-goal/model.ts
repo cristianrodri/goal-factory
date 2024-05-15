@@ -4,6 +4,7 @@ import Activity from '../activity/model'
 import GoalDairy from '../goal-dairy/model'
 import GoalWeekly from '../goal-weekly/model'
 import { IBigGoal } from '@/types'
+import { WeekDay } from '@/utils/enums'
 
 const bigGoalSchema = new Schema<IBigGoal>({
   generalResult: {
@@ -95,6 +96,14 @@ const bigGoalSchema = new Schema<IBigGoal>({
   facilitators: {
     type: Map,
     of: [String]
+  },
+  goalWeeklyDay: {
+    type: String,
+    enum: {
+      values: Object.values(WeekDay),
+      message: 'Invalid goal type.'
+    },
+    required: [true, 'Week day is required']
   },
   basicAspects: {
     type: Map,
