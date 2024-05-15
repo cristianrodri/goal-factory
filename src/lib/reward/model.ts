@@ -1,12 +1,12 @@
 import { IReward } from '@/types'
-import { REWARD } from '@/utils/enums'
+import { RewardType } from '@/utils/enums'
 import { Model, Schema, model, models } from 'mongoose'
 
 const rewardSchema = new Schema<IReward>({
   type: {
     type: String,
     enum: {
-      values: Object.values(REWARD),
+      values: Object.values(RewardType),
       message: 'Invalid reward type.'
     },
     required: [true, 'Reward type is required'],

@@ -1,12 +1,12 @@
 import { IGoal } from '@/types'
-import { GOALTYPE } from '@/utils/enums'
+import { GoalType } from '@/utils/enums'
 import { Model, Schema, model, models } from 'mongoose'
 
 const goalSchema = new Schema<IGoal>({
   type: {
     type: String,
     enum: {
-      values: Object.values(GOALTYPE),
+      values: Object.values(GoalType),
       message: 'Invalid goal type.'
     },
     required: [true, 'Goal type is required'],

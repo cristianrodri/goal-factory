@@ -9,7 +9,7 @@ export enum Status {
   GATEWAY_TIMEOUT = 504
 }
 
-export enum GOALTYPE {
+export enum GoalType {
   PERFORMANCE = 'Performance',
   DISTANT = 'Distant',
   SOON = 'Soon',
@@ -17,7 +17,7 @@ export enum GOALTYPE {
   LEARNING = 'Learning'
 }
 
-export enum REWARD {
+export enum RewardType {
   SMALL = 'Small',
   MEDIUM = 'Medium',
   BIG = 'Big'
