@@ -72,12 +72,21 @@ const bigGoalSchema = new Schema<IBigGoal>({
     minlength: [2, 'Expectation can not be less than 2 characters']
   },
   compromises: {
-    type: Map,
-    of: Boolean
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean,
+    5: Boolean,
+    6: Boolean,
+    7: Boolean
   },
   moderatingFactors: {
-    type: Map,
-    of: [String]
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean,
+    5: Boolean,
+    6: Boolean
   },
   moderationFactorAlternatives: [
     {
@@ -94,8 +103,10 @@ const bigGoalSchema = new Schema<IBigGoal>({
     }
   ],
   facilitators: {
-    type: Map,
-    of: [String]
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean
   },
   goalWeeklyDay: {
     type: String,
@@ -106,12 +117,23 @@ const bigGoalSchema = new Schema<IBigGoal>({
     required: [true, 'Week day is required']
   },
   basicAspects: {
-    type: Map,
-    of: Boolean
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean,
+    5: Boolean
   },
   optimizingAspects: {
-    type: Map,
-    of: Boolean
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean,
+    5: Boolean,
+    6: Boolean,
+    7: Boolean,
+    8: Boolean,
+    9: Boolean,
+    10: Boolean
   },
   futureGoals: [
     {

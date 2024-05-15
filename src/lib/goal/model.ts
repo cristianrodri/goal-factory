@@ -45,12 +45,23 @@ const goalSchema = new Schema<IGoal>({
     default: 0
   },
   basicAspects: {
-    type: Map,
-    of: Boolean
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean,
+    5: Boolean
   },
   optimizingAspects: {
-    type: Map,
-    of: Boolean
+    1: Boolean,
+    2: Boolean,
+    3: Boolean,
+    4: Boolean,
+    5: Boolean,
+    6: Boolean,
+    7: Boolean,
+    8: Boolean,
+    9: Boolean,
+    10: Boolean
   },
   difficulty: {
     type: Number,
