@@ -361,3 +361,18 @@ interface IMotivationBook {
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
+
+/* Habit types */
+interface IHabit {
+  description: string
+  days: {
+    monday: boolean
+    tuesday: boolean
+    wednesday: boolean
+    thursday: boolean
+    friday: boolean
+    saturday: boolean
+    sunday: boolean
+  }
+  user: Schema.Types.ObjectId
+}
