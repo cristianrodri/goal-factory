@@ -79,6 +79,7 @@ interface IBigGoal {
     3: string[]
     4: string
   }
+  goalWeeklyDay: WeekDay
   basicAspects: BasicAspects
   optimizingAspects: OptimizingAspects
   futureGoals: string[]
@@ -152,7 +153,6 @@ interface IGoalWeekly {
   date: Date
   goals: IGoal[]
   weeklyProgress: number
-  weekDay: WeekDay
   achievements: string[]
   reward: string
   rewardWasTaken: boolean

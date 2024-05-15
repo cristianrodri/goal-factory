@@ -2,6 +2,10 @@ import { IGoalWeekly } from '@/types'
 import { Model, Schema, model, models } from 'mongoose'
 
 const goalWeeklySchema = new Schema<IGoalWeekly>({
+  date: {
+    type: Date,
+    required: [true, 'Date is required']
+  },
   goals: [
     {
       type: Schema.Types.ObjectId,
@@ -10,7 +14,9 @@ const goalWeeklySchema = new Schema<IGoalWeekly>({
   ],
   weeklyProgress: {
     type: Number,
-    default: 0
+    default: 0,
+    min: [0, 'Weekly progress must be at least 0'],
+    max: [100, 'Weekly progress must be at most 100']
   },
   achievements: [
     {
@@ -22,7 +28,11 @@ const goalWeeklySchema = new Schema<IGoalWeekly>({
   reward: {
     type: String,
     minlength: [3, 'Reward must be at least 3 characters long'],
-    maxlength: [50, 'Reward must be at most 100 characters long']
+    maxlength: [100, 'Reward must be at most 100 characters long']
+  },
+  rewardWasTaken: {
+    type: Boolean,
+    default: false
   },
   bigGoal: {
     type: Schema.Types.ObjectId,
