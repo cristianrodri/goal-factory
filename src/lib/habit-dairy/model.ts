@@ -30,7 +30,7 @@ const habitDairySchema = new Schema<IHabitDairy>({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

@@ -6,14 +6,14 @@ const worstContextSchema = new Schema<IWorstContext>({
     {
       badScenario: {
         type: String,
-        required: true,
+        required: [true, 'Bad scenario is required'],
         trim: true,
         minlength: [2, 'Bad scenario must be at least 2 characters long'],
         maxlength: [200, 'Bad scenario must be at most 200 characters long']
       },
       alternative: {
         type: String,
-        required: true,
+        required: [true, 'Alternative is required'],
         trim: true,
         minlength: [2, 'Alternative must be at least 2 characters long'],
         maxlength: [1000, 'Alternative must be at most 200 characters long']
@@ -22,12 +22,12 @@ const worstContextSchema = new Schema<IWorstContext>({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   },
   bigGoal: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'Big goal is required'],
     ref: 'BigGoal'
   }
 })

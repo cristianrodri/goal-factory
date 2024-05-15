@@ -5,7 +5,7 @@ import { Model, Schema, model, models } from 'mongoose'
 const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
   realNumberTechnique: {
     type: Number,
-    required: true,
+    required: [true, 'Real number technique is required'],
     min: 1,
     max: 27
   },
@@ -28,7 +28,7 @@ const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

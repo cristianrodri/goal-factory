@@ -22,7 +22,7 @@ const taskSamuraiSchema = new Schema<ITaskSamurai>({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

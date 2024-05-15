@@ -36,7 +36,7 @@ const distractionSchema = new Schema<IDistraction>({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

@@ -22,7 +22,7 @@ const habitSchema = new Schema<IHabit>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

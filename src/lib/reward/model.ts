@@ -24,7 +24,7 @@ const rewardSchema = new Schema<IReward>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

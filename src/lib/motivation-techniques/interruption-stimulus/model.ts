@@ -29,12 +29,12 @@ const interruptionStimulusSchema = new Schema<IInterruptionStimulus>({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   },
   bigGoal: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'Big goal is required'],
     ref: 'BigGoal'
   }
 })

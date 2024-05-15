@@ -79,17 +79,17 @@ const activitySchema = new Schema<IActivity>({
   ],
   goal: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'Goal is required'],
     ref: 'Goal'
   },
   bigGoal: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'Big goal is required'],
     ref: 'BigGoal'
   },
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   }
 })

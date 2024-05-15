@@ -31,12 +31,12 @@ const userSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required'],
       trim: true,
       unique: true,
       lowercase: true,
-      maxLength: 70,
-      minlength: 2,
+      minlength: [5, 'Email must be at least 5 characters long'],
+      maxLength: [100, 'Email must be at most 100 characters long'],
       validate: {
         validator: (value: string) => validator.isEmail(value),
         message: 'Email is invalid'
@@ -44,10 +44,10 @@ const userSchema = new Schema<IUser>(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required'],
       trim: true,
-      minlength: 7,
-      maxLength: 100,
+      minlength: [6, 'Password must be at least 6 characters long'],
+      maxLength: [100, 'Password must be at most 100 characters long'],
       validate: {
         validator: (value: string) => !value.toLowerCase().includes('password'),
         message: 'Password cannot contain "password"'
@@ -55,7 +55,7 @@ const userSchema = new Schema<IUser>(
     },
     dayGame: {
       type: String,
-      required: true,
+      required: [true, 'Day game is required'],
       enum: {
         values: Object.values(WeekDay),
         message: 'Invalid day game'

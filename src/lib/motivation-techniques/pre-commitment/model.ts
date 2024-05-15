@@ -12,12 +12,12 @@ const preCommitmentSchema = new Schema<IPreCommitment>({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'User is required'],
     ref: 'User'
   },
   bigGoal: {
     type: Schema.Types.ObjectId,
-    required: true,
+    required: [true, 'Big goal is required'],
     ref: 'BigGoal'
   }
 })
