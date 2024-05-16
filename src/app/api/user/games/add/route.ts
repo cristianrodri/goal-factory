@@ -1,22 +1,16 @@
-import User from '@/lib/user/model'
+import Game from '@/lib/games/model'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
-import { errorResponse, successResponse } from '@/utils/response'
+import { successResponse } from '@/utils/response'
 
 interface AddGames {
   games: string[]
 }
 
 export const POST = privateApi<AddGames>(async (user, { body }) => {
-  const loggedUser = await User.findById(user)
+  const newGame = new Game(body)
 
-  if (!loggedUser) {
-    return errorResponse('User not found', Status.NOT_FOUND)
-  }
+  await newGame.save()
 
-  loggedUser.games.push(...body.games)
-
-  await loggedUser.save()
-
-  return successResponse(loggedUser)
+  return successResponse(newGame, Status.CREATED)
 })

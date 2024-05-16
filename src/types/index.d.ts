@@ -1,8 +1,13 @@
 import { MotivationType, REWARD, WeekDay } from '@/utils/enums'
+import { Document } from 'mongoose'
 
 /* User Data */
 export interface UserDb {
   user: Schema.Types.ObjectId
+}
+
+export interface Game extends Document {
+  game: string
 }
 
 export interface UserData {
@@ -10,7 +15,7 @@ export interface UserData {
   email: string
   password: string
   dayGame: WeekDay
-  games: string[]
+  games: Game[]
 }
 export interface UserClientId {
   id: string
@@ -164,6 +169,12 @@ interface IGoalWeekly {
 interface IReward {
   type: REWARD
   rewards: string[]
+  user: Schema.Types.ObjectId
+}
+
+/* Game types */
+interface IGame {
+  game: string
   user: Schema.Types.ObjectId
 }
 

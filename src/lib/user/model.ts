@@ -60,9 +60,6 @@ const userSchema = new Schema<IUser>(
         values: Object.values(WeekDay),
         message: 'Invalid day game'
       }
-    },
-    games: {
-      type: [String]
     }
   },
   {
