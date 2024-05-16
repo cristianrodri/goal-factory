@@ -67,10 +67,19 @@ export const connectToDb = async <T, K>(
   handler: HandlerFnPublic<T, K> | HandlerFnPrivate<T, K>
 ) => {
   try {
-    const reqBody =
+    const reqBody = await req.json()
+
+    // User property can't be edited in the models
+    delete reqBody?.user
+    delete reqBody?._id
+    delete reqBody?.__v
+    delete reqBody?.createdAt
+    delete reqBody?.updatedAt
+
+    const body =
       (req.method === 'POST' || req.method === 'PUT') &&
       !req.url.includes('api/user/logout')
-        ? ((await req.json()) as T)
+        ? (reqBody as T)
         : null
 
     await dbConnect()
@@ -83,14 +92,14 @@ export const connectToDb = async <T, K>(
       user.setId(userId as string)
 
       return await (handler as HandlerFnPrivate<T, K>)(user.id, {
-        body: reqBody,
+        body,
         req,
         params
       } as ApiRequest<T, K>)
     }
 
     return await (handler as HandlerFnPublic<T, K>)({
-      body: reqBody,
+      body,
       req,
       params
     } as ApiRequest<T, K>)
