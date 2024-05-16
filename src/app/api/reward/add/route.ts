@@ -12,15 +12,16 @@ interface RewardData {
 export const POST = privateApi<RewardData>(async (user, { body }) => {
   const { rewards, type } = body
 
-  const rewardType = await Reward.findOne({ type, user })
+  // Update the document in the database atomically
+  const updatedRewardType = await Reward.findOneAndUpdate(
+    { type, user },
+    { $push: { rewards: { $each: rewards } } }, // Use $each to push multiple rewards
+    { new: true } // Return the modified document
+  )
 
-  if (!rewardType) {
+  if (!updatedRewardType) {
     return errorResponse('Reward type not found', Status.NOT_FOUND)
   }
 
-  rewardType.rewards.push(...rewards)
-
-  await rewardType.save()
-
-  return successResponse(rewardType)
+  return successResponse(updatedRewardType)
 })
