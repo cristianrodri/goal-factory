@@ -12,15 +12,15 @@ interface RewardData {
 export const POST = privateApi<RewardData>(async (user, { body }) => {
   const { rewards, type } = body
 
-  const reward = await Reward.findOne({ type, user })
+  const rewardType = await Reward.findOne({ type, user })
 
-  if (!reward) {
+  if (!rewardType) {
     return errorResponse('Reward type not found', Status.NOT_FOUND)
   }
 
-  reward.rewards.push(...rewards)
+  rewardType.rewards.push(...rewards)
 
-  await reward.save()
+  await rewardType.save()
 
-  return successResponse(reward)
+  return successResponse(rewardType)
 })
