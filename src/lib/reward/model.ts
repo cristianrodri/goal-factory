@@ -11,16 +11,12 @@ const rewardSchema = new Schema<IReward>({
     },
     required: [true, 'Reward type is required'],
     trim: true,
-    maxlength: 100,
-    minlength: 2
+    maxlength: [100, 'Reward type can have a maximum of 100 characters'],
+    minlength: [2, 'Reward type can have a minimum of 2 characters']
   },
   rewards: {
     type: [String],
-    required: [true, 'Rewards are required'],
-    validate: {
-      validator: (rewards: string[]) => rewards.length > 0,
-      message: 'Rewards are required'
-    }
+    required: [true, 'Rewards are required']
   },
   user: {
     type: Schema.Types.ObjectId,
