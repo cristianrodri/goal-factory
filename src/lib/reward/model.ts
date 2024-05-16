@@ -1,6 +1,16 @@
-import { IReward } from '@/types'
+import { IReward, IRewardDescription } from '@/types'
 import { RewardType } from '@/utils/enums'
 import { Model, Schema, model, models } from 'mongoose'
+
+const rewardsSchema = new Schema<IRewardDescription>({
+  description: {
+    type: String,
+    required: [true, 'Description is required'],
+    trim: true,
+    minlength: [2, 'Description is too short'],
+    maxlength: [100, 'Description is too long. Max 100 characters.']
+  }
+})
 
 const rewardSchema = new Schema<IReward>({
   type: {
@@ -13,8 +23,7 @@ const rewardSchema = new Schema<IReward>({
     trim: true
   },
   rewards: {
-    type: [String],
-    required: [true, 'Rewards are required']
+    type: [rewardsSchema]
   },
   user: {
     type: Schema.Types.ObjectId,

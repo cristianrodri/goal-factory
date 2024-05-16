@@ -10,6 +10,10 @@ export interface Game extends Document {
   game: string
 }
 
+export interface IRewardDescription extends Document {
+  description: string
+}
+
 export interface UserData {
   username: string
   email: string
@@ -19,6 +23,13 @@ export interface UserData {
 }
 export interface UserClientId {
   id: string
+}
+
+/* Reward types */
+interface IReward {
+  type: REWARD
+  rewards: IRewardDescription[]
+  user: Schema.Types.ObjectId
 }
 
 // Types used in the client side
@@ -162,13 +173,6 @@ interface IGoalWeekly {
   reward: string
   rewardWasTaken: boolean
   bigGoal: Schema.Types.ObjectId
-  user: Schema.Types.ObjectId
-}
-
-/* Reward types */
-interface IReward {
-  type: REWARD
-  rewards: string[]
   user: Schema.Types.ObjectId
 }
 
