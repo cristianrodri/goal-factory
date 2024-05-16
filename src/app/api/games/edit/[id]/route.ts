@@ -1,4 +1,4 @@
-import User from '@/lib/user/model'
+import Game from '@/lib/games/model'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
@@ -9,22 +9,18 @@ interface UpdateGame {
 
 export const PUT = privateApi<UpdateGame, { id: string }>(
   async (user, { body, params }) => {
-    const loggedUser = await User.findById(user)
+    const updatedGame = await Game.findOneAndUpdate(
+      { _id: params.id, user },
+      body,
+      {
+        new: true
+      }
+    )
 
-    if (!loggedUser) {
-      return errorResponse('User not found', Status.NOT_FOUND)
+    if (!updatedGame) {
+      return errorResponse('Game not found', Status.NOT_FOUND)
     }
 
-    loggedUser.games.map(game => {
-      if (game._id.toString() === params.id) {
-        game.game = body.updatedGame
-      }
-
-      return game
-    })
-
-    await loggedUser.save()
-
-    return successResponse(loggedUser)
+    return successResponse(updatedGame)
   }
 )
