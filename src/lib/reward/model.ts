@@ -10,9 +10,7 @@ const rewardSchema = new Schema<IReward>({
       message: 'Invalid reward type.'
     },
     required: [true, 'Reward type is required'],
-    trim: true,
-    maxlength: [100, 'Reward type can have a maximum of 100 characters'],
-    minlength: [2, 'Reward type can have a minimum of 2 characters']
+    trim: true
   },
   rewards: {
     type: [String],
