@@ -3,12 +3,15 @@ import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
-interface AddGames {
-  games: string[]
+interface AddGame {
+  game: string
 }
 
-export const POST = privateApi<AddGames>(async (user, { body }) => {
-  const newGame = new Game(body)
+export const POST = privateApi<AddGame>(async (user, { body }) => {
+  const newGame = new Game({
+    game: body.game,
+    user
+  })
 
   await newGame.save()
 
