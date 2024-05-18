@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs'
+import { Document } from 'mongoose'
 
 export const comparePassword = async (
   password: string,
@@ -12,4 +13,15 @@ export const comparePassword = async (
   }
 
   return matchedPassword
+}
+
+export function toJSONTransform(doc: Document) {
+  const obj = doc.toObject()
+
+  obj.id = obj._id
+  delete obj._id
+  delete obj?.password // Conditionally delete the password field if it exists
+  delete obj.__v
+
+  return obj
 }

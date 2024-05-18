@@ -1,7 +1,7 @@
 import { model, Schema, Document, models, Model } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
-import { comparePassword } from '@/utils/db'
+import { comparePassword, toJSONTransform } from '@/utils/db'
 import { createJWT } from '@/utils/jwt'
 import { Status, WeekDay } from '@/utils/enums'
 import { CustomError } from '@/utils/error'
@@ -55,7 +55,6 @@ const userSchema = new Schema<IUser>(
     },
     dayGame: {
       type: String,
-      required: [true, 'Day game is required'],
       enum: {
         values: Object.values(WeekDay),
         message: 'Invalid day game'
@@ -67,12 +66,9 @@ const userSchema = new Schema<IUser>(
   }
 )
 
-// Define a custom transformation method to exclude the password field
+// Use the transformation function within the toJSON method
 userSchema.methods.toJSON = function () {
-  const userObject = this.toObject()
-  delete userObject.password
-
-  return userObject
+  return toJSONTransform(this as Document)
 }
 
 // Define a static method for finding a user by credentials

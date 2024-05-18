@@ -19,7 +19,6 @@ export interface UserData {
   email: string
   password: string
   dayGame: WeekDay
-  games: Game[]
 }
 export interface UserClientId {
   id: string
