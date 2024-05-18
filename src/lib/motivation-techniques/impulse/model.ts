@@ -1,5 +1,6 @@
 import { IImpulse } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const impulseSchema = new Schema<IImpulse>({
   videoLink: {
@@ -38,6 +39,11 @@ const impulseSchema = new Schema<IImpulse>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+impulseSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const Impulse =
   (models['Impulse'] as Model<IImpulse>) ||

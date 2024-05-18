@@ -5,6 +5,7 @@ import GoalDairy from '../goal-dairy/model'
 import GoalWeekly from '../goal-weekly/model'
 import { IBigGoal } from '@/types'
 import { WeekDay } from '@/utils/enums'
+import { toJSONTransform } from '@/utils/db'
 
 const bigGoalSchema = new Schema<IBigGoal>({
   generalResult: {
@@ -163,6 +164,11 @@ const bigGoalSchema = new Schema<IBigGoal>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+bigGoalSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 // Define a virtual property to populate the associated goal
 bigGoalSchema.virtual('goals', {

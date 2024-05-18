@@ -1,6 +1,7 @@
 import { IReward, IRewardDescription } from '@/types'
+import { toJSONTransform } from '@/utils/db'
 import { RewardType } from '@/utils/enums'
-import { Model, Schema, model, models } from 'mongoose'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const rewardsSchema = new Schema<IRewardDescription>({
   description: {
@@ -31,6 +32,11 @@ const rewardSchema = new Schema<IReward>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+rewardSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const Reward =
   (models['Reward'] as Model<IReward>) || model<IReward>('Reward', rewardSchema)

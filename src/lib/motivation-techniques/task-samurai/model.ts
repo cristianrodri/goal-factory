@@ -1,5 +1,6 @@
 import { ITaskSamurai } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const taskSamuraiSchema = new Schema<ITaskSamurai>({
   boredTasks: [
@@ -26,6 +27,16 @@ const taskSamuraiSchema = new Schema<ITaskSamurai>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+taskSamuraiSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
+
+// Use the transformation function within the toJSON method
+taskSamuraiSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const TaskSamurai =
   (models['TaskSamurai'] as Model<ITaskSamurai>) ||

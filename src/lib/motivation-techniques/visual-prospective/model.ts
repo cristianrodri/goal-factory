@@ -1,5 +1,6 @@
 import { IVisualProspective } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const visualProspectiveSchema = new Schema<IVisualProspective>({
   goalAchievedDescription: {
@@ -50,6 +51,11 @@ const visualProspectiveSchema = new Schema<IVisualProspective>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+visualProspectiveSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const VisualProspective =
   (models['VisualProspective'] as Model<IVisualProspective>) ||

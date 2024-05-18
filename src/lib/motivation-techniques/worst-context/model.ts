@@ -1,5 +1,6 @@
 import { IWorstContext } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const worstContextSchema = new Schema<IWorstContext>({
   contingencies: [
@@ -31,6 +32,11 @@ const worstContextSchema = new Schema<IWorstContext>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+worstContextSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const WorstContext =
   (models['WorstContext'] as Model<IWorstContext>) ||

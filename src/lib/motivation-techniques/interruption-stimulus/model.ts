@@ -1,5 +1,6 @@
 import { IInterruptionStimulus } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const interruptionStimulusSchema = new Schema<IInterruptionStimulus>({
   externalReminders: [
@@ -38,6 +39,11 @@ const interruptionStimulusSchema = new Schema<IInterruptionStimulus>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+interruptionStimulusSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const InterruptionStimulus =
   (models['InterruptionStimulus'] as Model<IInterruptionStimulus>) ||

@@ -1,5 +1,6 @@
 import { IGoalDairy } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const goalDairySchema = new Schema<IGoalDairy>({
   date: {
@@ -64,6 +65,11 @@ const goalDairySchema = new Schema<IGoalDairy>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+goalDairySchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const GoalDairy =
   (models['GoalDairy'] as Model<IGoalDairy>) ||

@@ -1,5 +1,6 @@
 import { ITotalStructureFocus } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const totalStructureFocusSchema = new Schema<ITotalStructureFocus>({
   focusIdeas: {
@@ -23,6 +24,11 @@ const totalStructureFocusSchema = new Schema<ITotalStructureFocus>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+totalStructureFocusSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const TotalStructureFocus =
   (models['TotalStructureFocus'] as Model<ITotalStructureFocus>) ||

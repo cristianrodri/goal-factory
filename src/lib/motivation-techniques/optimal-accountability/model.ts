@@ -1,5 +1,6 @@
 import { IOptimalAccountability } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { Document, Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
 
 const optimalAccountabilitySchema = new Schema<IOptimalAccountability>({
   trustedPeople: [
@@ -21,6 +22,11 @@ const optimalAccountabilitySchema = new Schema<IOptimalAccountability>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+optimalAccountabilitySchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const OptimalAccountability =
   (models['OptimalAccountability'] as Model<IOptimalAccountability>) ||

@@ -1,5 +1,6 @@
 import { IContaminateTemptation } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const contaminateTemptationSchema = new Schema<IContaminateTemptation>({
   temptations: [
@@ -31,6 +32,11 @@ const contaminateTemptationSchema = new Schema<IContaminateTemptation>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+contaminateTemptationSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const ContaminateTemptation =
   (models['ContaminateTemptation'] as Model<IContaminateTemptation>) ||

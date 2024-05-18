@@ -1,5 +1,6 @@
 import { IGame } from '@/types'
-import { model, Model, models, Schema } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, model, Model, models, Schema } from 'mongoose'
 
 const gamesSchema = new Schema<IGame>({
   game: {
@@ -15,6 +16,11 @@ const gamesSchema = new Schema<IGame>({
     required: [true, 'User is required']
   }
 })
+
+// Use the transformation function within the toJSON method
+gamesSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const Game =
   (models['Game'] as Model<IGame>) || model<IGame>('Game', gamesSchema)

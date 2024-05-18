@@ -1,5 +1,6 @@
 import { IOptimizedEnergy } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const optimizedEnergySchema = new Schema<IOptimizedEnergy>({
   energyLevels: [
@@ -27,6 +28,11 @@ const optimizedEnergySchema = new Schema<IOptimizedEnergy>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+optimizedEnergySchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const OptimizedEnergy =
   (models['OptimizedEnergy'] as Model<IOptimizedEnergy>) ||

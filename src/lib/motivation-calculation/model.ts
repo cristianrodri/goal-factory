@@ -1,5 +1,6 @@
 import { IMotivationCalculation } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const motivationCalculation = new Schema<IMotivationCalculation>({
   expectation: {
@@ -37,6 +38,11 @@ const motivationCalculation = new Schema<IMotivationCalculation>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+motivationCalculation.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const MotivationCalculation =
   (models['MotivationCalculation'] as Model<IMotivationCalculation>) ||

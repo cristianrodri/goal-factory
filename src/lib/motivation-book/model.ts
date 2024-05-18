@@ -1,5 +1,6 @@
 import { IMotivationBook } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const motivationBookSchema = new Schema<IMotivationBook>({
   date: {
@@ -75,6 +76,11 @@ const motivationBookSchema = new Schema<IMotivationBook>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+motivationBookSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const MotivationBook =
   (models['MotivationBook'] as Model<IMotivationBook>) ||

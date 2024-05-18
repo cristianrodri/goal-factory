@@ -1,5 +1,6 @@
 import { IReduceAlternative } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const reduceAlternativeSchema = new Schema<IReduceAlternative>({
   burnedShips: [
@@ -21,6 +22,11 @@ const reduceAlternativeSchema = new Schema<IReduceAlternative>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+reduceAlternativeSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const ReduceAlternative =
   (models['ReduceAlternative'] as Model<IReduceAlternative>) ||

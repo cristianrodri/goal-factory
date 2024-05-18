@@ -1,5 +1,6 @@
 import { IOptimisticLevel } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const optimisticLevelSchema = new Schema<IOptimisticLevel>({
   improvements: [
@@ -21,6 +22,11 @@ const optimisticLevelSchema = new Schema<IOptimisticLevel>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+optimisticLevelSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const OptimisticLevel =
   (models['OptimisticLevel'] as Model<IOptimisticLevel>) ||

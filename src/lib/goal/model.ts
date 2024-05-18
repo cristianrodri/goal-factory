@@ -1,6 +1,7 @@
 import { IGoal } from '@/types'
+import { toJSONTransform } from '@/utils/db'
 import { GoalType } from '@/utils/enums'
-import { Model, Schema, model, models } from 'mongoose'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const goalSchema = new Schema<IGoal>({
   type: {
@@ -107,6 +108,11 @@ const goalSchema = new Schema<IGoal>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+goalSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 // Define a virtual property to populate the associated activity
 goalSchema.virtual('activities', {

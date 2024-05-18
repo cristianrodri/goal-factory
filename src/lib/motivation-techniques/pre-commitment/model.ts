@@ -1,5 +1,6 @@
 import { IPreCommitment } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const preCommitmentSchema = new Schema<IPreCommitment>({
   preCommitments: [
@@ -21,6 +22,11 @@ const preCommitmentSchema = new Schema<IPreCommitment>({
     ref: 'BigGoal'
   }
 })
+
+// Use the transformation function within the toJSON method
+preCommitmentSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const PreCommitment =
   (models['PreCommitment'] as Model<IPreCommitment>) ||

@@ -1,5 +1,6 @@
 import { IGoalWeekly } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const goalWeeklySchema = new Schema<IGoalWeekly>({
   date: {
@@ -45,6 +46,11 @@ const goalWeeklySchema = new Schema<IGoalWeekly>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+goalWeeklySchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const GoalWeekly =
   (models['GoalWeekly'] as Model<IGoalWeekly>) ||

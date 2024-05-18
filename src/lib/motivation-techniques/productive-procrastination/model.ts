@@ -1,5 +1,6 @@
 import { IProductiveProcrastination } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const productiveProcrastinationSchema = new Schema<IProductiveProcrastination>({
   productiveList: {
@@ -24,6 +25,11 @@ const productiveProcrastinationSchema = new Schema<IProductiveProcrastination>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+productiveProcrastinationSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const ProductiveProcrastination =
   (models['ProductiveProcrastination'] as Model<IProductiveProcrastination>) ||

@@ -1,6 +1,7 @@
 import { IMotivationTechnique } from '@/types'
+import { toJSONTransform } from '@/utils/db'
 import { MotivationType } from '@/utils/enums'
-import { Model, Schema, model, models } from 'mongoose'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
   realNumberTechnique: {
@@ -32,6 +33,11 @@ const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+motivationTechniqueSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const MotivationTechnique =
   (models['MotivationTechnique'] as Model<IMotivationTechnique>) ||

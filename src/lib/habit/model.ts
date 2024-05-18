@@ -1,5 +1,6 @@
 import { IHabit } from '@/types'
-import { Model, Schema, model, models } from 'mongoose'
+import { toJSONTransform } from '@/utils/db'
+import { Document, Model, Schema, model, models } from 'mongoose'
 
 const habitSchema = new Schema<IHabit>({
   description: {
@@ -26,6 +27,11 @@ const habitSchema = new Schema<IHabit>({
     ref: 'User'
   }
 })
+
+// Use the transformation function within the toJSON method
+habitSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
 
 const Habit =
   (models['Habit'] as Model<IHabit>) || model<IHabit>('Habit', habitSchema)
