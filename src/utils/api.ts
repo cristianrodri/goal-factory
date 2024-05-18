@@ -74,9 +74,9 @@ export const connectToDb = async <T, K>(
         : null
 
     if (req.method === 'POST' || req.method === 'PUT') {
-      const reqBody = await req.json()
-
       // Remove properties that are not needed from the request body
+      const reqBody = body as Record<string, never>
+
       delete reqBody?.user
       delete reqBody?._id
       delete reqBody?.__v
