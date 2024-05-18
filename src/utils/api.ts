@@ -67,20 +67,22 @@ export const connectToDb = async <T, K>(
   handler: HandlerFnPublic<T, K> | HandlerFnPrivate<T, K>
 ) => {
   try {
-    const reqBody = await req.json()
-
-    // User property can't be edited in the models
-    delete reqBody?.user
-    delete reqBody?._id
-    delete reqBody?.__v
-    delete reqBody?.createdAt
-    delete reqBody?.updatedAt
-
     const body =
       (req.method === 'POST' || req.method === 'PUT') &&
       !req.url.includes('api/user/logout')
-        ? (reqBody as T)
+        ? ((await req.json()) as T)
         : null
+
+    if (req.method === 'POST' || req.method === 'PUT') {
+      const reqBody = await req.json()
+
+      // Remove properties that are not needed from the request body
+      delete reqBody?.user
+      delete reqBody?._id
+      delete reqBody?.__v
+      delete reqBody?.createdAt
+      delete reqBody?.updatedAt
+    }
 
     await dbConnect()
 
