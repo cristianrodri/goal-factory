@@ -13,7 +13,9 @@ export const PUT = privateApi<UpdateGame, { id: string }>(
       { _id: params.id, user },
       body,
       {
-        new: true
+        new: true,
+        runValidators: true,
+        context: 'query'
       }
     )
 
