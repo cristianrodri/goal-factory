@@ -10,17 +10,17 @@ export enum Status {
 }
 
 export enum GoalType {
-  PERFORMANCE = 'Performance',
-  DISTANT = 'Distant',
-  SOON = 'Soon',
-  RESULT = 'Result',
-  LEARNING = 'Learning'
+  PERFORMANCE = 'performance',
+  DISTANT = 'distant',
+  SOON = 'soon',
+  RESULT = 'result',
+  LEARNING = 'learning'
 }
 
 export enum RewardType {
-  SMALL = 'Small',
-  MEDIUM = 'Medium',
-  BIG = 'Big'
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  BIG = 'big'
 }
 
 export enum WeekDay {
@@ -34,6 +34,6 @@ export enum WeekDay {
 }
 
 export enum MotivationType {
-  PER_USER = 'Per User',
-  PER_GOAL = 'Per Goal'
+  PER_USER = 'per user',
+  PER_GOAL = 'per goal'
 }
