@@ -3,8 +3,13 @@ import { cookies } from 'next/headers'
 import dbConnect from '@/lib/dbConnect'
 import { Status } from './enums'
 import { getJWT } from './jwt'
-import { CustomError, CustomErrorMongoose } from './error'
+import {
+  CustomError,
+  CustomErrorMongoose,
+  formatValidationErrors
+} from './error'
 import { user } from './classes/User'
+import { errorResponse } from './response'
 
 type BaseApiRequest<T> = {
   body: T
@@ -106,13 +111,13 @@ export const connectToDb = async <T, K>(
       params
     } as ApiRequest<T, K>)
   } catch (err) {
-    const error = err as CustomError | CustomErrorMongoose
+    const error = err as CustomError
 
     const customError = new CustomError(error.message)
+    const errorMessage =
+      formatValidationErrors(error as CustomErrorMongoose) ??
+      customError.message
 
-    return NextResponse.json(
-      { message: customError.message },
-      { status: error?.status ?? Status.BAD_REQUEST }
-    )
+    return errorResponse(errorMessage, error?.status ?? Status.BAD_REQUEST)
   }
 }

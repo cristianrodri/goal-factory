@@ -1,5 +1,13 @@
 import { Error, MongooseError } from 'mongoose'
 
+type Errors = {
+  [key: string]: {
+    properties: {
+      message: string
+    }
+  }
+}
+
 export class CustomErrorMongoose extends Error.ValidationError {
   status?: number
 
@@ -25,4 +33,18 @@ export class CustomError extends Error {
       this.message = 'User already exists'
     }
   }
+}
+
+export const formatValidationErrors = (error: Error.ValidationError) => {
+  const errors = error.errors as Errors
+
+  if (errors) {
+    for (const field in errors) {
+      const errorMessage = errors[field]?.properties?.message
+      if (errorMessage) {
+        return errorMessage
+      }
+    }
+  }
+  return null
 }
