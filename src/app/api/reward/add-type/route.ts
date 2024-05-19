@@ -11,7 +11,7 @@ export const POST = privateApi(async user => {
     return errorResponse('User already has reward types')
   }
 
-  const newReward = new Reward(
+  const rewardTypes = await Reward.insertMany([
     {
       type: RewardType.MEDIUM,
       rewards: [],
@@ -22,9 +22,7 @@ export const POST = privateApi(async user => {
       rewards: [],
       user
     }
-  )
+  ])
 
-  await newReward.save()
-
-  return successResponse(newReward, Status.CREATED)
+  return successResponse(rewardTypes, Status.CREATED)
 })
