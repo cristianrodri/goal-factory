@@ -1,5 +1,6 @@
 import Game from '@/lib/games/model'
 import { privateApi } from '@/utils/api'
+import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -12,11 +13,7 @@ export const PUT = privateApi<UpdateGame, { id: string }>(
     const updatedGame = await Game.findOneAndUpdate(
       { _id: params.id, user },
       body,
-      {
-        new: true,
-        runValidators: true,
-        context: 'query'
-      }
+      updateOptions
     )
 
     if (!updatedGame) {
