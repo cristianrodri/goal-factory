@@ -28,15 +28,20 @@ export class CustomError extends Error {
     this.message = message
     this.status = status
 
+    if (/E11000.*duplicate*rewards*type*user/) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'User already has reward types'
+    }
+
+    if (message.includes('Cast to ObjectId failed')) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'Invalid ID'
+    }
+
     // If the error is a mongoose error, check if it's a duplicate user email is the error
     if (/E11000.*email/.test(message)) {
       this.status = Status.BAD_REQUEST
       this.message = 'User already exists'
-    }
-
-    if (/E11000.*duplicate*rewards*type*user/) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'User already has reward types'
     }
   }
 }
