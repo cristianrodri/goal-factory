@@ -1,4 +1,5 @@
 import { Error, MongooseError } from 'mongoose'
+import { Status } from './enums'
 
 type Errors = {
   [key: string]: {
@@ -29,8 +30,13 @@ export class CustomError extends Error {
 
     // If the error is a mongoose error, check if it's a duplicate user email is the error
     if (/E11000.*email/.test(message)) {
-      this.status = 409
+      this.status = Status.BAD_REQUEST
       this.message = 'User already exists'
+    }
+
+    if (/E11000.*duplicate*rewards*type*user/) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'User already has reward types'
     }
   }
 }
