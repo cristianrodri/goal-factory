@@ -33,6 +33,8 @@ const rewardSchema = new Schema<IReward>({
   }
 })
 
+rewardSchema.index({ type: 1, user: 1 }, { unique: true })
+
 // Use the transformation function within the toJSON method
 rewardSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
