@@ -28,9 +28,18 @@ export class CustomError extends Error {
     this.message = message
     this.status = status
 
-    if (/E11000.*duplicate*rewards*type*user/) {
+    if (
+      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\brewards\b)(?=.*\btype\b)/.test(
+        message
+      )
+    ) {
       this.status = Status.BAD_REQUEST
       this.message = 'User already has reward types'
+    }
+
+    if (/^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bgames\b)/.test(message)) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'Game already exists'
     }
 
     if (message.includes('Cast to ObjectId failed')) {
