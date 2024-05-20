@@ -17,6 +17,8 @@ const gamesSchema = new Schema<IGame>({
   }
 })
 
+gamesSchema.index({ game: 1, user: 1 }, { unique: true })
+
 // Use the transformation function within the toJSON method
 gamesSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
