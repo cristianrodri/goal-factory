@@ -1,4 +1,4 @@
-import { MotivationType, REWARD, WeekDay } from '@/utils/enums'
+import { MotivationType, WeekDay } from '@/utils/enums'
 import { Document } from 'mongoose'
 
 /* User Data */
@@ -26,8 +26,8 @@ export interface UserClientId {
 
 /* Reward types */
 interface IReward {
-  type: REWARD
-  rewards: IRewardDescription[]
+  small: IRewardDescription[]
+  medium: IRewardDescription[]
   user: Schema.Types.ObjectId
 }
 

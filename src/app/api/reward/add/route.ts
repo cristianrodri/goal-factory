@@ -1,24 +1,27 @@
 import Reward from '@/lib/reward/model'
-import { IRewardDescription } from '@/types'
 import { privateApi } from '@/utils/api'
 import { updateOptions } from '@/utils/db'
 import { RewardType, Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
 interface RewardData {
-  rewards: IRewardDescription[]
+  description: string
   type: RewardType
 }
 
 export const POST = privateApi<RewardData>(async (user, { body }) => {
-  const { rewards, type } = body
+  const { description, type } = body
 
-  const typeRewards = await Reward.findOne({ type, user })
+  if (type !== RewardType.SMALL && type !== RewardType.MEDIUM) {
+    return errorResponse('Invalid reward type', Status.BAD_REQUEST)
+  }
+
+  const userReward = await Reward.findOne({ user })
 
   // Check if the reward exists in the specified type
-  if (typeRewards && typeRewards.rewards.length > 0) {
-    const foundSameReward = typeRewards?.rewards.find(r =>
-      rewards.some(reward => reward.description === r.description)
+  if (userReward && userReward[type].length > 0) {
+    const foundSameReward = userReward[type].find(
+      r => r.description === description
     )
 
     if (foundSameReward) {
@@ -30,15 +33,15 @@ export const POST = privateApi<RewardData>(async (user, { body }) => {
   }
 
   // Update the document in the database atomically
-  const updatedRewardType = await Reward.findOneAndUpdate(
-    { type, user },
-    { $addToSet: { rewards: { $each: rewards } } }, // Use $each to push multiple rewards
-    { ...updateOptions }
+  const updatedUserReward = await Reward.findOneAndUpdate(
+    { user },
+    { $push: { [type]: { description } } }, // Use $each to apush multiple rewards
+    updateOptions
   )
 
-  if (!updatedRewardType) {
-    return errorResponse('Reward type not found', Status.NOT_FOUND)
+  if (!updatedUserReward) {
+    return errorResponse('User reward not found', Status.NOT_FOUND)
   }
 
-  return successResponse(updatedRewardType)
+  return successResponse(updatedUserReward)
 })

@@ -6,11 +6,14 @@ import { errorResponse, successResponse } from '@/utils/response'
 
 export const DELETE = privateApi<unknown, { id: string }>(
   async (user, { params }) => {
+    const { id } = params
+
     const updatedRewardType = await Reward.findOneAndUpdate(
-      { user, 'rewards._id': params.id },
       {
-        $pull: { rewards: { _id: params.id } }
+        user,
+        $or: [{ 'small._id': id }, { 'medium._id': id }]
       },
+      { $pull: { small: { _id: id }, medium: { _id: id } } },
       updateOptions
     )
 

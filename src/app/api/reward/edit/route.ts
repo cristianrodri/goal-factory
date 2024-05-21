@@ -13,23 +13,35 @@ interface RewardData {
 export const PUT = privateApi<RewardData>(async (user, { body }) => {
   const { newDescription, rewardId, type } = body
 
-  const typeRewards = await Reward.find({ user })
-  const foundRewardType = typeRewards.find(rewardType =>
-    rewardType.rewards.some(reward => reward._id.toString() === rewardId)
-  )
-
-  if (!foundRewardType) {
-    return errorResponse('Reward not found', Status.NOT_FOUND)
-  }
-
+  // Check if the given reward type is valid
   if (type !== RewardType.SMALL && type !== RewardType.MEDIUM) {
     return errorResponse('Invalid reward type', Status.BAD_REQUEST)
   }
 
-  // Check if the updated reward hasn't changed the type by verifying the new type with the current type
-  if (foundRewardType && foundRewardType.type === type) {
+  const userReward = await Reward.findOne({ user })
+
+  if (!userReward) {
+    return errorResponse('User reward not found', Status.NOT_FOUND)
+  }
+
+  const isSmallReward = userReward.small.some(
+    r => r._id.toString() === rewardId
+  )
+  const isMediumReward = userReward.medium.some(
+    r => r._id.toString() === rewardId
+  )
+
+  if (!isSmallReward && !isMediumReward) {
+    return errorResponse('Reward not found', Status.NOT_FOUND)
+  }
+
+  // The reward type remains the same
+  if (
+    (isSmallReward && type === RewardType.SMALL) ||
+    (isMediumReward && type === RewardType.MEDIUM)
+  ) {
     // Check if the new description already exists in the rewards array
-    const existedReward = foundRewardType.rewards.find(
+    const existedReward = userReward[type].find(
       reward =>
         reward.description === newDescription &&
         reward._id.toString() !== rewardId
@@ -37,56 +49,51 @@ export const PUT = privateApi<RewardData>(async (user, { body }) => {
 
     if (existedReward) {
       return errorResponse(
-        `${newDescription} already exists in ${foundRewardType.type} rewards`,
+        `${newDescription} already exists in ${type} rewards`,
         Status.BAD_REQUEST
       )
     }
 
     // Update the description of the reward
-    foundRewardType.rewards.map(reward => {
+    userReward[type].map(reward => {
       if (reward._id.toString() === rewardId) {
         reward.description = newDescription
       }
 
       return reward
     })
+  } else {
+    // The reward type is changed
 
-    await foundRewardType.save()
+    const currentType =
+      type === RewardType.SMALL ? RewardType.MEDIUM : RewardType.SMALL
 
-    return successResponse(foundRewardType)
-  }
-
-  // Remove the reward from the current reward type and add it to the new reward type
-  const anotherRewardType = typeRewards.find(
-    rewardType => rewardType.type === type
-  )
-
-  if (anotherRewardType) {
-    const existedReward = anotherRewardType.rewards.find(
+    // Check if the new description already exists in the another rewards array
+    const existedReward = userReward[type].find(
       reward => reward.description === newDescription
     )
 
     if (existedReward) {
       return errorResponse(
-        `${newDescription} already exists in ${anotherRewardType.type} rewards`,
+        `${newDescription} already exists in ${type} rewards`,
         Status.BAD_REQUEST
       )
     }
 
     // Remove the reward from the current reward type
-    const filteredNewtypeRewards = foundRewardType.rewards.filter(
+    const filteredNewtypeRewards = userReward[currentType].filter(
       reward => reward._id.toString() !== rewardId
     )
 
-    foundRewardType.rewards = filteredNewtypeRewards
+    userReward[currentType] = filteredNewtypeRewards
 
-    anotherRewardType.rewards.push({
+    // Add the reward to the another reward type
+    userReward[type].push({
       description: newDescription
     } as unknown as IRewardDescription)
-
-    await foundRewardType.save()
-    await anotherRewardType.save()
   }
 
-  return successResponse(typeRewards)
+  await userReward.save()
+
+  return successResponse(userReward)
 })

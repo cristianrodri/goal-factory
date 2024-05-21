@@ -1,21 +1,17 @@
 import Reward from '@/lib/reward/model'
+import { IReward } from '@/types'
 import { privateApi } from '@/utils/api'
-import { RewardType, Status } from '@/utils/enums'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 export const POST = privateApi(async user => {
-  const rewardTypes = await Reward.insertMany([
-    {
-      type: RewardType.MEDIUM,
-      rewards: [],
-      user
-    },
-    {
-      type: RewardType.SMALL,
-      rewards: [],
-      user
-    }
-  ])
+  const userReward = new Reward<IReward>({
+    small: [],
+    medium: [],
+    user
+  })
 
-  return successResponse(rewardTypes, Status.CREATED)
+  await userReward.save()
+
+  return successResponse(userReward, Status.CREATED)
 })

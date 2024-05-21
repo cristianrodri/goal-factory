@@ -1,6 +1,5 @@
 import { IReward, IRewardDescription } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { RewardType } from '@/utils/enums'
 import { Document, Model, Schema, model, models } from 'mongoose'
 
 const rewardsSchema = new Schema<IRewardDescription>({
@@ -14,26 +13,19 @@ const rewardsSchema = new Schema<IRewardDescription>({
 })
 
 const rewardSchema = new Schema<IReward>({
-  type: {
-    type: String,
-    enum: {
-      values: Object.values(RewardType),
-      message: 'Invalid reward type.'
-    },
-    required: [true, 'Reward type is required'],
-    trim: true
+  small: {
+    type: [rewardsSchema]
   },
-  rewards: {
+  medium: {
     type: [rewardsSchema]
   },
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'User is required'],
-    ref: 'User'
+    ref: 'User',
+    unique: true
   }
 })
-
-rewardSchema.index({ type: 1, user: 1 }, { unique: true })
 
 // Use the transformation function within the toJSON method
 rewardSchema.methods.toJSON = function () {
