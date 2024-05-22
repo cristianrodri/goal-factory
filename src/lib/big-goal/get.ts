@@ -7,6 +7,15 @@ interface PopulatedBigGoal {
   goals: IGoal[]
 }
 
+export const verifyBigGoal = async (id: string, userId: string) => {
+  const bigGoalExists = await BigGoal.exists({
+    _id: id,
+    user: userId
+  })
+
+  return bigGoalExists
+}
+
 export const getAllBigGoals = async (userId: string) => {
   const bigGoals = await BigGoal.find({
     user: userId

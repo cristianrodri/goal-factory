@@ -51,6 +51,15 @@ export class CustomError extends Error {
       this.message = 'Motivation techniques data already exist'
     }
 
+    if (
+      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bmotivationcalculations\b)/.test(
+        message
+      )
+    ) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'Motivation calculation already exists for this big goal'
+    }
+
     if (message.includes('Cast to ObjectId failed')) {
       this.status = Status.BAD_REQUEST
       this.message = 'Invalid ID'
