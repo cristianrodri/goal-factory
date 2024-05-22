@@ -34,6 +34,11 @@ const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
   }
 })
 
+motivationTechniqueSchema.index(
+  { user: 1, realNumberTechnique: 1 },
+  { unique: true }
+)
+
 // Use the transformation function within the toJSON method
 motivationTechniqueSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)

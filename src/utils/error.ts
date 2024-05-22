@@ -42,6 +42,15 @@ export class CustomError extends Error {
       this.message = 'Game already exists'
     }
 
+    if (
+      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bmotivationtechniques\b)/.test(
+        message
+      )
+    ) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'Motivation techniques data already exist'
+    }
+
     if (message.includes('Cast to ObjectId failed')) {
       this.status = Status.BAD_REQUEST
       this.message = 'Invalid ID'
