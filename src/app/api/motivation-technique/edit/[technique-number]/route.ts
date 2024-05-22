@@ -23,6 +23,6 @@ export const PUT = privateApi<Body, { ['technique-number']: string }>(
       return errorResponse('Motivation technique not found', Status.NOT_FOUND)
     }
 
-    return successResponse({ user, body, params })
+    return successResponse(motivationTechnique)
   }
 )
