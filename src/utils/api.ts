@@ -72,10 +72,14 @@ export const connectToDb = async <T, K>(
   handler: HandlerFnPublic<T, K> | HandlerFnPrivate<T, K>
 ) => {
   try {
+    const givenJson = req.headers.get('content-type')
+
     const body =
       (req.method === 'POST' || req.method === 'PUT') &&
       !req.url.includes('api/user/logout')
-        ? ((await req.json()) as T)
+        ? givenJson?.includes('application/json')
+          ? ((await req?.json()) as T)
+          : ({} as T)
         : null
 
     if (req.method === 'POST' || req.method === 'PUT') {
