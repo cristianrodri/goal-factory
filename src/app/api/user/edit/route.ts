@@ -3,6 +3,7 @@ import { UserData } from '@/types'
 import { privateApi } from '@/utils/api'
 import { comparePassword } from '@/utils/db'
 import { Status } from '@/utils/enums'
+import { errorResponse, successResponse } from '@/utils/response'
 import { NextResponse } from 'next/server'
 
 interface RequestBody extends Pick<UserData, 'email' | 'username'> {
@@ -10,42 +11,36 @@ interface RequestBody extends Pick<UserData, 'email' | 'username'> {
   newPassword: string
 }
 
-export const PUT = privateApi<RequestBody>(
-  async (
-    userId,
-    { body: { email, username, currentPassword, newPassword } }
-  ) => {
-    const user = await User.findById(userId)
+export const PUT = privateApi<RequestBody>(async (userId, { body }) => {
+  const { email, username, currentPassword, newPassword } = body
 
-    if (!user) {
+  const user = await User.findById(userId)
+
+  if (!user) {
+    return errorResponse('User not found', Status.NOT_FOUND)
+  }
+
+  if (email) {
+    user.email = email
+  }
+
+  if (username) {
+    user.username = username
+  }
+
+  if (currentPassword && newPassword) {
+    const isMatch = await comparePassword(currentPassword, user.password)
+
+    if (!isMatch) {
       return NextResponse.json(
-        { message: 'User not found' },
-        { status: Status.NOT_FOUND }
+        { message: 'Invalid password' },
+        { status: Status.BAD_REQUEST }
       )
     }
-
-    if (email) {
-      user.email = email
-    }
-
-    if (username) {
-      user.username = username
-    }
-
-    if (currentPassword && newPassword) {
-      const isMatch = await comparePassword(currentPassword, user.password)
-
-      if (!isMatch) {
-        return NextResponse.json(
-          { message: 'Invalid password' },
-          { status: Status.BAD_REQUEST }
-        )
-      }
-      user.password = newPassword
-    }
-
-    await user.save()
-
-    return NextResponse.json(user)
+    user.password = newPassword
   }
-)
+
+  await user.save()
+
+  return successResponse(user)
+})
