@@ -28,6 +28,8 @@ const habitSchema = new Schema<IHabit>({
   }
 })
 
+habitSchema.index({ user: 1, description: 1 }, { unique: true })
+
 // Use the transformation function within the toJSON method
 habitSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
