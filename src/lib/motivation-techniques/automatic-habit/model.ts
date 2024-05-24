@@ -33,6 +33,8 @@ const automaticHabitSchema = new Schema<IAutomaticHabit>({
   }
 })
 
+automaticHabitSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
 // Use the transformation function within the toJSON method
 automaticHabitSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
