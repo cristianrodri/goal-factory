@@ -13,7 +13,8 @@ export const verifyBigGoal = async (id: string, userId: string) => {
     user: userId
   })
 
-  return bigGoalExists
+  if (!bigGoalExists)
+    throw new CustomError('Big Goal not found', Status.NOT_FOUND)
 }
 
 export const getAllBigGoals = async (userId: string) => {
