@@ -15,6 +15,16 @@ export const comparePassword = async (
   return matchedPassword
 }
 
+const transformArray = (arr: Record<string, never>[]) => {
+  return arr.map(item => {
+    if (item && '_id' in item) {
+      item.id = item._id
+      delete item._id
+    }
+    return item
+  })
+}
+
 export function toJSONTransform(doc: Document) {
   const obj = doc.toObject()
 
@@ -22,6 +32,13 @@ export function toJSONTransform(doc: Document) {
   delete obj._id
   delete obj?.password // Conditionally delete the password field if it exists
   delete obj.__v
+
+  // Transform arrays by changing the _id field to id in each object
+  for (const key in obj) {
+    if (Array.isArray(obj[key])) {
+      obj[key] = transformArray(obj[key])
+    }
+  }
 
   return obj
 }
