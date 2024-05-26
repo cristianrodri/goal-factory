@@ -1,13 +1,13 @@
 import { verifyBigGoal } from '@/lib/big-goal/get'
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
-import { UtilHabit } from '@/types'
+import { IUtilHabit } from '@/types'
 import { privateApi } from '@/utils/api'
 import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
 interface RequestBody {
-  utilHabit: UtilHabit
+  utilHabit: IUtilHabit
   bigGoal: string
 }
 

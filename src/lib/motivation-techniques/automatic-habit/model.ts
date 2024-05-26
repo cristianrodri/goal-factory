@@ -1,24 +1,29 @@
-import { IAutomaticHabit } from '@/types'
+import { IAutomaticHabit, IUtilHabit } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Model, Schema, model, models } from 'mongoose'
+
+const utilHabitsSchema = new Schema<IUtilHabit>({
+  habit: {
+    type: String,
+    required: [true, 'Habit is required'],
+    trim: true,
+    minlength: [2, 'Habit must be at least 2 characters long'],
+    maxlength: [500, 'Habit must be at most 500 characters long']
+  },
+  impact: {
+    type: Number,
+    trim: true,
+    required: [true, 'Impact is required'],
+    min: [1, 'Impact must be at least 1'],
+    max: [10, 'Impact must be at most 10']
+  }
+})
 
 const automaticHabitSchema = new Schema<IAutomaticHabit>({
   utilHabits: [
     {
-      habit: {
-        type: String,
-        required: [true, 'Habit is required'],
-        trim: true,
-        minlength: [2, 'Habit must be at least 2 characters long'],
-        maxlength: [500, 'Habit must be at most 500 characters long']
-      },
-      impact: {
-        type: Number,
-        trim: true,
-        required: [true, 'Impact is required'],
-        min: [1, 'Impact must be at least 1'],
-        max: [10, 'Impact must be at most 10']
-      }
+      type: utilHabitsSchema,
+      required: [true, 'Util habit is required']
     }
   ],
   user: {

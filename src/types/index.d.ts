@@ -228,10 +228,11 @@ interface IVisualProspective {
 
 /* Automatic Habit types */
 
-interface UtilHabit {
+interface IUtilHabit {
   habit: string
   impact: number
 }
+
 interface IAutomaticHabit {
   utilHabits: UtilHabit[]
   user: Schema.Types.ObjectId
