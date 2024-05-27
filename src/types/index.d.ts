@@ -254,11 +254,12 @@ interface IReduceAlternative {
 }
 
 /* Contaminate Temptation types */
+interface ITemptation {
+  temptation: string
+  catastrophe: string
+}
 interface IContaminateTemptation {
-  temptations: {
-    temptation: string
-    catastrophe: string
-  }[]
+  temptations: ITemptation[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }

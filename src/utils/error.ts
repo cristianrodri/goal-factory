@@ -69,6 +69,15 @@ export class CustomError extends Error {
       this.message = 'Automatic habit already exists for this big goal'
     }
 
+    if (
+      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bcontaminatetemptations\b)/.test(
+        message
+      )
+    ) {
+      this.status = Status.BAD_REQUEST
+      this.message = 'Contaminate temptation already exists for this big goal'
+    }
+
     if (/^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bhabits\b)/.test(message)) {
       this.status = Status.BAD_REQUEST
       this.message = 'Habit already exists'
