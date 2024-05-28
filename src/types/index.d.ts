@@ -258,6 +258,7 @@ interface ITemptation {
   temptation: string
   catastrophe: string
 }
+
 interface IContaminateTemptation {
   temptations: ITemptation[]
   user: Schema.Types.ObjectId
