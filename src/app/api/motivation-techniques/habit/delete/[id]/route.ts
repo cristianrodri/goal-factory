@@ -1,4 +1,3 @@
-import { verifyBigGoal } from '@/lib/big-goal/get'
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
 import { privateApi } from '@/utils/api'
 import { updateOptions } from '@/utils/db'
@@ -14,13 +13,12 @@ export const DELETE = privateApi<unknown, { id: string }>(
       return errorResponse('Big goal is required', Status.BAD_REQUEST)
     }
 
-    await verifyBigGoal(bigGoal, user)
-
     // Find and update the document to remove the specific utilHabit
     const updatedHabit = await AutomaticHabit.findOneAndUpdate(
       {
         user,
-        bigGoal
+        bigGoal,
+        'utilHabits._id': params.id // Match the utilHabit by its _id
       },
       {
         $pull: {
