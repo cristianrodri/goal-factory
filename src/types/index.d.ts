@@ -228,13 +228,13 @@ interface IVisualProspective {
 
 /* Automatic Habit types */
 
-interface IUtilHabit {
+interface IUtilHabit extends Document {
   habit: string
   impact: number
 }
 
 interface IAutomaticHabit {
-  utilHabits: UtilHabit[]
+  utilHabits: IUtilHabit[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
@@ -254,7 +254,7 @@ interface IReduceAlternative {
 }
 
 /* Contaminate Temptation types */
-interface ITemptation {
+interface ITemptation extends Document {
   temptation: string
   catastrophe: string
 }
