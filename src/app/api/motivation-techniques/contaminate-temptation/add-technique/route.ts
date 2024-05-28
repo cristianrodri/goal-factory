@@ -1,6 +1,7 @@
 import { verifyBigGoal } from '@/lib/big-goal/get'
 import ContaminateTemptation from '@/lib/motivation-techniques/contaminate-temptation/model'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 interface RequestBody {
@@ -16,5 +17,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     user
   })
 
-  return successResponse(contaminateTemptation)
+  return successResponse(contaminateTemptation, Status.CREATED)
 })
