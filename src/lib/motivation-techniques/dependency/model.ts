@@ -14,7 +14,8 @@ const dependencySchema = new Schema<IDependency>({
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'User is required'],
-    ref: 'User'
+    ref: 'User',
+    unique: true
   }
 })
 
