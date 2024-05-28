@@ -1,4 +1,3 @@
-import { verifyBigGoal } from '@/lib/big-goal/get'
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
 import { IUtilHabit } from '@/types'
 import { privateApi } from '@/utils/api'
@@ -14,8 +13,6 @@ interface RequestBody {
 export const PUT = privateApi<RequestBody, { id: string }>(
   async (user, { body, params }) => {
     const { utilHabit, bigGoal } = body
-
-    await verifyBigGoal(bigGoal, user)
 
     const { habit, impact } = utilHabit
 
