@@ -46,5 +46,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     return errorResponse('Contaminate temptation not found', Status.NOT_FOUND)
   }
 
-  return successResponse(contaminateTemptation)
+  return successResponse(contaminateTemptation, Status.CREATED)
 })

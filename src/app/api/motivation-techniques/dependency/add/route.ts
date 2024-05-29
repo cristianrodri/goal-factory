@@ -35,5 +35,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     return errorResponse('Dependency not found', Status.NOT_FOUND)
   }
 
-  return successResponse(dependency)
+  return successResponse(dependency, Status.CREATED)
 })

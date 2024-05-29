@@ -45,5 +45,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     return errorResponse('Automatic habit not found', Status.NOT_FOUND)
   }
 
-  return successResponse(automaticHabit)
+  return successResponse(automaticHabit, Status.CREATED)
 })
