@@ -331,8 +331,12 @@ interface ITotalStructureFocus {
 }
 
 /* Dependency types */
+interface IDependencyItem {
+  dependency: string
+}
+
 interface IDependency {
-  dependencies: string[]
+  dependencies: IDependencyItem[]
   user: Schema.Types.ObjectId
 }
 

@@ -1,14 +1,21 @@
-import { IDependency } from '@/types'
+import { IDependency, IDependencyItem } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Model, Schema, model, models } from 'mongoose'
+
+const dependencyItemSchema = new Schema<IDependencyItem>({
+  dependency: {
+    type: String,
+    trim: true,
+    minlength: [2, 'Dependency must be at least 2 characters long'],
+    maxlength: [200, 'Dependency must be at most 200 characters long']
+  }
+})
 
 const dependencySchema = new Schema<IDependency>({
   dependencies: [
     {
-      type: String,
-      trim: true,
-      minlength: [2, 'Dependency must be at least 2 characters long'],
-      maxlength: [200, 'Dependency must be at most 200 characters long']
+      type: dependencyItemSchema,
+      required: [true, 'Dependency is required']
     }
   ],
   user: {
