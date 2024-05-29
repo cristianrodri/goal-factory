@@ -331,7 +331,7 @@ interface ITotalStructureFocus {
 }
 
 /* Dependency types */
-interface IDependencyItem {
+interface IDependencyItem extends Document {
   dependency: string
 }
 
