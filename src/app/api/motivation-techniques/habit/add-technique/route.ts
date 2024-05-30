@@ -5,7 +5,11 @@ import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
-export const POST = privateApi<IAutomaticHabit>(async (user, { body }) => {
+type RequestBody = Omit<IAutomaticHabit, 'bigGoal'> & {
+  bigGoal: string
+}
+
+export const POST = privateApi<RequestBody>(async (user, { body }) => {
   // Check if the big goal exists
   await verifyBigGoal(body.bigGoal, user)
 

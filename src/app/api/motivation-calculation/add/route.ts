@@ -4,7 +4,9 @@ import { IMotivationCalculation } from '@/types'
 import { privateApi } from '@/utils/api'
 import { successResponse } from '@/utils/response'
 
-type RequestBody = Omit<IMotivationCalculation, 'user'>
+type RequestBody = Omit<IMotivationCalculation, 'user' | 'bigGoal'> & {
+  bigGoal: string
+}
 
 export const POST = privateApi<RequestBody>(async (user, { body }) => {
   await verifyBigGoal(body.bigGoal, user)

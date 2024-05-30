@@ -5,9 +5,13 @@ import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
-export const PUT = privateApi<IMotivationCalculation, { id: string }>(
+type RequestBody = Omit<IMotivationCalculation, 'user' | 'bigGoal'> & {
+  bigGoal?: string
+}
+
+export const PUT = privateApi<RequestBody, { id: string }>(
   async (user, { params, body }) => {
-    // Big Goal is not editable
+    // Big Goal is not editable and must not be given by request body
     delete body?.bigGoal
 
     // Update the motivation calculation

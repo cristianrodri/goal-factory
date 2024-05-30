@@ -31,12 +31,29 @@ const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
     type: Schema.Types.ObjectId,
     required: [true, 'User is required'],
     ref: 'User'
+  },
+  bigGoal: {
+    type: Schema.Types.ObjectId,
+    ref: 'BigGoal'
   }
 })
 
+// Define a unique compound index for the combination of user and type where type is MotivationType.PER_USER
 motivationTechniqueSchema.index(
-  { user: 1, realNumberTechnique: 1 },
-  { unique: true }
+  { user: 1, type: 1, realNumberTechnique: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { type: MotivationType.PER_USER }
+  }
+)
+
+// Define a unique compound index for the combination of user, bigGoal, and type where type is MotivationType.PER_GOAL
+motivationTechniqueSchema.index(
+  { user: 1, bigGoal: 1, type: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { type: MotivationType.PER_GOAL }
+  }
 )
 
 // Use the transformation function within the toJSON method

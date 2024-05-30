@@ -1,5 +1,5 @@
 import { MotivationType, WeekDay } from '@/utils/enums'
-import { Document } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 
 /* User Data */
 export interface UserDb {
@@ -188,6 +188,7 @@ interface IMotivationTechnique {
   isUsed: boolean
   isApproved: boolean
   user: Schema.Types.ObjectId
+  bigGoal?: Schema.Types.ObjectId
 }
 
 /* Motivation Calculation types */
