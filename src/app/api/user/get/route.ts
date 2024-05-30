@@ -1,10 +1,14 @@
 import User from '@/lib/user/model'
 import { privateApi } from '@/utils/api'
-import { successResponse } from '@/utils/response'
+import { Status } from '@/utils/enums'
+import { errorResponse, successResponse } from '@/utils/response'
 
 export const GET = privateApi(async userId => {
-  // Add the user id to the class
-  const data = await User.findById(userId)
+  const user = await User.findById(userId)
 
-  return successResponse(data)
+  if (!user) {
+    return errorResponse('User not found', Status.NOT_FOUND)
+  }
+
+  return successResponse(user)
 })
