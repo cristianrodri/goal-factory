@@ -8,7 +8,6 @@ import {
   CustomErrorMongoose,
   formatValidationErrors
 } from './error'
-import { user } from './classes/User'
 import { errorResponse } from './response'
 
 type BaseApiRequest<T> = {
@@ -99,14 +98,14 @@ export const connectToDb = async <T, K>(
       const token = cookies().get('token')
       const userId = token ? getJWT(token.value) : null
 
-      // Set the user id, so the user id can be get by the user class
-      user.setId(userId as string)
-
-      return await (handler as HandlerFnPrivate<T, K>)(user.id, {
-        body,
-        req,
-        params
-      } as ApiRequest<T, K>)
+      return await (handler as HandlerFnPrivate<T, K>)(
+        userId as string,
+        {
+          body,
+          req,
+          params
+        } as ApiRequest<T, K>
+      )
     }
 
     return await (handler as HandlerFnPublic<T, K>)({
