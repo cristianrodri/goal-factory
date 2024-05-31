@@ -7,13 +7,13 @@ import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
 interface RequestBody {
-  temptation: ITemptation
+  temptationData: ITemptation
   bigGoal: string
 }
 
 export const POST = privateApi<RequestBody>(async (user, { body }) => {
-  const { temptation, bigGoal } = body
-  const { temptation: temptationDescription } = temptation
+  const { temptationData, bigGoal } = body
+  const { temptation } = temptationData
 
   await verifyBigGoal(bigGoal, user)
 
@@ -21,12 +21,12 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   const existingTemptation = await ContaminateTemptation.findOne({
     user,
     bigGoal,
-    'temptations.temptation': temptationDescription
+    'temptations.temptation': temptation
   })
 
   if (existingTemptation) {
     return errorResponse(
-      `${temptationDescription} temptation already exists for this big goal`,
+      `${temptation} temptation already exists for this big goal`,
       Status.CONFLICT
     )
   }
@@ -36,7 +36,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     { user, bigGoal },
     {
       $push: {
-        temptations: temptation
+        temptations: temptationData
       }
     },
     updateOptions

@@ -49,7 +49,7 @@ motivationTechniqueSchema.index(
 
 // Define a unique compound index for the combination of user, bigGoal, and type where type is MotivationType.PER_GOAL
 motivationTechniqueSchema.index(
-  { user: 1, bigGoal: 1, type: 1 },
+  { user: 1, bigGoal: 1, type: 1, realNumberTechnique: 1 },
   {
     unique: true,
     partialFilterExpression: { type: MotivationType.PER_GOAL }

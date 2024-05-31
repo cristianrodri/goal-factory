@@ -14,6 +14,7 @@ export const POST = publicApi<UserData>(async ({ body }) => {
 
   // Create motivation techniques related to the user
   await createUserMotivationTechniques(userId)
+
   await createUserDependecy(userId)
 
   createTokenCookie(token)
