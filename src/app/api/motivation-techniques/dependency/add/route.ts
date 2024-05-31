@@ -1,4 +1,3 @@
-import { createUserDependecy } from '@/lib/motivation-techniques/dependency/create'
 import Dependency from '@/lib/motivation-techniques/dependency/model'
 import { privateApi } from '@/utils/api'
 import { updateOptions } from '@/utils/db'
@@ -33,9 +32,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   )
 
   if (!userDependency) {
-    const userDependencyNew = await createUserDependecy(user, body.dependency)
-
-    return successResponse(userDependencyNew, Status.CREATED)
+    return errorResponse('Dependency not found', Status.NOT_FOUND)
   }
 
   return successResponse(userDependency, Status.CREATED)
