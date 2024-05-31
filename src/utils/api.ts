@@ -9,6 +9,7 @@ import {
   formatValidationErrors
 } from './error'
 import { errorResponse } from './response'
+import { Types } from 'mongoose'
 
 type BaseApiRequest<T> = {
   body: T
@@ -97,6 +98,10 @@ export const connectToDb = async <T, K>(
     if (apiType === 'private') {
       const token = cookies().get('token')
       const userId = token ? getJWT(token.value) : null
+
+      if (!Types.ObjectId.isValid(userId as string)) {
+        throw new CustomError('Invalid user ID', Status.BAD_REQUEST)
+      }
 
       return await (handler as HandlerFnPrivate<T, K>)(
         userId as string,
