@@ -286,12 +286,18 @@ interface IProductiveProcrastination {
 }
 
 /* Distraction types */
+interface IImpulsivity extends Document {
+  impulsivity: string
+  timeToDo: string
+}
+
+interface IDistractionItem extends Document {
+  distraction: string
+}
+
 interface IDistraction {
-  distractions: string[]
-  impulsivities: {
-    impulsivity: string
-    timeToDo: string
-  }[]
+  distractions: IDistractionItem[]
+  impulsivities: IImpulsivity[]
   user: Schema.Types.ObjectId
 }
 
