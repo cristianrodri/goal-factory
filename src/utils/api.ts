@@ -10,6 +10,7 @@ import {
 } from './error'
 import { errorResponse } from './response'
 import { Types } from 'mongoose'
+import { removeUnwantedProperties } from './bodyRequest'
 
 type BaseApiRequest<T> = {
   body: T
@@ -86,11 +87,7 @@ export const connectToDb = async <T, K>(
       // Remove properties that are not needed from the request body
       const reqBody = body as Record<string, never>
 
-      delete reqBody?.user
-      delete reqBody?._id
-      delete reqBody?.__v
-      delete reqBody?.createdAt
-      delete reqBody?.updatedAt
+      removeUnwantedProperties(reqBody)
     }
 
     await dbConnect()
