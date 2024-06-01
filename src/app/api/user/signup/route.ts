@@ -1,5 +1,6 @@
 import { createUserMotivationTechniques } from '@/lib/motivation-technique/create'
 import { createUserDependecy } from '@/lib/motivation-techniques/dependency/create'
+import { createUserDistraction } from '@/lib/motivation-techniques/distraction/create'
 import { createUser } from '@/lib/user/create'
 import { UserData } from '@/types'
 import { publicApi } from '@/utils/api'
@@ -16,6 +17,7 @@ export const POST = publicApi<UserData>(async ({ body }) => {
   await createUserMotivationTechniques(userId)
 
   await createUserDependecy(userId)
+  await createUserDistraction(userId)
 
   createTokenCookie(token)
 
