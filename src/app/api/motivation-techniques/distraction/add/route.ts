@@ -1,4 +1,5 @@
 import Distraction from '@/lib/motivation-techniques/distraction/model'
+import { verifyBody } from '@/lib/motivation-techniques/distraction/verify'
 import { IDistractionItem, IImpulsivity } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
@@ -13,15 +14,14 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   const { distraction, impulsivityData } = body
 
   // Validate request body to ensure it contains either a distraction or impulsivity data
-  if (!distraction && !impulsivityData) {
-    return errorResponse(
-      'Request body must contain either a distraction or an impulsivity',
-      Status.BAD_REQUEST
-    )
-  }
+  verifyBody({ distraction, impulsivityData })
 
   // Fetch the existing Distraction document for the user
   const userDistraction = await Distraction.findOne({ user })
+
+  if (!userDistraction) {
+    return errorResponse('Distraction not found', Status.NOT_FOUND)
+  }
 
   // Add new distraction if it is provided and does not already exist
   if (userDistraction && distraction) {
