@@ -1,6 +1,17 @@
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IAutomaticHabit, IUtilHabit } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+
+// Define your main reward schema
+interface IAutomaticHabitDocument extends IAutomaticHabit, IBaseDocument {}
+
+interface IAutomaticHabitModel extends IBaseModel<IAutomaticHabitDocument> {}
 
 const utilHabitsSchema = new Schema<IUtilHabit>({
   habit: {
@@ -19,7 +30,7 @@ const utilHabitsSchema = new Schema<IUtilHabit>({
   }
 })
 
-const automaticHabitSchema = new Schema<IAutomaticHabit>({
+const automaticHabitSchema = new Schema<IAutomaticHabitDocument>({
   utilHabits: [
     {
       type: utilHabitsSchema,
@@ -45,8 +56,18 @@ automaticHabitSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+automaticHabitSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IAutomaticHabitDocument>['findOneOrThrow']
+
+automaticHabitSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IAutomaticHabitDocument>['findOneAndUpdateOrThrow']
+
 const AutomaticHabit =
-  (models['AutomaticHabit'] as Model<IAutomaticHabit>) ||
-  model<IAutomaticHabit>('AutomaticHabit', automaticHabitSchema)
+  (models['AutomaticHabit'] as IAutomaticHabitModel) ||
+  model<IAutomaticHabitDocument, IAutomaticHabitModel>(
+    'AutomaticHabit',
+    automaticHabitSchema
+  )
 
 export default AutomaticHabit

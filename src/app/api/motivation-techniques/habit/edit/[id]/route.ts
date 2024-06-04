@@ -1,7 +1,6 @@
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
 import { IUtilHabit } from '@/types'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -35,7 +34,7 @@ export const PUT = privateApi<RequestBody, { id: string }>(
     }
 
     // Update the existing utilHabit
-    const updatedHabit = await AutomaticHabit.findOneAndUpdate(
+    const updatedHabit = await AutomaticHabit.findOneAndUpdateOrThrow(
       {
         user,
         bigGoal,
@@ -46,13 +45,8 @@ export const PUT = privateApi<RequestBody, { id: string }>(
           'utilHabits.$.habit': habit, // Update the habit field
           'utilHabits.$.impact': impact // Update the impact field
         }
-      },
-      updateOptions
+      }
     )
-
-    if (!updatedHabit) {
-      return errorResponse('Automatic habit not found', Status.NOT_FOUND)
-    }
 
     return successResponse(updatedHabit)
   }

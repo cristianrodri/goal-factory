@@ -1,6 +1,5 @@
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -14,7 +13,7 @@ export const DELETE = privateApi<unknown, { id: string }>(
     }
 
     // Find and update the document to remove the specific utilHabit
-    const updatedHabit = await AutomaticHabit.findOneAndUpdate(
+    const updatedHabit = await AutomaticHabit.findOneAndUpdateOrThrow(
       {
         user,
         bigGoal,
@@ -24,13 +23,8 @@ export const DELETE = privateApi<unknown, { id: string }>(
         $pull: {
           utilHabits: { _id: params.id } // Remove the utilHabit by its _id
         }
-      },
-      updateOptions
+      }
     )
-
-    if (!updatedHabit) {
-      return errorResponse('Automatic habit not found', Status.NOT_FOUND)
-    }
 
     return successResponse(updatedHabit)
   }
