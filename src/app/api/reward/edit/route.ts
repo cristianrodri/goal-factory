@@ -18,11 +18,7 @@ export const PUT = privateApi<RewardData>(async (user, { body }) => {
     return errorResponse('Invalid reward type', Status.BAD_REQUEST)
   }
 
-  const userReward = await Reward.findOne({ user })
-
-  if (!userReward) {
-    return errorResponse('User reward not found', Status.NOT_FOUND)
-  }
+  const userReward = await Reward.findOneOrThrow({ user })
 
   const isSmallReward = userReward.small.some(
     r => r._id.toString() === rewardId

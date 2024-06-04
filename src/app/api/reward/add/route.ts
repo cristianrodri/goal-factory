@@ -1,6 +1,5 @@
 import Reward from '@/lib/reward/model'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { RewardType, Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -16,10 +15,10 @@ export const POST = privateApi<RewardData>(async (user, { body }) => {
     return errorResponse('Invalid reward type', Status.BAD_REQUEST)
   }
 
-  const userReward = await Reward.findOne({ user })
+  const userReward = await Reward.findOneOrThrow({ user })
 
   // Check if the reward exists in the specified type
-  if (userReward && userReward[type].length > 0) {
+  if (userReward[type].length > 0) {
     const foundSameReward = userReward[type].find(
       r => r.description === description
     )
@@ -33,15 +32,10 @@ export const POST = privateApi<RewardData>(async (user, { body }) => {
   }
 
   // Update the document in the database atomically
-  const updatedUserReward = await Reward.findOneAndUpdate(
+  const updatedUserReward = await Reward.findOneAndUpdateOrThrow(
     { user },
-    { $push: { [type]: { description } } }, // Use $each to apush multiple rewards
-    updateOptions
+    { $push: { [type]: { description } } } // Use $each to apush multiple rewards
   )
-
-  if (!updatedUserReward) {
-    return errorResponse('User reward not found', Status.NOT_FOUND)
-  }
 
   return successResponse(updatedUserReward)
 })

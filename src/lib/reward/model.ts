@@ -1,6 +1,17 @@
 import { IReward, IRewardDescription } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
+
+// Define your main reward schema
+interface IRewardDocument extends IReward, IBaseDocument {}
+
+interface IRewardModel extends IBaseModel<IRewardDocument> {}
 
 const rewardsSchema = new Schema<IRewardDescription>({
   description: {
@@ -12,7 +23,7 @@ const rewardsSchema = new Schema<IRewardDescription>({
   }
 })
 
-const rewardSchema = new Schema<IReward>({
+const rewardSchema = new Schema<IRewardDocument>({
   small: {
     type: [rewardsSchema]
   },
@@ -32,7 +43,15 @@ rewardSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+rewardSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IRewardDocument>['findOneOrThrow']
+
+rewardSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IRewardDocument>['findOneAndUpdateOrThrow']
+
 const Reward =
-  (models['Reward'] as Model<IReward>) || model<IReward>('Reward', rewardSchema)
+  (models['Reward'] as IRewardModel) ||
+  model<IRewardDocument, IRewardModel>('Reward', rewardSchema)
 
 export default Reward
