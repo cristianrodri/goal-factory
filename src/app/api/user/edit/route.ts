@@ -3,8 +3,7 @@ import { IUserData } from '@/types'
 import { privateApi } from '@/utils/api'
 import { comparePassword } from '@/utils/db'
 import { Status } from '@/utils/enums'
-import { successResponse } from '@/utils/response'
-import { NextResponse } from 'next/server'
+import { errorResponse, successResponse } from '@/utils/response'
 
 interface RequestBody extends Pick<IUserData, 'email' | 'username'> {
   currentPassword: string
@@ -31,10 +30,7 @@ export const PUT = privateApi<RequestBody>(async (user, { body }) => {
     )
 
     if (!isMatch) {
-      return NextResponse.json(
-        { message: 'Invalid password' },
-        { status: Status.BAD_REQUEST }
-      )
+      return errorResponse('Invalid password', Status.UNAUTHORIZED)
     }
     userDocument.password = newPassword
   }
