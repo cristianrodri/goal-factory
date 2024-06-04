@@ -2,7 +2,6 @@ import { verifyBigGoal } from '@/lib/big-goal/get'
 import ContaminateTemptation from '@/lib/motivation-techniques/contaminate-temptation/model'
 import { ITemptation } from '@/types'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -32,19 +31,15 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   }
 
   // Add the habit to the utils habits related to the bigGoal
-  const contaminateTemptation = await ContaminateTemptation.findOneAndUpdate(
-    { user, bigGoal },
-    {
-      $push: {
-        temptations: temptationData
+  const contaminateTemptation =
+    await ContaminateTemptation.findOneAndUpdateOrThrow(
+      { user, bigGoal },
+      {
+        $push: {
+          temptations: temptationData
+        }
       }
-    },
-    updateOptions
-  )
-
-  if (!contaminateTemptation) {
-    return errorResponse('Contaminate temptation not found', Status.NOT_FOUND)
-  }
+    )
 
   return successResponse(contaminateTemptation, Status.CREATED)
 })

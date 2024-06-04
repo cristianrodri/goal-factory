@@ -1,6 +1,12 @@
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IContaminateTemptation, ITemptation } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
 
 const temptationSchema = new Schema<ITemptation>({
   temptation: {
@@ -19,7 +25,15 @@ const temptationSchema = new Schema<ITemptation>({
   }
 })
 
-const contaminateTemptationSchema = new Schema<IContaminateTemptation>({
+// Define your main contaminate temptation schema
+interface IContaminateTemptationDocument
+  extends IContaminateTemptation,
+    IBaseDocument {}
+
+interface IContaminateTemptationModel
+  extends IBaseModel<IContaminateTemptationDocument> {}
+
+const contaminateTemptationSchema = new Schema<IContaminateTemptationDocument>({
   temptations: [
     {
       type: temptationSchema,
@@ -45,9 +59,16 @@ contaminateTemptationSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+contaminateTemptationSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IContaminateTemptationDocument>['findOneOrThrow']
+
+contaminateTemptationSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IContaminateTemptationDocument>['findOneAndUpdateOrThrow']
+
 const ContaminateTemptation =
-  (models['ContaminateTemptation'] as Model<IContaminateTemptation>) ||
-  model<IContaminateTemptation>(
+  (models['ContaminateTemptation'] as IContaminateTemptationModel) ||
+  model<IContaminateTemptationDocument, IContaminateTemptationModel>(
     'ContaminateTemptation',
     contaminateTemptationSchema
   )

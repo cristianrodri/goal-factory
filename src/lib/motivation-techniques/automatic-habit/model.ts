@@ -8,7 +8,7 @@ import { IAutomaticHabit, IUtilHabit } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 
-// Define your main reward schema
+// Define your main automatic habit schema
 interface IAutomaticHabitDocument extends IAutomaticHabit, IBaseDocument {}
 
 interface IAutomaticHabitModel extends IBaseModel<IAutomaticHabitDocument> {}

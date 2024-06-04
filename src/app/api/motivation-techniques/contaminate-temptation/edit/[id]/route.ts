@@ -1,7 +1,6 @@
 import ContaminateTemptation from '@/lib/motivation-techniques/contaminate-temptation/model'
 import { ITemptation } from '@/types'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -37,7 +36,7 @@ export const PUT = privateApi<RequestBody, { id: string }>(
 
     // Update the existing contamination temptation
     const updatedContaminateTemptation =
-      await ContaminateTemptation.findOneAndUpdate(
+      await ContaminateTemptation.findOneAndUpdateOrThrow(
         {
           user,
           bigGoal,
@@ -48,13 +47,8 @@ export const PUT = privateApi<RequestBody, { id: string }>(
             'temptations.$.temptation': temptationDescription, // Update the temptation field
             'temptations.$.catastrophe': temptation.catastrophe
           }
-        },
-        updateOptions
+        }
       )
-
-    if (!updatedContaminateTemptation) {
-      return errorResponse('Contaminate temptation not found', Status.NOT_FOUND)
-    }
 
     return successResponse(updatedContaminateTemptation)
   }
