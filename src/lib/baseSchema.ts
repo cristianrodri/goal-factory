@@ -1,6 +1,19 @@
-import { Document, FilterQuery, Model } from 'mongoose'
+import {
+  Document,
+  FilterQuery,
+  Model,
+  ProjectionType,
+  QueryOptions
+} from 'mongoose'
 import { Status } from '@/utils/enums'
 import { CustomError } from '@/utils/error'
+
+// Define the type for the parameters
+type FindOneOrThrowParams<T> = [
+  query: FilterQuery<T>,
+  projection?: ProjectionType<T> | null,
+  options?: QueryOptions | null
+]
 
 // Base document interface
 export interface IBaseDocument extends Document {
@@ -9,18 +22,15 @@ export interface IBaseDocument extends Document {
 
 // Base model interface with custom static methods
 export interface IBaseModel<T extends IBaseDocument> extends Model<T> {
-  findOneOrThrow(query: FilterQuery<T>): Promise<T>
+  findOneOrThrow(...args: FindOneOrThrowParams<T>): Promise<T>
 }
-
-// Type implemented when using the static method in the other models
-export type FindOneOrThrow<T> = (query: FilterQuery<T>) => Promise<T>
 
 // Implementation of the static method
 export async function findOneOrThrow<T extends IBaseDocument>(
   this: IBaseModel<T>,
-  query: FilterQuery<T>
+  ...args: FindOneOrThrowParams<T>
 ): Promise<T> {
-  const document = await this.findOne(query)
+  const document = await this.findOne(...args)
 
   if (!document) {
     const modelName = this.modelName
