@@ -1,6 +1,5 @@
 import Dependency from '@/lib/motivation-techniques/dependency/model'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -24,7 +23,7 @@ export const PUT = privateApi<RequestBody, { id: string }>(
       return errorResponse('Dependency already exists', Status.CONFLICT)
     }
 
-    const updatedDependency = await Dependency.findOneAndUpdate(
+    const updatedDependency = await Dependency.findOneAndUpdateOrThrow(
       {
         user,
         'dependencies._id': params.id
@@ -33,13 +32,8 @@ export const PUT = privateApi<RequestBody, { id: string }>(
         $set: {
           'dependencies.$.dependency': editedDependency
         }
-      },
-      updateOptions
+      }
     )
-
-    if (!updatedDependency) {
-      return errorResponse('Dependency not found', Status.NOT_FOUND)
-    }
 
     return successResponse(updatedDependency)
   }

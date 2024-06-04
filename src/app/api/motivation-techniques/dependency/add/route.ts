@@ -1,6 +1,5 @@
 import Dependency from '@/lib/motivation-techniques/dependency/model'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 
@@ -21,19 +20,14 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     }
   }
 
-  const userDependency = await Dependency.findOneAndUpdate(
+  const userDependency = await Dependency.findOneAndUpdateOrThrow(
     { user },
     {
       $push: {
         dependencies: body
       }
-    },
-    { ...updateOptions }
+    }
   )
-
-  if (!userDependency) {
-    return errorResponse('Dependency not found', Status.NOT_FOUND)
-  }
 
   return successResponse(userDependency, Status.CREATED)
 })

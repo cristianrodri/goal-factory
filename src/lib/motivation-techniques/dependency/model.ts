@@ -1,6 +1,12 @@
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IDependency, IDependencyItem } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
 
 const dependencyItemSchema = new Schema<IDependencyItem>({
   dependency: {
@@ -11,7 +17,12 @@ const dependencyItemSchema = new Schema<IDependencyItem>({
   }
 })
 
-const dependencySchema = new Schema<IDependency>({
+// Define your main dependency schema
+interface IDependencyDocument extends IDependency, IBaseDocument {}
+
+interface IDependencyModel extends IBaseModel<IDependencyDocument> {}
+
+const dependencySchema = new Schema<IDependencyDocument>({
   dependencies: [
     {
       type: dependencyItemSchema,
@@ -31,8 +42,15 @@ dependencySchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+dependencySchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IDependencyDocument>['findOneOrThrow']
+
+dependencySchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IDependencyDocument>['findOneAndUpdateOrThrow']
+
 const Dependency =
-  (models['Dependency'] as Model<IDependency>) ||
-  model<IDependency>('Dependency', dependencySchema)
+  (models['Dependency'] as IDependencyModel) ||
+  model<IDependencyDocument, IDependencyModel>('Dependency', dependencySchema)
 
 export default Dependency
