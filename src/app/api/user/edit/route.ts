@@ -3,7 +3,7 @@ import { IUserData } from '@/types'
 import { privateApi } from '@/utils/api'
 import { comparePassword } from '@/utils/db'
 import { Status } from '@/utils/enums'
-import { errorResponse, successResponse } from '@/utils/response'
+import { successResponse } from '@/utils/response'
 import { NextResponse } from 'next/server'
 
 interface RequestBody extends Pick<IUserData, 'email' | 'username'> {
@@ -11,25 +11,24 @@ interface RequestBody extends Pick<IUserData, 'email' | 'username'> {
   newPassword: string
 }
 
-export const PUT = privateApi<RequestBody>(async (userId, { body }) => {
+export const PUT = privateApi<RequestBody>(async (user, { body }) => {
   const { email, username, currentPassword, newPassword } = body
 
-  const user = await User.findById(userId)
-
-  if (!user) {
-    return errorResponse('User not found', Status.NOT_FOUND)
-  }
+  const userDocument = await User.findOneOrThrow({ user })
 
   if (email) {
-    user.email = email
+    userDocument.email = email
   }
 
   if (username) {
-    user.username = username
+    userDocument.username = username
   }
 
   if (currentPassword && newPassword) {
-    const isMatch = await comparePassword(currentPassword, user.password)
+    const isMatch = await comparePassword(
+      currentPassword,
+      userDocument.password
+    )
 
     if (!isMatch) {
       return NextResponse.json(
@@ -37,10 +36,10 @@ export const PUT = privateApi<RequestBody>(async (userId, { body }) => {
         { status: Status.BAD_REQUEST }
       )
     }
-    user.password = newPassword
+    userDocument.password = newPassword
   }
 
-  await user.save()
+  await userDocument.save()
 
   return successResponse(user)
 })
