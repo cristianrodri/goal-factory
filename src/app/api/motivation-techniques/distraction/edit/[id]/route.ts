@@ -16,10 +16,12 @@ export const PUT = privateApi<RequestBody, { id: string }>(
 
     verifyBody({ distraction: editedDistraction, impulsivityData })
 
-    const userDistraction = await Distraction.findOne({ user })
+    const userDistraction = await Distraction.findOneOrThrow({
+      user
+    })
 
-    // If user's distraction data exists and an editedDistraction is provided
-    if (userDistraction && editedDistraction) {
+    // If editedDistraction is provided
+    if (editedDistraction) {
       // Check if the edited distraction already exists (excluding the current item being edited)
       const checkExistedDistraction = userDistraction.distractions.some(
         d =>
@@ -41,8 +43,8 @@ export const PUT = privateApi<RequestBody, { id: string }>(
       })
     }
 
-    // If user's distraction data exists and impulsivityData is provided
-    if (userDistraction && impulsivityData) {
+    // If impulsivityData is provided
+    if (impulsivityData) {
       // Check if the impulsivity data already exists (excluding the current item being edited)
       const checkExistedImpulsivity = userDistraction.impulsivities.some(
         i =>
@@ -66,7 +68,7 @@ export const PUT = privateApi<RequestBody, { id: string }>(
       })
     }
 
-    await userDistraction?.save()
+    await userDistraction.save()
 
     return successResponse(userDistraction)
   }
