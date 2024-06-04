@@ -1,13 +1,24 @@
 import { IDistraction, IDistractionItem, IImpulsivity } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import {
+  FindOneOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
+
+// Define your main distraction schema
+interface IDistractionDocument extends IDistraction, IBaseDocument {}
+
+interface IDistractionModel extends IBaseModel<IDistractionDocument> {}
 
 const distractionItemSchema = new Schema<IDistractionItem>({
   distraction: {
     type: String,
     trim: true,
     required: [true, 'Distraction item is required'],
-    minlength: [2, 'Distraction item must have at least 2 character.'],
+    minlength: [2, 'Distraction item must have at least 2 characters.'],
     maxlength: [200, 'Distraction item must have at most 200 characters.']
   }
 })
@@ -17,19 +28,19 @@ const impulsivitySchema = new Schema<IImpulsivity>({
     type: String,
     trim: true,
     required: [true, 'Impulsivity item is required'],
-    minlength: [2, 'Impulsivity item must have at least 2 character.'],
+    minlength: [2, 'Impulsivity item must have at least 2 characters.'],
     maxlength: [200, 'Impulsivity item must have at most 200 characters.']
   },
   timeToDo: {
     type: String,
     required: [true, 'Time to do impulsivity is required'],
     trim: true,
-    minlength: [2, 'Time to do impulsivity must have at least 2 character.'],
+    minlength: [2, 'Time to do impulsivity must have at least 2 characters.'],
     maxlength: [200, 'Time to do impulsivity must have at most 200 characters.']
   }
 })
 
-const distractionSchema = new Schema<IDistraction>({
+const distractionSchema = new Schema<IDistractionDocument>({
   distractions: [distractionItemSchema],
   impulsivities: [impulsivitySchema],
   user: {
@@ -45,8 +56,15 @@ distractionSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+distractionSchema.statics.findOneOrThrow =
+  findOneOrThrow as FindOneOrThrow<IDistractionDocument>
+
 const Distraction =
-  (models['Distraction'] as Model<IDistraction>) ||
-  model<IDistraction>('Distraction', distractionSchema)
+  (models['Distraction'] as IDistractionModel) ||
+  model<IDistractionDocument, IDistractionModel>(
+    'Distraction',
+    distractionSchema
+  )
 
 export default Distraction
