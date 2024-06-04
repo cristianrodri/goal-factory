@@ -1,12 +1,12 @@
 import User from '@/lib/user/model'
-import { UserData } from '@/types'
+import { IUserData } from '@/types'
 import { privateApi } from '@/utils/api'
 import { comparePassword } from '@/utils/db'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 import { NextResponse } from 'next/server'
 
-interface RequestBody extends Pick<UserData, 'email' | 'username'> {
+interface RequestBody extends Pick<IUserData, 'email' | 'username'> {
   currentPassword: string
   newPassword: string
 }

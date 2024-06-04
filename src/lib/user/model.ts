@@ -1,26 +1,22 @@
-import { model, Schema, Document, models, Model } from 'mongoose'
+import { model, Schema, Document, models } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import { comparePassword, toJSONTransform } from '@/utils/db'
 import { createJWT } from '@/utils/jwt'
-import { Status, WeekDay } from '@/utils/enums'
-import { CustomError } from '@/utils/error'
-import { UserData } from '@/types'
+import { WeekDay } from '@/utils/enums'
+import { IUserData } from '@/types'
+import { findOneOrThrow, IBaseDocument, IBaseModel } from '@/lib/baseSchema'
 
-// Define methods for the User document
-interface IUserMethods {
-  generateAuthToken: () => string
+// Define your main user schema
+interface IUserDocument extends IUserData, IBaseDocument {
+  generateAuthToken(): string
 }
 
-// Define the interface for User document
-interface IUser extends UserData, IUserMethods, Document {}
-
-export interface IUserModel
-  extends Model<IUser, Record<string, never>, IUserMethods> {
-  findByCredentials(email: string, password: string): Promise<IUser>
+export interface IUserModel extends IBaseModel<IUserDocument> {
+  findByCredentials(email: string, password: string): Promise<IUserDocument>
 }
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUserDocument>(
   {
     username: {
       type: String,
@@ -71,16 +67,16 @@ userSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+userSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IUserDocument>['findOneOrThrow']
+
 // Define a static method for finding a user by credentials
 userSchema.statics.findByCredentials = async function (
   email: string,
   password: string
 ) {
-  const user = await (this as IUserModel).findOne({ email })
-
-  if (!user) {
-    throw new CustomError('User not found', Status.NOT_FOUND)
-  }
+  const user = await (this as IUserModel).findOneOrThrow({ email })
 
   await comparePassword(password, user.password)
 
@@ -89,14 +85,14 @@ userSchema.statics.findByCredentials = async function (
 
 // Define a method for generating authentication tokens
 userSchema.methods.generateAuthToken = function () {
-  const user = this as IUser
+  const user = this as IUserDocument
   const token = createJWT(user._id)
 
   return token
 }
 
 // Hash plain password before saving
-userSchema.pre<IUser>('save', async function (next) {
+userSchema.pre<IUserDocument>('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10)
   }
@@ -105,6 +101,7 @@ userSchema.pre<IUser>('save', async function (next) {
 })
 
 const User =
-  (models['User'] as IUserModel) || model<IUser, IUserModel>('User', userSchema)
+  (models['User'] as IUserModel) ||
+  model<IUserDocument, IUserModel>('User', userSchema)
 
 export default User

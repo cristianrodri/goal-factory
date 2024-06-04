@@ -14,12 +14,13 @@ export interface IRewardDescription extends Document {
   description: string
 }
 
-export interface UserData {
+export interface IUserData {
   username: string
   email: string
   password: string
   dayGame: WeekDay
 }
+
 export interface UserClientId {
   id: string
 }

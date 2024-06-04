@@ -2,13 +2,13 @@ import { createUserMotivationTechniques } from '@/lib/motivation-technique/creat
 import { createUserDependecy } from '@/lib/motivation-techniques/dependency/create'
 import { createUserDistraction } from '@/lib/motivation-techniques/distraction/create'
 import { createUser } from '@/lib/user/create'
-import { UserData } from '@/types'
+import { IUserData } from '@/types'
 import { publicApi } from '@/utils/api'
 import { createTokenCookie } from '@/utils/cookie'
 import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
-export const POST = publicApi<UserData>(async ({ body }) => {
+export const POST = publicApi<IUserData>(async ({ body }) => {
   const createdUser = await createUser(body)
   const token = createdUser.generateAuthToken()
   const userId = createdUser._id
