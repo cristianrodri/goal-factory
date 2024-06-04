@@ -1,9 +1,18 @@
 import { IMotivationTechnique } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { MotivationType } from '@/utils/enums'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import { IBaseDocument, IBaseModel } from '@/lib/baseSchema'
 
-const motivationTechniqueSchema = new Schema<IMotivationTechnique>({
+// Define your main motivation technique schema
+interface IMotivationTechniqueDocument
+  extends IMotivationTechnique,
+    IBaseDocument {}
+
+interface IMotivationTechniqueModel
+  extends IBaseModel<IMotivationTechniqueDocument> {}
+
+const motivationTechniqueSchema = new Schema<IMotivationTechniqueDocument>({
   realNumberTechnique: {
     type: Number,
     required: [true, 'Real number technique is required'],
@@ -62,7 +71,10 @@ motivationTechniqueSchema.methods.toJSON = function () {
 }
 
 const MotivationTechnique =
-  (models['MotivationTechnique'] as Model<IMotivationTechnique>) ||
-  model<IMotivationTechnique>('MotivationTechnique', motivationTechniqueSchema)
+  (models['MotivationTechnique'] as IMotivationTechniqueModel) ||
+  model<IMotivationTechniqueDocument, IMotivationTechniqueModel>(
+    'MotivationTechnique',
+    motivationTechniqueSchema
+  )
 
 export default MotivationTechnique
