@@ -1,7 +1,12 @@
 import { IDistraction, IDistractionItem, IImpulsivity } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
-import { findOneOrThrow, IBaseDocument, IBaseModel } from '@/lib/baseSchema'
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 
 // Define your main distraction schema
 interface IDistractionDocument extends IDistraction, IBaseDocument {}
@@ -54,6 +59,9 @@ distractionSchema.methods.toJSON = function () {
 // Add static method directly to schema
 distractionSchema.statics.findOneOrThrow =
   findOneOrThrow as IBaseModel<IDistractionDocument>['findOneOrThrow']
+
+distractionSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IDistractionDocument>['findOneAndUpdateOrThrow']
 
 const Distraction =
   (models['Distraction'] as IDistractionModel) ||

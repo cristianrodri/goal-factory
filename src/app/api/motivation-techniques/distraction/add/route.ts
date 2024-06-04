@@ -17,14 +17,10 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   verifyBody({ distraction, impulsivityData })
 
   // Fetch the existing Distraction document for the user
-  const userDistraction = await Distraction.findOne({ user })
-
-  if (!userDistraction) {
-    return errorResponse('Distraction not found', Status.NOT_FOUND)
-  }
+  const userDistraction = await Distraction.findOneOrThrow({ user })
 
   // Add new distraction if it is provided and does not already exist
-  if (userDistraction && distraction) {
+  if (distraction) {
     const checkExistedDistraction = userDistraction.distractions.some(
       d => d.distraction === distraction
     )
@@ -37,7 +33,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   }
 
   // Add new impulsivity if it is provided and does not already exist
-  if (userDistraction && impulsivityData) {
+  if (impulsivityData) {
     const checkExistedImpulsivity = userDistraction.impulsivities.some(
       i => i.impulsivity === impulsivityData.impulsivity
     )
@@ -50,7 +46,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   }
 
   // Save the updated document
-  await userDistraction?.save()
+  await userDistraction.save()
 
   // Return success response
   return successResponse(userDistraction, Status.CREATED)
