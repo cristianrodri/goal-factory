@@ -2,7 +2,12 @@ import { IMotivationTechnique } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { MotivationType } from '@/utils/enums'
 import { Document, Schema, model, models } from 'mongoose'
-import { IBaseDocument, IBaseModel } from '@/lib/baseSchema'
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 
 // Define your main motivation technique schema
 interface IMotivationTechniqueDocument
@@ -69,6 +74,13 @@ motivationTechniqueSchema.index(
 motivationTechniqueSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
+
+// Add static method directly to schema
+motivationTechniqueSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IMotivationTechniqueDocument>['findOneOrThrow']
+
+motivationTechniqueSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IMotivationTechniqueDocument>['findOneAndUpdateOrThrow']
 
 const MotivationTechnique =
   (models['MotivationTechnique'] as IMotivationTechniqueModel) ||
