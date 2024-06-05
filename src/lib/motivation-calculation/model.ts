@@ -2,6 +2,7 @@ import { IMotivationCalculation } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 import {
+  findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
   findOneOrThrow,
   IBaseDocument,
@@ -66,6 +67,9 @@ motivationCalculationSchema.statics.findOneOrThrow =
 
 motivationCalculationSchema.statics.findOneAndUpdateOrThrow =
   findOneAndUpdateOrThrow as IBaseModel<IMotivationCalculationDocument>['findOneAndUpdateOrThrow']
+
+motivationCalculationSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IMotivationCalculationDocument>['findOneAndDeleteOrThrow']
 
 const MotivationCalculation =
   (models['MotivationCalculation'] as IMotivationCalculationModel) ||

@@ -1,4 +1,5 @@
 import {
+  findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
   findOneOrThrow,
   IBaseDocument,
@@ -65,6 +66,9 @@ contaminateTemptationSchema.statics.findOneOrThrow =
 
 contaminateTemptationSchema.statics.findOneAndUpdateOrThrow =
   findOneAndUpdateOrThrow as IBaseModel<IContaminateTemptationDocument>['findOneAndUpdateOrThrow']
+
+contaminateTemptationSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IContaminateTemptationDocument>['findOneAndDeleteOrThrow']
 
 const ContaminateTemptation =
   (models['ContaminateTemptation'] as IContaminateTemptationModel) ||

@@ -5,7 +5,13 @@ import { comparePassword, toJSONTransform } from '@/utils/db'
 import { createJWT } from '@/utils/jwt'
 import { WeekDay } from '@/utils/enums'
 import { IUserData } from '@/types'
-import { findOneOrThrow, IBaseDocument, IBaseModel } from '@/lib/baseSchema'
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 
 // Define your main user schema
 interface IUserDocument extends IUserData, IBaseDocument {
@@ -70,6 +76,12 @@ userSchema.methods.toJSON = function () {
 // Add static method directly to schema
 userSchema.statics.findOneOrThrow =
   findOneOrThrow as IBaseModel<IUserDocument>['findOneOrThrow']
+
+userSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IUserDocument>['findOneAndUpdateOrThrow']
+
+userSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IUserDocument>['findOneAndDeleteOrThrow']
 
 // Define a static method for finding a user by credentials
 userSchema.statics.findByCredentials = async function (

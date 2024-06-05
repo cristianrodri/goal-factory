@@ -2,6 +2,7 @@ import { IReward, IRewardDescription } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 import {
+  findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
   findOneOrThrow,
   IBaseDocument,
@@ -49,6 +50,9 @@ rewardSchema.statics.findOneOrThrow =
 
 rewardSchema.statics.findOneAndUpdateOrThrow =
   findOneAndUpdateOrThrow as IBaseModel<IRewardDocument>['findOneAndUpdateOrThrow']
+
+rewardSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IRewardDocument>['findOneAndDeleteOrThrow']
 
 const Reward =
   (models['Reward'] as IRewardModel) ||

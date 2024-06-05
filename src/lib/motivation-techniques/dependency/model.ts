@@ -1,4 +1,5 @@
 import {
+  findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
   findOneOrThrow,
   IBaseDocument,
@@ -48,6 +49,9 @@ dependencySchema.statics.findOneOrThrow =
 
 dependencySchema.statics.findOneAndUpdateOrThrow =
   findOneAndUpdateOrThrow as IBaseModel<IDependencyDocument>['findOneAndUpdateOrThrow']
+
+dependencySchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IDependencyDocument>['findOneAndDeleteOrThrow']
 
 const Dependency =
   (models['Dependency'] as IDependencyModel) ||

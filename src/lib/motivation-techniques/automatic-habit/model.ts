@@ -1,4 +1,5 @@
 import {
+  findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
   findOneOrThrow,
   IBaseDocument,
@@ -62,6 +63,9 @@ automaticHabitSchema.statics.findOneOrThrow =
 
 automaticHabitSchema.statics.findOneAndUpdateOrThrow =
   findOneAndUpdateOrThrow as IBaseModel<IAutomaticHabitDocument>['findOneAndUpdateOrThrow']
+
+automaticHabitSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IAutomaticHabitDocument>['findOneAndDeleteOrThrow']
 
 const AutomaticHabit =
   (models['AutomaticHabit'] as IAutomaticHabitModel) ||

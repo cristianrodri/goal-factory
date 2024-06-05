@@ -2,6 +2,7 @@ import { IDistraction, IDistractionItem, IImpulsivity } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 import {
+  findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
   findOneOrThrow,
   IBaseDocument,
@@ -62,6 +63,9 @@ distractionSchema.statics.findOneOrThrow =
 
 distractionSchema.statics.findOneAndUpdateOrThrow =
   findOneAndUpdateOrThrow as IBaseModel<IDistractionDocument>['findOneAndUpdateOrThrow']
+
+distractionSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IDistractionDocument>['findOneAndDeleteOrThrow']
 
 const Distraction =
   (models['Distraction'] as IDistractionModel) ||
