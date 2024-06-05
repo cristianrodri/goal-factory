@@ -1,4 +1,4 @@
-import Game from '@/lib/games/model'
+import Game from '@/lib/game/model'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
