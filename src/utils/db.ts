@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { Document, QueryOptions } from 'mongoose'
+import { Document } from 'mongoose'
 
 export const comparePassword = async (
   password: string,
@@ -41,10 +41,4 @@ export function toJSONTransform(doc: Document) {
   }
 
   return obj
-}
-
-export const updateOptions: QueryOptions = {
-  new: true,
-  runValidators: true,
-  context: 'query'
 }
