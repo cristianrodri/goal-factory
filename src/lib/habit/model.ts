@@ -1,8 +1,20 @@
 import { IHabit } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 
-const habitSchema = new Schema<IHabit>({
+// Define your main habit schema
+interface IHabitDocument extends IHabit, IBaseDocument {}
+
+interface IHabitModel extends IBaseModel<IHabitDocument> {}
+
+const habitSchema = new Schema<IHabitDocument>({
   description: {
     type: String,
     required: [true, 'Description is required'],
@@ -57,7 +69,18 @@ habitSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+habitSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IHabitDocument>['findOneOrThrow']
+
+habitSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IHabitDocument>['findOneAndUpdateOrThrow']
+
+habitSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IHabitDocument>['findOneAndDeleteOrThrow']
+
 const Habit =
-  (models['Habit'] as Model<IHabit>) || model<IHabit>('Habit', habitSchema)
+  (models['Habit'] as IHabitModel) ||
+  model<IHabitDocument, IHabitModel>('Habit', habitSchema)
 
 export default Habit
