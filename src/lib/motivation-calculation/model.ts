@@ -1,8 +1,22 @@
 import { IMotivationCalculation } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import {
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 
-const motivationCalculation = new Schema<IMotivationCalculation>({
+// Define your main motivation calculation schema
+interface IMotivationCalculationDocument
+  extends IMotivationCalculation,
+    IBaseDocument {}
+
+interface IMotivationCalculationModel
+  extends IBaseModel<IMotivationCalculationDocument> {}
+
+const motivationCalculationSchema = new Schema<IMotivationCalculationDocument>({
   expectation: {
     type: Number,
     required: [true, 'Expectation is required'],
@@ -39,15 +53,25 @@ const motivationCalculation = new Schema<IMotivationCalculation>({
   }
 })
 
-motivationCalculation.index({ user: 1, bigGoal: 1 }, { unique: true })
+motivationCalculationSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
 
 // Use the transformation function within the toJSON method
-motivationCalculation.methods.toJSON = function () {
+motivationCalculationSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+motivationCalculationSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IMotivationCalculationDocument>['findOneOrThrow']
+
+motivationCalculationSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IMotivationCalculationDocument>['findOneAndUpdateOrThrow']
+
 const MotivationCalculation =
-  (models['MotivationCalculation'] as Model<IMotivationCalculation>) ||
-  model<IMotivationCalculation>('MotivationCalculation', motivationCalculation)
+  (models['MotivationCalculation'] as IMotivationCalculationModel) ||
+  model<IMotivationCalculationDocument, IMotivationCalculationModel>(
+    'MotivationCalculation',
+    motivationCalculationSchema
+  )
 
 export default MotivationCalculation

@@ -1,9 +1,7 @@
 import MotivationCalculation from '@/lib/motivation-calculation/model'
 import { IMotivationCalculation } from '@/types'
 import { privateApi } from '@/utils/api'
-import { updateOptions } from '@/utils/db'
-import { Status } from '@/utils/enums'
-import { errorResponse, successResponse } from '@/utils/response'
+import { successResponse } from '@/utils/response'
 
 type RequestBody = Omit<IMotivationCalculation, 'user' | 'bigGoal'> & {
   bigGoal?: string
@@ -15,18 +13,14 @@ export const PUT = privateApi<RequestBody, { id: string }>(
     delete body?.bigGoal
 
     // Update the motivation calculation
-    const motivationCalculation = await MotivationCalculation.findOneAndUpdate(
-      {
-        _id: params.id,
-        user
-      },
-      body,
-      updateOptions
-    )
-
-    if (!motivationCalculation) {
-      return errorResponse('Motivation Calculation not found', Status.NOT_FOUND)
-    }
+    const motivationCalculation =
+      await MotivationCalculation.findOneAndUpdateOrThrow(
+        {
+          _id: params.id,
+          user
+        },
+        body
+      )
 
     return successResponse(motivationCalculation)
   }
