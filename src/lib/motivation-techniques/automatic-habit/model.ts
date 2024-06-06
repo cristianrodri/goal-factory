@@ -8,6 +8,7 @@ import {
 import { IAutomaticHabit, IUtilHabit } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
 // Define your main automatic habit schema
 interface IAutomaticHabitDocument extends IAutomaticHabit, IBaseDocument {}
@@ -51,6 +52,10 @@ const automaticHabitSchema = new Schema<IAutomaticHabitDocument>({
 })
 
 automaticHabitSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+automaticHabitSchema.plugin(uniqueValidator, {
+  message: 'Automatic habit already exists for this big goal'
+})
 
 // Use the transformation function within the toJSON method
 automaticHabitSchema.methods.toJSON = function () {

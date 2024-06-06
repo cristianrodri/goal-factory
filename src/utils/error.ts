@@ -28,84 +28,9 @@ export class CustomError extends Error {
     this.message = message
     this.status = status
 
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\brewards\b)(?=.*\btype\b)/.test(
-        message
-      )
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'User already has reward types'
-    }
-
-    if (/^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bgames\b)/.test(message)) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Game already exists'
-    }
-
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bmotivationtechniques\b)/.test(
-        message
-      )
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Motivation techniques data already exist'
-    }
-
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bmotivationcalculations\b)/.test(
-        message
-      )
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Motivation calculation already exists for this big goal'
-    }
-
-    if (/^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bhabits\b)/.test(message)) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Habit already exists'
-    }
-
     if (message.includes('Cast to ObjectId failed')) {
       this.status = Status.BAD_REQUEST
       this.message = 'Invalid ID'
-    }
-
-    // If the error is a mongoose error, check if it's a duplicate user email is the error
-    if (/E11000.*email/.test(message)) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'User already exists'
-    }
-
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bautomatichabits\b)/.test(
-        message
-      )
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Automatic habit already exists for this big goal'
-    }
-
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bcontaminatetemptations\b)/.test(
-        message
-      )
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Contaminate temptation already exists for this big goal'
-    }
-
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bdependencies\b)/.test(message)
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Dependencies already exists for this user'
-    }
-
-    if (
-      /^(?=.*\bE11000\b)(?=.*\bduplicate\b)(?=.*\bdistractions\b)/.test(message)
-    ) {
-      this.status = Status.BAD_REQUEST
-      this.message = 'Distractions already exists for this user'
     }
   }
 }

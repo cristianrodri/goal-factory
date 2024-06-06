@@ -1,6 +1,7 @@
 import { IDistraction, IDistractionItem, IImpulsivity } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -50,6 +51,10 @@ const distractionSchema = new Schema<IDistractionDocument>({
     ref: 'User',
     unique: true
   }
+})
+
+distractionSchema.plugin(uniqueValidator, {
+  message: 'Distractions already exists for this user'
 })
 
 // Use the transformation function within the toJSON method

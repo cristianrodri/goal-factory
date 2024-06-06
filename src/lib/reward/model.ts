@@ -1,6 +1,7 @@
 import { IReward, IRewardDescription } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -37,6 +38,10 @@ const rewardSchema = new Schema<IRewardDocument>({
     ref: 'User',
     unique: true
   }
+})
+
+rewardSchema.plugin(uniqueValidator, {
+  message: 'Reward already exists for this user'
 })
 
 // Use the transformation function within the toJSON method

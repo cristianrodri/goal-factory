@@ -8,6 +8,7 @@ import {
 import { IContaminateTemptation, ITemptation } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
 const temptationSchema = new Schema<ITemptation>({
   temptation: {
@@ -54,6 +55,10 @@ const contaminateTemptationSchema = new Schema<IContaminateTemptationDocument>({
 })
 
 contaminateTemptationSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+contaminateTemptationSchema.plugin(uniqueValidator, {
+  message: 'Contaminate temptation already exists for this big goal'
+})
 
 // Use the transformation function within the toJSON method
 contaminateTemptationSchema.methods.toJSON = function () {

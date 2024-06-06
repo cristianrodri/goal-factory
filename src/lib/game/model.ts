@@ -1,6 +1,7 @@
 import { IGame } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, model, models, Schema } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -30,6 +31,8 @@ const gameSchema = new Schema<IGameDocument>({
 })
 
 gameSchema.index({ game: 1, user: 1 }, { unique: true })
+
+gameSchema.plugin(uniqueValidator, { message: 'Game already exists' })
 
 // Use the transformation function within the toJSON method
 gameSchema.methods.toJSON = function () {

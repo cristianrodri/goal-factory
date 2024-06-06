@@ -5,6 +5,7 @@ import { comparePassword, toJSONTransform } from '@/utils/db'
 import { createJWT } from '@/utils/jwt'
 import { WeekDay } from '@/utils/enums'
 import { IUserData } from '@/types'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -67,6 +68,8 @@ const userSchema = new Schema<IUserDocument>(
     timestamps: true
   }
 )
+
+userSchema.plugin(uniqueValidator, { message: 'User already exists' })
 
 // Use the transformation function within the toJSON method
 userSchema.methods.toJSON = function () {

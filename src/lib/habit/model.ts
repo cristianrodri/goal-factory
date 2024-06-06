@@ -1,6 +1,7 @@
 import { IHabit } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -63,6 +64,10 @@ const habitSchema = new Schema<IHabitDocument>({
 })
 
 habitSchema.index({ user: 1, description: 1 }, { unique: true })
+
+habitSchema.plugin(uniqueValidator, {
+  message: 'Habit already exists'
+})
 
 // Use the transformation function within the toJSON method
 habitSchema.methods.toJSON = function () {

@@ -8,6 +8,7 @@ import {
 import { IDependency, IDependencyItem } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
 const dependencyItemSchema = new Schema<IDependencyItem>({
   dependency: {
@@ -36,6 +37,10 @@ const dependencySchema = new Schema<IDependencyDocument>({
     ref: 'User',
     unique: true
   }
+})
+
+dependencySchema.plugin(uniqueValidator, {
+  message: 'Dependency already exists for this user'
 })
 
 // Use the transformation function within the toJSON method

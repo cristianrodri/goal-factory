@@ -2,6 +2,7 @@ import { IMotivationTechnique } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { MotivationType } from '@/utils/enums'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -70,6 +71,10 @@ motivationTechniqueSchema.index(
     partialFilterExpression: { type: MotivationType.PER_GOAL }
   }
 )
+
+motivationTechniqueSchema.plugin(uniqueValidator, {
+  message: 'Motivation technique already exists'
+})
 
 // Use the transformation function within the toJSON method
 motivationTechniqueSchema.methods.toJSON = function () {

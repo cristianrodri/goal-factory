@@ -1,6 +1,7 @@
 import { IMotivationCalculation } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -55,6 +56,10 @@ const motivationCalculationSchema = new Schema<IMotivationCalculationDocument>({
 })
 
 motivationCalculationSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+motivationCalculationSchema.plugin(uniqueValidator, {
+  message: 'Motivation calculation already exists for this big goal'
+})
 
 // Use the transformation function within the toJSON method
 motivationCalculationSchema.methods.toJSON = function () {
