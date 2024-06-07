@@ -15,12 +15,23 @@ interface IImpulseDocument extends IImpulse, IBaseDocument {}
 
 interface IImpulseModel extends IBaseModel<IImpulseDocument> {}
 
+// Custom URL validator function
+const urlValidator = (value: string) => {
+  const urlRegex =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/
+  return urlRegex.test(value)
+}
+
 const impulseSchema = new Schema<IImpulseDocument>({
   videoLink: {
     type: String,
     required: [true, 'Video link is required'],
     trim: true,
-    maxlength: [300, 'Video link must be less than 300 characters']
+    maxlength: [300, 'Video link must be less than 300 characters'],
+    validate: {
+      validator: urlValidator,
+      message: 'Invalid URL format'
+    }
   },
   rates: [
     {
@@ -33,12 +44,12 @@ const impulseSchema = new Schema<IImpulseDocument>({
       rate: {
         type: Number,
         required: [true, 'Rate is required'],
-        min: 1,
-        max: 10
+        min: [1, 'Rate must be at least 1'],
+        max: [10, 'Rate must be at most 10']
       },
       time: {
         type: Date,
-        required: [true, 'Time is required']
+        default: Date.now
       }
     }
   ],

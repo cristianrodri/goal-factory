@@ -60,8 +60,10 @@ export async function findOneAndUpdateOrThrow<T extends IBaseDocument>(
 ): Promise<T> {
   const [query, update, options] = args
   const document = await this.findOneAndUpdate(query, update, {
-    ...options,
-    new: true
+    new: true,
+    runValidators: true,
+    context: 'query',
+    ...options
   })
 
   if (!document) {

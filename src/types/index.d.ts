@@ -205,15 +205,15 @@ interface IMotivationCalculation {
 /* Motivation Technique models (not all 27 techniques will be modeled) */
 
 /* Impulse types */
+interface ImpulseRate {
+  description: string
+  rate: number
+  time: Date
+}
+
 interface IImpulse {
   videoLink: string
-  rates: [
-    {
-      description: string
-      rate: number
-      time: Date
-    }
-  ]
+  rates: ImpulseRate[]
   isShown: boolean
   user: Schema.Types.ObjectId
 }
