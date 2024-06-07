@@ -59,7 +59,7 @@ const interruptionStimulusSchema = new Schema<IInterruptionStimulusDocument>({
 interruptionStimulusSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
 
 interruptionStimulusSchema.plugin(uniqueValidator, {
-  message: 'Interruption stimulus already exists'
+  message: 'Interruption stimulus already exists for this big goal.'
 })
 
 // Use the transformation function within the toJSON method
