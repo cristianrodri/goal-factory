@@ -1,5 +1,5 @@
 import { verifyBigGoal } from '@/lib/big-goal/get'
-import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
+import { createGoalAutomaticHabit } from '@/lib/motivation-techniques/automatic-habit/create'
 import { IAutomaticHabit } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
@@ -14,11 +14,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   await verifyBigGoal(body.bigGoal, user)
 
   // Create the automatic habit
-  const automaticHabit = await AutomaticHabit.create({
-    utilHabits: [],
-    bigGoal: body.bigGoal,
-    user
-  })
+  const automaticHabit = await createGoalAutomaticHabit(user, body.bigGoal)
 
   return successResponse(automaticHabit, Status.CREATED)
 })

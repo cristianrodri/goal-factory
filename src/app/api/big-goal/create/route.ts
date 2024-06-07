@@ -1,6 +1,8 @@
 import BigGoal from '@/lib/big-goal/model'
 import { createGoalMotivationTechniques } from '@/lib/motivation-technique/create'
-import { createContaminateTemptation } from '@/lib/motivation-techniques/contaminate-temptation/create'
+import { createGoalAutomaticHabit } from '@/lib/motivation-techniques/automatic-habit/create'
+import { createGoalContaminateTemptation } from '@/lib/motivation-techniques/contaminate-temptation/create'
+import { createGoalInterruptionStimulus } from '@/lib/motivation-techniques/interruption-stimulus/create'
 import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
@@ -14,7 +16,9 @@ export const POST = privateApi<Omit<IBigGoal, 'user'>>(
     // Creation motivation techniques related to the big goal
     await createGoalMotivationTechniques(user, goalId)
 
-    await createContaminateTemptation(user, goalId)
+    await createGoalAutomaticHabit(user, goalId)
+    await createGoalContaminateTemptation(user, goalId)
+    await createGoalInterruptionStimulus(user, goalId)
 
     return successResponse(bigGoal, Status.CREATED)
   }

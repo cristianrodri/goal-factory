@@ -1,6 +1,6 @@
 import ContaminateTemptation from './model'
 
-export const createContaminateTemptation = async (
+export const createGoalContaminateTemptation = async (
   user: string,
   goalId: string
 ) => {
