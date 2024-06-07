@@ -1,8 +1,24 @@
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IInterruptionStimulus } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
-const interruptionStimulusSchema = new Schema<IInterruptionStimulus>({
+// Define your main impulse schema
+interface IInterruptionStimulusDocument
+  extends IInterruptionStimulus,
+    IBaseDocument {}
+
+interface IInterruptionStimulusModel
+  extends IBaseModel<IInterruptionStimulusDocument> {}
+
+const interruptionStimulusSchema = new Schema<IInterruptionStimulusDocument>({
   externalReminders: [
     {
       reminder: {
@@ -22,7 +38,7 @@ const interruptionStimulusSchema = new Schema<IInterruptionStimulus>({
           },
           date: {
             type: Date,
-            required: [true, 'Date is required']
+            default: Date.now
           }
         }
       ]
@@ -40,14 +56,30 @@ const interruptionStimulusSchema = new Schema<IInterruptionStimulus>({
   }
 })
 
+interruptionStimulusSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+interruptionStimulusSchema.plugin(uniqueValidator, {
+  message: 'Interruption stimulus already exists'
+})
+
 // Use the transformation function within the toJSON method
 interruptionStimulusSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+interruptionStimulusSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IInterruptionStimulusDocument>['findOneOrThrow']
+
+interruptionStimulusSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IInterruptionStimulusDocument>['findOneAndUpdateOrThrow']
+
+interruptionStimulusSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IInterruptionStimulusDocument>['findOneAndDeleteOrThrow']
+
 const InterruptionStimulus =
-  (models['InterruptionStimulus'] as Model<IInterruptionStimulus>) ||
-  model<IInterruptionStimulus>(
+  (models['InterruptionStimulus'] as IInterruptionStimulusModel) ||
+  model<IInterruptionStimulusDocument, IInterruptionStimulusModel>(
     'InterruptionStimulus',
     interruptionStimulusSchema
   )
