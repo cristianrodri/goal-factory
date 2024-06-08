@@ -33,8 +33,8 @@ const interruptionStimulusSchema = new Schema<IInterruptionStimulusDocument>({
           impact: {
             type: Number,
             required: [true, 'Impact is required'],
-            min: 1,
-            max: 10
+            min: [1, 'Impact must be at least 1'],
+            max: [10, 'Impact must be at most 10']
           },
           date: {
             type: Date,
