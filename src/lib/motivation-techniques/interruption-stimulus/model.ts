@@ -10,7 +10,7 @@ import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
-// Define your main impulse schema
+// Define your main interruption stimulus schema
 interface IInterruptionStimulusDocument
   extends IInterruptionStimulus,
     IBaseDocument {}

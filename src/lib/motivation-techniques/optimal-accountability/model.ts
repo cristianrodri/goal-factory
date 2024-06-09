@@ -1,8 +1,24 @@
 import { IOptimalAccountability } from '@/types'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
 import { toJSONTransform } from '@/utils/db'
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
+import uniqueValidator from 'mongoose-unique-validator'
 
-const optimalAccountabilitySchema = new Schema<IOptimalAccountability>({
+// Define your main interruption stimulus schema
+interface IOptimalAccountabilityDocument
+  extends IOptimalAccountability,
+    IBaseDocument {}
+
+interface IOptimalAccountabilityModel
+  extends IBaseModel<IOptimalAccountabilityDocument> {}
+
+const optimalAccountabilitySchema = new Schema<IOptimalAccountabilityDocument>({
   trustedPeople: [
     {
       type: String,
@@ -23,14 +39,31 @@ const optimalAccountabilitySchema = new Schema<IOptimalAccountability>({
   }
 })
 
+// Index the user and big goal fields
+optimalAccountabilitySchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+optimalAccountabilitySchema.plugin(uniqueValidator, {
+  message: 'Optimal accountability already exists for this big goal.'
+})
+
 // Use the transformation function within the toJSON method
 optimalAccountabilitySchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+optimalAccountabilitySchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IOptimalAccountabilityDocument>['findOneOrThrow']
+
+optimalAccountabilitySchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IOptimalAccountabilityDocument>['findOneAndUpdateOrThrow']
+
+optimalAccountabilitySchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IOptimalAccountabilityDocument>['findOneAndDeleteOrThrow']
+
 const OptimalAccountability =
-  (models['OptimalAccountability'] as Model<IOptimalAccountability>) ||
-  model<IOptimalAccountability>(
+  (models['OptimalAccountability'] as IOptimalAccountabilityModel) ||
+  model<IOptimalAccountabilityDocument, IOptimalAccountabilityModel>(
     'OptimalAccountability',
     optimalAccountabilitySchema
   )
