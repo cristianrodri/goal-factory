@@ -1,4 +1,5 @@
 import OptimalAccountability from '@/lib/motivation-techniques/optimal-accountability/model'
+import { ITrustedPeople } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
@@ -24,7 +25,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     )
   }
 
-  optimalAccountability.trustedPeople.push({ name: person })
+  optimalAccountability.trustedPeople.push({ name: person } as ITrustedPeople)
 
   await optimalAccountability.save()
 

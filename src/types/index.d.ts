@@ -349,9 +349,13 @@ interface IDependency {
   user: Schema.Types.ObjectId
 }
 
+interface ITrustedPeople extends Document {
+  name: string
+}
+
 /* Optimal Accountability types */
 interface IOptimalAccountability {
-  trustedPeople: { name: string }[]
+  trustedPeople: ITrustedPeople[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
