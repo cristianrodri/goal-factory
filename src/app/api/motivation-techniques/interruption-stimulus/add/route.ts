@@ -1,6 +1,7 @@
 import InterruptionStimulus from '@/lib/motivation-techniques/interruption-stimulus/model'
 import { ExternalReminder } from '@/types'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 interface RequestBody {
@@ -19,5 +20,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
       }
     )
 
-  return successResponse(interruptionStimulus)
+  return successResponse(interruptionStimulus, Status.CREATED)
 })

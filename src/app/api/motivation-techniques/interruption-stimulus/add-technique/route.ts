@@ -1,6 +1,7 @@
 import { verifyBigGoal } from '@/lib/big-goal/get'
 import { createGoalInterruptionStimulus } from '@/lib/motivation-techniques/interruption-stimulus/create'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 type RequestBody = {
@@ -15,5 +16,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     body.bigGoal
   )
 
-  return successResponse(interruptionStimulus)
+  return successResponse(interruptionStimulus, Status.CREATED)
 })

@@ -1,6 +1,7 @@
 import Impulse from '@/lib/motivation-techniques/impulse/model'
 import { ImpulseRate } from '@/types'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 type RequestBody = ImpulseRate
@@ -16,6 +17,6 @@ export const POST = privateApi<RequestBody, { id: string }>(
       }
     )
 
-    return successResponse(impulse)
+    return successResponse(impulse, Status.CREATED)
   }
 )

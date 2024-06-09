@@ -1,6 +1,7 @@
 import Impulse from '@/lib/motivation-techniques/impulse/model'
 import { IImpulse } from '@/types'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 type RequestBody = Omit<IImpulse, 'user'>
@@ -11,5 +12,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     user
   })
 
-  return successResponse(impulse)
+  return successResponse(impulse, Status.CREATED)
 })
