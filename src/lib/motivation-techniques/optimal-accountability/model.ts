@@ -21,10 +21,12 @@ interface IOptimalAccountabilityModel
 const optimalAccountabilitySchema = new Schema<IOptimalAccountabilityDocument>({
   trustedPeople: [
     {
-      type: String,
-      trim: true,
-      minlength: [2, 'Trusted person must be at least 2 characters long'],
-      maxlength: [200, 'Trusted person must be at most 200 characters long']
+      name: {
+        type: String,
+        trim: true,
+        minlength: [2, 'Trusted person must be at least 2 characters long'],
+        maxlength: [200, 'Trusted person must be at most 200 characters long']
+      }
     }
   ],
   user: {

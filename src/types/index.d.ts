@@ -351,7 +351,7 @@ interface IDependency {
 
 /* Optimal Accountability types */
 interface IOptimalAccountability {
-  trustedPeople: string[]
+  trustedPeople: { name: string }[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
