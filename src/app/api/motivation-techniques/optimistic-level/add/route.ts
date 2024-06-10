@@ -1,4 +1,5 @@
 import OptimisticLevel from '@/lib/motivation-techniques/optimistic-level/model'
+import { IImprovement } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
@@ -25,7 +26,9 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     return errorResponse('Improvement already exists.', Status.CONFLICT)
   }
 
-  optimisticLevel.improvements.push({ description: improvementDescription })
+  optimisticLevel.improvements.push({
+    description: improvementDescription
+  } as IImprovement)
 
   await optimisticLevel.save()
 

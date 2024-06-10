@@ -361,7 +361,7 @@ interface IOptimalAccountability {
 }
 
 /* Optimistic Level types */
-interface IImprovement {
+interface IImprovement extends Document {
   description: string
 }
 
