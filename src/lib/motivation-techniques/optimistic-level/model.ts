@@ -18,10 +18,12 @@ interface IOptimisticLevelModel extends IBaseModel<IOptimisticLevelDocument> {}
 const optimisticLevelSchema = new Schema<IOptimisticLevelDocument>({
   improvements: [
     {
-      type: String,
-      trim: true,
-      minlength: [2, 'Improvement must be at least 2 characters long'],
-      maxlength: [200, 'Improvement must be at most 200 characters long']
+      description: {
+        type: String,
+        trim: true,
+        minlength: [2, 'Improvement must be at least 2 characters long'],
+        maxlength: [200, 'Improvement must be at most 200 characters long']
+      }
     }
   ],
   user: {

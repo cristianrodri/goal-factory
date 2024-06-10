@@ -361,8 +361,12 @@ interface IOptimalAccountability {
 }
 
 /* Optimistic Level types */
+interface IImprovement {
+  description: string
+}
+
 interface IOptimisticLevel {
-  improvements: string[]
+  improvements: IImprovement[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }

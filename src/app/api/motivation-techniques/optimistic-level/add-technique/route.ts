@@ -1,6 +1,7 @@
 import { verifyBigGoal } from '@/lib/big-goal/get'
 import { createGoalOptimisticLevel } from '@/lib/motivation-techniques/optimistic-level/create'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 interface RequestBody {
@@ -12,5 +13,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
 
   const optimisticLevel = await createGoalOptimisticLevel(user, body.bigGoal)
 
-  return successResponse(optimisticLevel)
+  return successResponse(optimisticLevel, Status.CREATED)
 })
