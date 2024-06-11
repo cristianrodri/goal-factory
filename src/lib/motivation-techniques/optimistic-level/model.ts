@@ -10,7 +10,7 @@ import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
-// Define your main interruption stimulus schema
+// Define your main optimistic level schema
 interface IOptimisticLevelDocument extends IOptimisticLevel, IBaseDocument {}
 
 interface IOptimisticLevelModel extends IBaseModel<IOptimisticLevelDocument> {}

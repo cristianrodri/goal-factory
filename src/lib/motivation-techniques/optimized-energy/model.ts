@@ -1,8 +1,21 @@
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IOptimizedEnergy } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
-const optimizedEnergySchema = new Schema<IOptimizedEnergy>({
+// Define your main optimized energy schema
+interface IOptimizedEnergyDocument extends IOptimizedEnergy, IBaseDocument {}
+
+interface IOptimizedEnergyModel extends IBaseModel<IOptimizedEnergyDocument> {}
+
+const optimizedEnergySchema = new Schema<IOptimizedEnergyDocument>({
   energyLevels: [
     {
       time: {
@@ -29,13 +42,33 @@ const optimizedEnergySchema = new Schema<IOptimizedEnergy>({
   }
 })
 
+// Index the user and big goal fields
+optimizedEnergySchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+optimizedEnergySchema.plugin(uniqueValidator, {
+  message: 'Optimized energy already exists for this big goal.'
+})
+
 // Use the transformation function within the toJSON method
 optimizedEnergySchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+optimizedEnergySchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IOptimizedEnergyDocument>['findOneOrThrow']
+
+optimizedEnergySchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IOptimizedEnergyDocument>['findOneAndUpdateOrThrow']
+
+optimizedEnergySchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IOptimizedEnergyDocument>['findOneAndDeleteOrThrow']
+
 const OptimizedEnergy =
-  (models['OptimizedEnergy'] as Model<IOptimizedEnergy>) ||
-  model<IOptimizedEnergy>('OptimizedEnergy', optimizedEnergySchema)
+  (models['OptimizedEnergy'] as IOptimizedEnergyModel) ||
+  model<IOptimizedEnergyDocument, IOptimizedEnergyModel>(
+    'OptimizedEnergy',
+    optimizedEnergySchema
+  )
 
 export default OptimizedEnergy

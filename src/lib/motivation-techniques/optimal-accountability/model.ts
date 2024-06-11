@@ -10,7 +10,7 @@ import {
 } from '@/lib/baseSchema'
 import uniqueValidator from 'mongoose-unique-validator'
 
-// Define your main interruption stimulus schema
+// Define your main optimal accountability schema
 interface IOptimalAccountabilityDocument
   extends IOptimalAccountability,
     IBaseDocument {}
