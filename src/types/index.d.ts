@@ -313,11 +313,13 @@ interface ITaskSamurai {
 }
 
 /* Optimized Energy types */
+interface IEnergyLevel {
+  time?: Date
+  level: number
+}
+
 interface IOptimizedEnergy {
-  energyLevels: {
-    time: Date
-    level: number
-  }[]
+  energyLevels: IEnergyLevel[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }

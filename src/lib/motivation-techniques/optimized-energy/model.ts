@@ -20,7 +20,7 @@ const optimizedEnergySchema = new Schema<IOptimizedEnergyDocument>({
     {
       time: {
         type: Date,
-        required: [true, 'Time is required']
+        default: Date.now
       },
       level: {
         type: Number,
