@@ -242,8 +242,11 @@ interface IAutomaticHabit {
 }
 
 /* Pre Commitment types */
+interface ICommitment extends Document {
+  commitment: string
+}
 interface IPreCommitment {
-  preCommitments: string[]
+  preCommitments: ICommitment[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
