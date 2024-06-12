@@ -15,7 +15,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   const productiveProcrastination =
     await ProductiveProcrastination.findOneOrThrow({ user })
 
-  const sameItemFound = productiveProcrastination.productiveList.some(
+  const sameItemFound = productiveProcrastination.productiveLists.some(
     p => p.item === item
   )
 
@@ -26,7 +26,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     )
   }
 
-  productiveProcrastination.productiveList.push({ item } as IProductiveList)
+  productiveProcrastination.productiveLists.push({ item } as IProductiveList)
 
   await productiveProcrastination.save()
 

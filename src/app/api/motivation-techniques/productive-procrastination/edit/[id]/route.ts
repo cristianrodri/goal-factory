@@ -14,7 +14,7 @@ export const PUT = privateApi<RequestBody, { id: string }>(
     const productiveProcrastination =
       await ProductiveProcrastination.findOneOrThrow({ user })
 
-    const sameItemFound = productiveProcrastination.productiveList.some(
+    const sameItemFound = productiveProcrastination.productiveLists.some(
       p => p.item === editedItem && p._id.toString() !== params.id
     )
 
@@ -25,8 +25,8 @@ export const PUT = privateApi<RequestBody, { id: string }>(
       )
     }
 
-    productiveProcrastination.productiveList =
-      productiveProcrastination.productiveList.map(p => {
+    productiveProcrastination.productiveLists =
+      productiveProcrastination.productiveLists.map(p => {
         if (p._id.toString() === params.id) {
           p.item = editedItem
         }

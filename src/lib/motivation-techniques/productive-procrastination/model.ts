@@ -20,7 +20,7 @@ interface IProductiveProcrastinationModel
 
 const productiveProcrastinationSchema =
   new Schema<IProductiveProcrastinationDocument>({
-    productiveList: [
+    productiveLists: [
       {
         item: {
           type: String,

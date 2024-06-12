@@ -290,7 +290,7 @@ interface IProductiveList extends Document {
 }
 
 interface IProductiveProcrastination {
-  productiveList: IProductiveList[]
+  productiveLists: IProductiveList[]
   user: Schema.Types.ObjectId
 }
 
