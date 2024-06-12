@@ -285,8 +285,12 @@ interface IInterruptionStimulus {
 }
 
 /* Productive Procrastination types */
+interface IProductiveList {
+  list: string
+}
+
 interface IProductiveProcrastination {
-  productiveList: string[]
+  productiveList: IProductiveList[]
   user: Schema.Types.ObjectId
 }
 
