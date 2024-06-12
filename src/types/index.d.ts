@@ -332,11 +332,13 @@ interface IOptimizedEnergy {
 }
 
 /* Purpose Passion types */
+interface IDailyActivityPassion extends Document {
+  activity: string
+  enjoyment: number
+}
+
 interface IPurposePassion {
-  dailyActivities: {
-    activity: string
-    enjoyment: number
-  }[]
+  dailyActivities: IDailyActivityPassion[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
