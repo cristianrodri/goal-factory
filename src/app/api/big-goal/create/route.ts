@@ -7,6 +7,7 @@ import { createGoalOptimalAccountability } from '@/lib/motivation-techniques/opt
 import { createGoalOptimisticLevel } from '@/lib/motivation-techniques/optimistic-level/create'
 import { createGoalOptimizedEnergy } from '@/lib/motivation-techniques/optimized-energy/create'
 import { createGoalPreCommitment } from '@/lib/motivation-techniques/pre-commitment/create'
+import { createGoalPurposePassion } from '@/lib/motivation-techniques/purpose-passion/create'
 import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
@@ -27,6 +28,7 @@ export const POST = privateApi<Omit<IBigGoal, 'user'>>(
     await createGoalOptimisticLevel(user, goalId)
     await createGoalOptimizedEnergy(user, goalId)
     await createGoalPreCommitment(user, goalId)
+    await createGoalPurposePassion(user, goalId)
 
     return successResponse(bigGoal, Status.CREATED)
   }
