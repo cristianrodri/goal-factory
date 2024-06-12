@@ -12,6 +12,10 @@ interface RequestBody {
 export const POST = privateApi<RequestBody>(async (user, { body }) => {
   const { bigGoal, commitment } = body
 
+  if (!commitment) {
+    return errorResponse('Commitment is required', Status.BAD_REQUEST)
+  }
+
   const preCommitment = await PreCommitment.findOneOrThrow({ user, bigGoal })
 
   const foundSameCommitment = preCommitment.preCommitments.some(
