@@ -22,7 +22,7 @@ const productiveProcrastinationSchema =
   new Schema<IProductiveProcrastinationDocument>({
     productiveList: [
       {
-        list: {
+        item: {
           type: String,
           trim: true,
           minlength: [
