@@ -1,4 +1,5 @@
 import ProductiveProcrastination from '@/lib/motivation-techniques/productive-procrastination/model'
+import { IProductiveList } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
@@ -25,7 +26,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
     )
   }
 
-  productiveProcrastination.productiveList.push({ item })
+  productiveProcrastination.productiveList.push({ item } as IProductiveList)
 
   await productiveProcrastination.save()
 

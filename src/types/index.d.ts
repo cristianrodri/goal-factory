@@ -285,7 +285,7 @@ interface IInterruptionStimulus {
 }
 
 /* Productive Procrastination types */
-interface IProductiveList {
+interface IProductiveList extends Document {
   item: string
 }
 
