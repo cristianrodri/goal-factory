@@ -252,8 +252,12 @@ interface IPreCommitment {
 }
 
 /* Reduce Alternative types */
+interface IBurnedShip extends Document {
+  burnedShip: string
+}
+
 interface IReduceAlternative {
-  burnedShips: string[]
+  burnedShips: IBurnedShip[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
