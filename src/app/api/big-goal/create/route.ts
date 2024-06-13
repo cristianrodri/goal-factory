@@ -8,6 +8,7 @@ import { createGoalOptimisticLevel } from '@/lib/motivation-techniques/optimisti
 import { createGoalOptimizedEnergy } from '@/lib/motivation-techniques/optimized-energy/create'
 import { createGoalPreCommitment } from '@/lib/motivation-techniques/pre-commitment/create'
 import { createGoalPurposePassion } from '@/lib/motivation-techniques/purpose-passion/create'
+import { createGoalReduceAlternative } from '@/lib/motivation-techniques/reduce-alternative/create'
 import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
@@ -29,6 +30,7 @@ export const POST = privateApi<Omit<IBigGoal, 'user'>>(
     await createGoalOptimizedEnergy(user, goalId)
     await createGoalPreCommitment(user, goalId)
     await createGoalPurposePassion(user, goalId)
+    await createGoalReduceAlternative(user, goalId)
 
     return successResponse(bigGoal, Status.CREATED)
   }

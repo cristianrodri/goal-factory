@@ -1,7 +1,6 @@
 import { verifyBigGoal } from '@/lib/big-goal/get'
-import { createGoalPurposePassion } from '@/lib/motivation-techniques/purpose-passion/create'
+import { createGoalReduceAlternative } from '@/lib/motivation-techniques/reduce-alternative/create'
 import { privateApi } from '@/utils/api'
-import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 interface RequestBody {
@@ -13,7 +12,7 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
 
   await verifyBigGoal(bigGoal, user)
 
-  const purposePassion = await createGoalPurposePassion(user, bigGoal)
+  const reduceAlternative = await createGoalReduceAlternative(user, bigGoal)
 
-  return successResponse(purposePassion, Status.CREATED)
+  return successResponse(reduceAlternative)
 })
