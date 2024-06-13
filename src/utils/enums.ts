@@ -38,3 +38,8 @@ export enum MotivationType {
   PER_USER = 'per user',
   PER_GOAL = 'per goal'
 }
+
+export enum Param {
+  BIG_GOAL = 'bigGoal',
+  ID = 'id'
+}
