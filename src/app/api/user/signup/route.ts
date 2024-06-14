@@ -2,6 +2,7 @@ import { createUserMotivationTechniques } from '@/lib/motivation-technique/creat
 import { createUserDependecy } from '@/lib/motivation-techniques/dependency/create'
 import { createUserDistraction } from '@/lib/motivation-techniques/distraction/create'
 import { createUserProductiveProcrastination } from '@/lib/motivation-techniques/productive-procrastination/create'
+import { createUserTaskSamurai } from '@/lib/motivation-techniques/task-samurai/create'
 import { createUser } from '@/lib/user/create'
 import { IUserData } from '@/types'
 import { publicApi } from '@/utils/api'
@@ -20,6 +21,7 @@ export const POST = publicApi<IUserData>(async ({ body }) => {
   await createUserDependecy(userId)
   await createUserDistraction(userId)
   await createUserProductiveProcrastination(userId)
+  await createUserTaskSamurai(userId)
 
   createTokenCookie(token)
 
