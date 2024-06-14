@@ -13,6 +13,12 @@ export const removeUnwantedProperties = (obj: Record<string, never>) => {
         // Recursively call the function for nested objects
         removeUnwantedProperties(obj[key])
       }
+
+      if (typeof obj[key] === 'string') {
+        ;(obj[key] as unknown as string) = (
+          obj[key] as unknown as string
+        ).trim()
+      }
     }
   }
 }
