@@ -10,6 +10,7 @@ import { createGoalPreCommitment } from '@/lib/motivation-techniques/pre-commitm
 import { createGoalPurposePassion } from '@/lib/motivation-techniques/purpose-passion/create'
 import { createGoalReduceAlternative } from '@/lib/motivation-techniques/reduce-alternative/create'
 import { createGoalTotalStructureFocus } from '@/lib/motivation-techniques/total-structure-focus/create'
+import { createGoalVisualProspective } from '@/lib/motivation-techniques/visual-prospective/create'
 import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
@@ -33,6 +34,7 @@ export const POST = privateApi<Omit<IBigGoal, 'user'>>(
     await createGoalPurposePassion(user, goalId)
     await createGoalReduceAlternative(user, goalId)
     await createGoalTotalStructureFocus(user, goalId)
+    await createGoalVisualProspective(user, goalId)
 
     return successResponse(bigGoal, Status.CREATED)
   }

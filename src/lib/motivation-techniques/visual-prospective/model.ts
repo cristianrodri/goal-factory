@@ -50,10 +50,15 @@ const visualProspectiveSchema = new Schema<IVisualProspectiveDocument>({
   },
   timeReduceIdeas: [
     {
-      type: String,
-      trim: true,
-      minlength: [2, 'Time reduce idea must be at least 2 characters long'],
-      maxlength: [1000, 'Time reduce idea must be at most 1000 characters long']
+      idea: {
+        type: String,
+        trim: true,
+        minlength: [2, 'Time reduce idea must be at least 2 characters long'],
+        maxlength: [
+          1000,
+          'Time reduce idea must be at most 1000 characters long'
+        ]
+      }
     }
   ],
   user: {

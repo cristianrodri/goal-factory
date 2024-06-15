@@ -219,11 +219,15 @@ interface IImpulse {
 }
 
 /* Visual Prospective types */
+interface ITimeReduceIdea {
+  idea: string
+}
+
 interface IVisualProspective {
-  goalAchievedDescription: string
-  specificDeadline: Date
-  thingTodoGoal: string
-  timeReduceIdeas: string[]
+  goalAchievedDescription?: string
+  specificDeadline?: Date
+  thingTodoGoal?: string
+  timeReduceIdeas: ITimeReduceIdea[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
