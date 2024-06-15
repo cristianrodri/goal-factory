@@ -13,12 +13,6 @@ export interface VisualProspectiveEdit
   timeReduceIdeaId: string
 }
 
-export interface RequestBodyVisualProspective {
-  visualProspective: Omit<IVisualProspective, 'user' | 'timeReduceIdeas'> & {
-    timeReduceIdea: string
-  }
-}
-
 const addData = (
   visualProspective: IVisualProspective,
   visualProspectiveBody: VisualProspectiveAdd
