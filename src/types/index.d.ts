@@ -397,11 +397,13 @@ interface IOptimisticLevel {
 }
 
 /* Worst Context types */
+interface IContingency extends Document {
+  badScenario: string
+  alternative: string
+}
+
 interface IWorstContext {
-  contingencies: {
-    badScenario: string
-    alternative: string
-  }[]
+  contingencies: IContingency[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }

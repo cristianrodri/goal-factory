@@ -1,8 +1,21 @@
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IWorstContext } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
-const worstContextSchema = new Schema<IWorstContext>({
+// Define your main worst context schema
+interface IWorstContextDocument extends IWorstContext, IBaseDocument {}
+
+interface IWorstContextModel extends IBaseModel<IWorstContextDocument> {}
+
+const worstContextSchema = new Schema<IWorstContextDocument>({
   contingencies: [
     {
       badScenario: {
@@ -33,13 +46,34 @@ const worstContextSchema = new Schema<IWorstContext>({
   }
 })
 
+// Index the user big goal fields
+worstContextSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+// Use the unique validator plugin
+worstContextSchema.plugin(uniqueValidator, {
+  message: 'Worst context already exists for this big goal'
+})
+
 // Use the transformation function within the toJSON method
 worstContextSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+worstContextSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IWorstContextDocument>['findOneOrThrow']
+
+worstContextSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IWorstContextDocument>['findOneAndUpdateOrThrow']
+
+worstContextSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IWorstContextDocument>['findOneAndDeleteOrThrow']
+
 const WorstContext =
-  (models['WorstContext'] as Model<IWorstContext>) ||
-  model<IWorstContext>('WorstContext', worstContextSchema)
+  (models['WorstContext'] as IWorstContextModel) ||
+  model<IWorstContextDocument, IWorstContextModel>(
+    'WorstContext',
+    worstContextSchema
+  )
 
 export default WorstContext
