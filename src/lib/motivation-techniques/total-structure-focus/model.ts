@@ -10,7 +10,7 @@ import { toJSONTransform } from '@/utils/db'
 import { Document, Schema, model, models } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 
-// Define your main task samurai schema
+// Define your main total structure focus schema
 interface ITotalStructureFocusDocument
   extends ITotalStructureFocus,
     IBaseDocument {}

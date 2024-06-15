@@ -1,8 +1,24 @@
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '@/lib/baseSchema'
 import { IVisualProspective } from '@/types'
 import { toJSONTransform } from '@/utils/db'
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
 
-const visualProspectiveSchema = new Schema<IVisualProspective>({
+// Define your main visual prospective schema
+interface IVisualProspectiveDocument
+  extends IVisualProspective,
+    IBaseDocument {}
+
+interface IVisualProspectiveModel
+  extends IBaseModel<IVisualProspectiveDocument> {}
+
+const visualProspectiveSchema = new Schema<IVisualProspectiveDocument>({
   goalAchievedDescription: {
     type: String,
     trim: true,
@@ -52,13 +68,34 @@ const visualProspectiveSchema = new Schema<IVisualProspective>({
   }
 })
 
+// Index the user and big goal fields
+visualProspectiveSchema.index({ user: 1, bigGoal: 1 }, { unique: true })
+
+// Use the unique validator plugin
+visualProspectiveSchema.plugin(uniqueValidator, {
+  message: 'Visual prospective already exists for this big goal'
+})
+
 // Use the transformation function within the toJSON method
 visualProspectiveSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+visualProspectiveSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IVisualProspectiveDocument>['findOneOrThrow']
+
+visualProspectiveSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IVisualProspectiveDocument>['findOneAndUpdateOrThrow']
+
+visualProspectiveSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IVisualProspectiveDocument>['findOneAndDeleteOrThrow']
+
 const VisualProspective =
-  (models['VisualProspective'] as Model<IVisualProspective>) ||
-  model<IVisualProspective>('VisualProspective', visualProspectiveSchema)
+  (models['VisualProspective'] as IVisualProspectiveModel) ||
+  model<IVisualProspectiveDocument, IVisualProspectiveModel>(
+    'VisualProspective',
+    visualProspectiveSchema
+  )
 
 export default VisualProspective
