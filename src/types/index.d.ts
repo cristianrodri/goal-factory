@@ -219,7 +219,7 @@ interface IImpulse {
 }
 
 /* Visual Prospective types */
-interface ITimeReduceIdea {
+interface ITimeReduceIdea extends Document {
   idea: string
 }
 
