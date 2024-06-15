@@ -350,8 +350,12 @@ interface IPurposePassion {
 }
 
 /* Total Structure Focus types */
+interface IFocusIdea extends Document {
+  idea: string
+}
+
 interface ITotalStructureFocus {
-  focusIdeas: string[]
+  focusIdeas: IFocusIdea[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }
