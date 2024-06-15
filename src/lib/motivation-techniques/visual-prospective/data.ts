@@ -2,6 +2,17 @@ import { ITimeReduceIdea, IVisualProspective } from '@/types'
 import { Status } from '@/utils/enums'
 import { CustomError } from '@/utils/error'
 
+export interface VisualProspectiveAdd
+  extends Omit<IVisualProspective, 'user' | 'timeReduceIdeas'> {
+  timeReduceIdea: string
+}
+
+export interface VisualProspectiveEdit
+  extends Omit<IVisualProspective, 'user' | 'timeReduceIdeas'> {
+  timeReduceIdea: string
+  timeReduceIdeaId: string
+}
+
 export interface RequestBodyVisualProspective {
   visualProspective: Omit<IVisualProspective, 'user' | 'timeReduceIdeas'> & {
     timeReduceIdea: string
@@ -10,10 +21,10 @@ export interface RequestBodyVisualProspective {
 
 const addData = (
   visualProspective: IVisualProspective,
-  body: RequestBodyVisualProspective
+  visualProspectiveBody: VisualProspectiveAdd
 ) => {
   const { goalAchievedDescription, specificDeadline, thingTodoGoal } =
-    body.visualProspective
+    visualProspectiveBody
 
   if (goalAchievedDescription) {
     visualProspective.goalAchievedDescription = goalAchievedDescription
@@ -30,11 +41,11 @@ const addData = (
 
 export const addDataToVisualProspective = (
   visualProspective: IVisualProspective,
-  body: RequestBodyVisualProspective
+  visualProspectiveBody: VisualProspectiveAdd
 ) => {
-  addData(visualProspective, body)
+  addData(visualProspective, visualProspectiveBody)
 
-  const { timeReduceIdea } = body.visualProspective
+  const { timeReduceIdea } = visualProspectiveBody
 
   if (timeReduceIdea) {
     const foundSameIdea = visualProspective.timeReduceIdeas.some(
@@ -45,35 +56,37 @@ export const addDataToVisualProspective = (
       throw new CustomError('Time reduce idea already exists', Status.CONFLICT)
     }
 
-    if (!foundSameIdea) {
-      visualProspective.timeReduceIdeas.push({
-        idea: timeReduceIdea
-      } as ITimeReduceIdea)
-    }
+    visualProspective.timeReduceIdeas.push({
+      idea: timeReduceIdea
+    } as ITimeReduceIdea)
   }
 }
 
 export const updateDataOfVisualProspective = (
   visualProspective: IVisualProspective,
-  body: RequestBodyVisualProspective
+  visualProspectiveBody: VisualProspectiveEdit
 ) => {
-  addData(visualProspective, body)
+  addData(visualProspective, visualProspectiveBody)
 
-  const { timeReduceIdea } = body.visualProspective
+  const { timeReduceIdea, timeReduceIdeaId } = visualProspectiveBody
 
   if (timeReduceIdea) {
     const foundSameIdea = visualProspective.timeReduceIdeas.some(
-      t => t.idea === timeReduceIdea
+      t => t.idea === timeReduceIdea && t._id.toString() !== timeReduceIdeaId
     )
 
     if (foundSameIdea) {
       throw new CustomError('Time reduce idea already exists', Status.CONFLICT)
     }
 
-    if (!foundSameIdea) {
-      visualProspective.timeReduceIdeas.push({
-        idea: timeReduceIdea
-      } as ITimeReduceIdea)
-    }
+    visualProspective.timeReduceIdeas = visualProspective.timeReduceIdeas.map(
+      t => {
+        if (t._id.toString() === timeReduceIdeaId) {
+          t.idea = timeReduceIdea
+        }
+
+        return t
+      }
+    )
   }
 }
