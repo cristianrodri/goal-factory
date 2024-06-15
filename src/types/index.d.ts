@@ -315,11 +315,13 @@ interface IDistraction {
 }
 
 /* Task Samurai types */
+interface IBoredTask extends Document {
+  task: string
+  optimizing: string
+}
+
 interface ITaskSamurai {
-  boredTasks: {
-    task: string
-    optimazing: string
-  }[]
+  boredTasks: IBoredTask[]
   user: Schema.Types.ObjectId
 }
 

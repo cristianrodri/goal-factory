@@ -25,12 +25,12 @@ const taskSamuraiSchema = new Schema<ITaskSamuraiDocument>({
         minlength: [2, 'Task must be at least 2 characters long'],
         maxlength: [500, 'Task must be at most 500 characters long']
       },
-      optimazing: {
+      optimizing: {
         type: String,
-        required: [true, 'Optimazing is required'],
+        required: [true, 'Optimizing is required'],
         trim: true,
-        minlength: [2, 'Optimazing must be at least 2 characters long'],
-        maxlength: [1500, 'Optimazing must be at most 1500 characters long']
+        minlength: [2, 'Optimizing must be at least 2 characters long'],
+        maxlength: [1500, 'Optimizing must be at most 1500 characters long']
       }
     }
   ],
