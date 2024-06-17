@@ -21,6 +21,7 @@ const transformArray = (arr: Record<string, never>[]) => {
       item.id = item._id
       delete item._id
     }
+    delete item?.__v
 
     for (const key in item) {
       if (Array.isArray(item[key])) {
