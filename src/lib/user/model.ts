@@ -6,6 +6,13 @@ import { createJWT } from '@/utils/jwt'
 import { WeekDay } from '@/utils/enums'
 import { IUserData } from '@/types'
 import uniqueValidator from 'mongoose-unique-validator'
+import '@/lib/motivation-techniques/impulse/model'
+import '@/lib/motivation-techniques/dependency/model'
+import '@/lib/motivation-techniques/task-samurai/model'
+import '@/lib/motivation-techniques/productive-procrastination/model'
+import '@/lib/motivation-techniques/distraction/model'
+import '@/lib/reward/model'
+import '@/lib/game/model'
 import {
   findOneAndDeleteOrThrow,
   findOneAndUpdateOrThrow,
@@ -65,7 +72,9 @@ const userSchema = new Schema<IUserDocument>(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+    toObject: { virtuals: true } // So `console.log()` and other functions that use `toObject()` include virtuals
   }
 )
 
@@ -75,6 +84,48 @@ userSchema.plugin(uniqueValidator, { message: 'User already exists' })
 userSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
+
+userSchema.virtual('impulses', {
+  ref: 'Impulse', // The model to use
+  localField: '_id', // Find impulses where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
+
+userSchema.virtual('dependencies', {
+  ref: 'Dependency', // The model to use
+  localField: '_id', // Find dependencies where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
+
+userSchema.virtual('tasksSamurai', {
+  ref: 'TaskSamurai', // The model to use
+  localField: '_id', // Find tasks_samurai where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
+
+userSchema.virtual('productiveProcrastinations', {
+  ref: 'ProductiveProcrastination', // The model to use
+  localField: '_id', // Find productive_procrastinations where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
+
+userSchema.virtual('rewards', {
+  ref: 'Reward', // The model to use
+  localField: '_id', // Find rewards where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
+
+userSchema.virtual('distractions', {
+  ref: 'Distraction', // The model to use
+  localField: '_id', // Find distractions where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
+
+userSchema.virtual('games', {
+  ref: 'Game', // The model to use
+  localField: '_id', // Find games where `localField`
+  foreignField: 'user' // is equal to `foreignField`
+})
 
 // Add static method directly to schema
 userSchema.statics.findOneOrThrow =
