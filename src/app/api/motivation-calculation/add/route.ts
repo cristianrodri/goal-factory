@@ -2,6 +2,7 @@ import { verifyBigGoal } from '@/lib/big-goal/get'
 import MotivationCalculation from '@/lib/motivation-calculation/model'
 import { IMotivationCalculation } from '@/types'
 import { privateApi } from '@/utils/api'
+import { Status } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 type RequestBody = Omit<IMotivationCalculation, 'user' | 'bigGoal'> & {
@@ -20,5 +21,5 @@ export const POST = privateApi<RequestBody>(async (user, { body }) => {
   // Save the motivation calculation
   await motivationCalculation.save()
 
-  return successResponse(motivationCalculation)
+  return successResponse(motivationCalculation, Status.CREATED)
 })
