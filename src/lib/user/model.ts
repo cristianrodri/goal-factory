@@ -91,22 +91,25 @@ userSchema.virtual('impulses', {
   foreignField: 'user' // is equal to `foreignField`
 })
 
-userSchema.virtual('dependencies', {
+userSchema.virtual('dependency', {
   ref: 'Dependency', // The model to use
   localField: '_id', // Find dependencies where `localField`
-  foreignField: 'user' // is equal to `foreignField`
+  foreignField: 'user', // is equal to `foreignField`
+  justOne: true
 })
 
-userSchema.virtual('tasksSamurai', {
+userSchema.virtual('taskSamurai', {
   ref: 'TaskSamurai', // The model to use
   localField: '_id', // Find tasks_samurai where `localField`
-  foreignField: 'user' // is equal to `foreignField`
+  foreignField: 'user', // is equal to `foreignField`
+  justOne: true
 })
 
-userSchema.virtual('productiveProcrastinations', {
+userSchema.virtual('productiveProcrastination', {
   ref: 'ProductiveProcrastination', // The model to use
   localField: '_id', // Find productive_procrastinations where `localField`
-  foreignField: 'user' // is equal to `foreignField`
+  foreignField: 'user', // is equal to `foreignField`
+  justOne: true
 })
 
 userSchema.virtual('rewards', {
@@ -115,10 +118,11 @@ userSchema.virtual('rewards', {
   foreignField: 'user' // is equal to `foreignField`
 })
 
-userSchema.virtual('distractions', {
+userSchema.virtual('distraction', {
   ref: 'Distraction', // The model to use
   localField: '_id', // Find distractions where `localField`
-  foreignField: 'user' // is equal to `foreignField`
+  foreignField: 'user', // is equal to `foreignField`
+  justOne: true
 })
 
 userSchema.virtual('games', {
