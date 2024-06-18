@@ -112,10 +112,11 @@ userSchema.virtual('productiveProcrastination', {
   justOne: true
 })
 
-userSchema.virtual('rewards', {
+userSchema.virtual('reward', {
   ref: 'Reward', // The model to use
   localField: '_id', // Find rewards where `localField`
-  foreignField: 'user' // is equal to `foreignField`
+  foreignField: 'user', // is equal to `foreignField`
+  justOne: true
 })
 
 userSchema.virtual('distraction', {

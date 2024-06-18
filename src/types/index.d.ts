@@ -233,7 +233,6 @@ interface IVisualProspective {
 }
 
 /* Automatic Habit types */
-
 interface IUtilHabit extends Document {
   habit: string
   impact: number
@@ -286,6 +285,7 @@ interface ExternalReminder {
     date: Date
   }[]
 }
+
 interface IInterruptionStimulus {
   externalReminders: ExternalReminder[]
   user: Schema.Types.ObjectId
