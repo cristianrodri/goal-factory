@@ -9,7 +9,12 @@ import {
 } from '@/types'
 import User from './model'
 import { CustomError } from '@/utils/error'
-import { Status } from '@/utils/enums'
+import { Status, TechniqueNumber } from '@/utils/enums'
+
+type ApprovalTechniques = {
+  realNumberTechnique: TechniqueNumber
+  isApproved: boolean
+}
 
 export const getMotivationTechniques = async (userId: string) => {
   const user = await User.findOne({ _id: userId })
@@ -28,37 +33,62 @@ export const getMotivationTechniques = async (userId: string) => {
   }
 
   // Impulses should have at least one video
-  const isImpulsesPassed = user?.impulses.length > 0
+  const userImpulses: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.USER_IMPULSE,
+    isApproved: user?.impulses.length > 0
+  }
 
   // Dependency should have at least one dependency
-  const isDependencyPassed = user?.dependency.dependencies.length > 0
+  const userDependencies: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.USER_DEPENDENCY,
+    isApproved: user?.dependency.dependencies.length > 0
+  }
 
   // TaskSamurai should have at least 5 tasks
-  const isTaskSamuraiPassed = user?.taskSamurai.boredTasks.length > 4
+  const userTaskSamurai: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.USER_TASK_SAMURAI,
+    isApproved: user?.taskSamurai.boredTasks.length > 4
+  }
 
   // ProductiveProcrastination should have at least 3 tasks
-  const isProductiveProcrastinationPassed =
-    user?.productiveProcrastination.productiveLists.length > 2
+  const userProductiveProcrastination: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.USER_PRODUCTIVE_PROCRASTINATION,
+    isApproved: user?.productiveProcrastination.productiveLists.length > 2
+  }
 
   // Distraction should have at least 2 distractions and 2 impulsivities
-  const isDistractionPassed =
-    user?.distraction.distractions.length > 1 &&
-    user?.distraction.impulsivities.length > 1
+  const userDistraction: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.USER_DISTRACTION_LIMITATION,
+    isApproved:
+      user?.distraction.distractions.length > 1 &&
+      user?.distraction.impulsivities.length > 1
+  }
 
   // Rewards should have at least 10 small rewards and 5 medium rewards
-  const isRewardPassed =
-    user?.reward.small.length > 9 && user?.reward.medium.length > 4
+  const userReward: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.REWARD,
+    isApproved:
+      user?.reward?.small.length > 9 && user?.reward?.medium.length > 4
+  }
 
   // Games should have at least 3 games
-  const isGamesPassed = user?.games.length > 2
+  const userGames: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.GAME,
+    isApproved: user?.games.length > 2
+  }
+
+  const techniques = [
+    userImpulses,
+    userDependencies,
+    userTaskSamurai,
+    userProductiveProcrastination,
+    userDistraction,
+    userReward,
+    userGames
+  ]
 
   return {
-    isImpulsesPassed,
-    isDependencyPassed,
-    isTaskSamuraiPassed,
-    isProductiveProcrastinationPassed,
-    isDistractionPassed,
-    isRewardPassed,
-    isGamesPassed
+    user,
+    techniques
   }
 }
