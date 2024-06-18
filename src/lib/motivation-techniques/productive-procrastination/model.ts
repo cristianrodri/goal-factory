@@ -46,7 +46,7 @@ const productiveProcrastinationSchema =
 
 // Use the unique validator plugin
 productiveProcrastinationSchema.plugin(uniqueValidator, {
-  message: 'Productive procrastination already exists for this big goal.'
+  message: 'Productive procrastination already exists for this user'
 })
 
 // Use the transformation function within the toJSON method
