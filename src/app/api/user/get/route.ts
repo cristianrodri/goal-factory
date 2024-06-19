@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import MotivationTechnique from '@/lib/motivation-technique/model'
-import { getMotivationTechniques } from '@/lib/user/getMotivationTechniques'
+import { getUserMotivationTechniques } from '@/lib/motivation-technique/userTechniques'
 import { privateApi } from '@/utils/api'
 import { MotivationType } from '@/utils/enums'
 import { successResponse } from '@/utils/response'
 
 export const GET = privateApi(async userId => {
-  const { user, techniques } = await getMotivationTechniques(userId)
+  const { user, techniques } = await getUserMotivationTechniques(userId)
 
   // Prepare bulk operations
   const bulkOps = techniques.map(({ realNumberTechnique, isApproved }) => ({
