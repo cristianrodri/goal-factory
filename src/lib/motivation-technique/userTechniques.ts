@@ -11,7 +11,7 @@ import User from '../user/model'
 import { CustomError } from '@/utils/error'
 import { Status, TechniqueNumber } from '@/utils/enums'
 
-type ApprovalTechniques = {
+export type ApprovalTechniques = {
   realNumberTechnique: TechniqueNumber
   isApproved: boolean
 }
