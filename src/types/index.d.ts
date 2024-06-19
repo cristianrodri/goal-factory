@@ -138,7 +138,7 @@ interface IActivity {
     saturday: boolean
     sunday: boolean
   }
-  fallback: string
+  fallback?: string
   contingencies: Contingency[]
   diversionOrder: number
   diversionIdeas: string[]
