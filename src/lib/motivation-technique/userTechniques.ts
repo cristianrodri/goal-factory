@@ -7,7 +7,7 @@ import {
   IReward,
   ITaskSamurai
 } from '@/types'
-import User from './model'
+import User from '../user/model'
 import { CustomError } from '@/utils/error'
 import { Status, TechniqueNumber } from '@/utils/enums'
 
@@ -16,7 +16,7 @@ type ApprovalTechniques = {
   isApproved: boolean
 }
 
-export const getMotivationTechniques = async (userId: string) => {
+export const getUserMotivationTechniques = async (userId: string) => {
   const user = await User.findOne({ _id: userId })
     .populate<{ impulses: IImpulse[] }>('impulses')
     .populate<{ dependency: IDependency }>('dependency')
