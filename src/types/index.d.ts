@@ -121,6 +121,7 @@ interface IGoal {
   immediate: number
   achieved: boolean
   parentGoal?: Schema.Types.ObjectId
+  activities?: IActivity[]
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
 }
@@ -140,8 +141,8 @@ interface IActivity {
   }
   fallback?: string
   contingencies: Contingency[]
-  diversionOrder: number
-  diversionIdeas: string[]
+  diversionOrder?: number
+  diversionIdeas?: string[]
   goal: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
@@ -333,10 +334,16 @@ interface ITaskSamurai {
 interface IEnergyLevel {
   time?: Date
   level: number
+  reason: string
+}
+
+interface IEnergyConclusion extends Document {
+  conclusion: string
 }
 
 interface IOptimizedEnergy {
   energyLevels: IEnergyLevel[]
+  conclusions: IEnergyConclusion[]
   user: Schema.Types.ObjectId
   bigGoal: Schema.Types.ObjectId
 }

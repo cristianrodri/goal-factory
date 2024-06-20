@@ -30,6 +30,17 @@ const optimizedEnergySchema = new Schema<IOptimizedEnergyDocument>({
       }
     }
   ],
+  conclusions: [
+    {
+      conclusion: {
+        type: String,
+        required: [true, 'Conclusion is required'],
+        trim: true,
+        minlength: [2, 'Conclusion must be at least 2 character'],
+        maxlength: [200, 'Conclusion must be at most 200 characters']
+      }
+    }
+  ],
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'User is required'],
