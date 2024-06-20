@@ -20,6 +20,17 @@ const goalSchema = new Schema<IGoal>({
     maxlength: [300, 'Description must not exceed 300 characters'],
     minlength: [2, 'Description must be at least 2 characters long']
   },
+  startsOn: {
+    type: Date,
+    default: Date.now,
+    validate: {
+      validator: function (value: Date) {
+        // Check if the provided date is greater than or equal to the current day
+        return value >= new Date()
+      },
+      message: 'Start date must be greater than or equal to the current day'
+    }
+  },
   optimisticDeadline: {
     type: Date,
     required: [true, 'Deadline is required'],

@@ -109,6 +109,7 @@ interface IBigGoal {
 interface IGoal {
   type: GoalType
   description: string
+  startsOn: Date
   optimisticDeadline: Date
   realDeadline: Date
   progress: number
@@ -332,7 +333,7 @@ interface ITaskSamurai {
 
 /* Optimized Energy types */
 interface IEnergyLevel {
-  time?: Date
+  time: Date
   level: number
   reason: string
 }
