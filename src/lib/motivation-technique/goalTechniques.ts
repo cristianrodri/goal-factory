@@ -14,7 +14,13 @@ export const getGoalMotivationTechniques = async (
     .populate<{
       activities: IActivity[]
     }>('activities')
-    .populate<{ motivationBooks: IMotivationBook[] }>('motivationBooks')
+    .populate<{ motivationBooks: IMotivationBook[] }>({
+      path: 'motivationBooks',
+      options: {
+        sort: { date: -1 }, // Sort by date in descending order
+        limit: 7 // Limit to the last 7 documents
+      }
+    })
 
   if (!bigGoal) {
     throw new CustomError('Big goal not found', Status.NOT_FOUND)
