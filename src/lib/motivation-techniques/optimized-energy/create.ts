@@ -8,7 +8,8 @@ export const createGoalOptimizedEnergy = async (
   const optimizedEnergy = await OptimizedEnergy.create({
     user,
     bigGoal,
-    energyLevels: []
+    energyLevels: [],
+    conclusions: []
   })
 
   return optimizedEnergy
