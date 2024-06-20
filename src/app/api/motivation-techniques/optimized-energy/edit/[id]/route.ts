@@ -1,18 +1,29 @@
 import OptimizedEnergy from '@/lib/motivation-techniques/optimized-energy/model'
 import { IEnergyLevel } from '@/types'
 import { privateApi } from '@/utils/api'
-import { successResponse } from '@/utils/response'
+import { errorResponse, successResponse } from '@/utils/response'
 
 interface RequestBody {
   bigGoal: string
-  energyLevel: Partial<IEnergyLevel>
+  energyLevel?: Partial<IEnergyLevel>
+  editedConclusion?: string
 }
 
 export const PUT = privateApi<RequestBody, { id: string }>(
   async (user, { body, params }) => {
-    const { bigGoal, energyLevel } = body
+    const { bigGoal, energyLevel, editedConclusion } = body
 
-    const updateObj: { [key: string]: number | Date } = {}
+    if (!energyLevel && !editedConclusion) {
+      return errorResponse('Energy level or conclusion is required')
+    }
+
+    if (energyLevel && editedConclusion) {
+      return errorResponse(
+        'Energy level and conclusion cannot be edited at the same time'
+      )
+    }
+
+    const updateObj: { [key: string]: number | Date | string } = {}
     if (energyLevel?.time) {
       updateObj['energyLevels.$.time'] = energyLevel.time
     }
@@ -20,11 +31,19 @@ export const PUT = privateApi<RequestBody, { id: string }>(
       updateObj['energyLevels.$.level'] = energyLevel.level
     }
 
+    if (editedConclusion) {
+      updateObj['conclusions.$.conclusion'] = editedConclusion
+    }
+
+    const filteredProperty = energyLevel
+      ? 'energyLevels._id'
+      : 'conclusions._id'
+
     const optimizedEnergy = await OptimizedEnergy.findOneAndUpdateOrThrow(
       {
         user,
         bigGoal,
-        'energyLevels._id': params.id
+        [filteredProperty]: params.id
       },
       {
         $set: updateObj
