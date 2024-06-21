@@ -1,4 +1,4 @@
-import BigGoal from '@/lib/big-goal/model'
+import { createBigGoal } from '@/lib/big-goal/create'
 import { createGoalMotivationTechniques } from '@/lib/motivation-technique/create'
 import { createGoalAutomaticHabit } from '@/lib/motivation-techniques/automatic-habit/create'
 import { createGoalContaminateTemptation } from '@/lib/motivation-techniques/contaminate-temptation/create'
@@ -19,7 +19,7 @@ import { successResponse } from '@/utils/response'
 
 export const POST = privateApi<Omit<IBigGoal, 'user'>>(
   async (user, { body }) => {
-    const bigGoal = await BigGoal.create({ ...body, user })
+    const bigGoal = await createBigGoal(user, body)
     const goalId = bigGoal._id.toString()
 
     // Creation motivation techniques related to the big goal

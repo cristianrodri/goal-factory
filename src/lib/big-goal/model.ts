@@ -22,6 +22,15 @@ import PreCommitment from '@/lib/motivation-techniques/pre-commitment/model'
 import ReduceAlternative from '@/lib/motivation-techniques/reduce-alternative/model'
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
 
+const MODERATING_FACTOR_MESSAGE_MIN_LENGTH =
+  'Moderating factors can not be less than 2 characters'
+const MODERATING_FACTOR_MESSAGE_MAX_LENGTH =
+  'Moderating factors can not be more than 300 characters'
+const FACILITATOR_MESSAGE_MIN_LENGTH =
+  'Facilitator can not be less than 2 characters'
+const FACILITATOR_MESSAGE_MAX_LENGTH =
+  'Facilitator can not be more than 300 characters'
+
 const bigGoalSchema = new Schema<IBigGoal>(
   {
     generalResult: {
@@ -38,17 +47,6 @@ const bigGoalSchema = new Schema<IBigGoal>(
       maxlength: [500, 'Specific result can not be more than 500 characters'],
       minlength: [2, 'Specific result can not be less than 2 characters']
     },
-    realDeadline: {
-      type: Date,
-      validate: {
-        validator: function (value: Date) {
-          // Check if the provided date is greater than or equal to the current day
-          return value >= new Date()
-        },
-        message:
-          'Real Deadline must be greater than or equal to the current day'
-      }
-    },
     optimisticDeadline: {
       type: Date,
       required: [true, 'Deadline is required'],
@@ -60,15 +58,28 @@ const bigGoalSchema = new Schema<IBigGoal>(
         message: 'Deadline must be greater than or equal to the current day'
       }
     },
+    realDeadline: {
+      type: Date,
+      validate: {
+        validator: function (value: Date) {
+          // Check if the provided date is greater than or equal to the current day
+          return value >= new Date()
+        },
+        message:
+          'Real Deadline must be greater than or equal to the current day'
+      }
+    },
     activityAnalysis: [
       {
-        type: String,
-        trim: true,
-        maxlength: [
-          300,
-          'Activity analysis can not be more than 300 characters'
-        ],
-        minlength: [2, 'Activity analysis can not be less than 2 characters']
+        activity: {
+          type: String,
+          trim: true,
+          maxlength: [
+            300,
+            'Activity analysis can not be more than 300 characters'
+          ],
+          minlength: [2, 'Activity analysis can not be less than 2 characters']
+        }
       }
     ],
     activitiesFrecuency: {
@@ -78,56 +89,172 @@ const bigGoalSchema = new Schema<IBigGoal>(
         1000,
         'Activities frecuency can not be more than 1000 characters'
       ],
-      minlength: [2, 'Activities frecuency can not be less than 2 characters']
+      minlength: [2, 'Activities frecuency can not be less than 2 characters'],
+      default: ''
     },
     bigWhy: {
       type: String,
       trim: true,
       maxlength: [700, 'Big why can not be more than 700 characters'],
-      minlength: [2, 'Big why can not be less than 2 characters']
+      minlength: [2, 'Big why can not be less than 2 characters'],
+      default: ''
     },
     expectation: {
       type: String,
       trim: true,
       maxlength: [700, 'Expectation can not be more than 700 characters'],
-      minlength: [2, 'Expectation can not be less than 2 characters']
+      minlength: [2, 'Expectation can not be less than 2 characters'],
+      default: ''
     },
     compromises: {
-      1: Boolean,
-      2: Boolean,
-      3: Boolean,
-      4: Boolean,
-      5: Boolean,
-      6: Boolean,
-      7: Boolean
+      1: {
+        type: Boolean,
+        default: false
+      },
+      2: {
+        type: Boolean,
+        default: false
+      },
+      3: {
+        type: Boolean,
+        default: false
+      },
+      4: {
+        type: Boolean,
+        default: false
+      },
+      5: {
+        type: Boolean,
+        default: false
+      },
+      6: {
+        type: Boolean,
+        default: false
+      },
+      7: {
+        type: Boolean,
+        default: false
+      }
     },
     moderatingFactors: {
-      1: Boolean,
-      2: Boolean,
-      3: Boolean,
-      4: Boolean,
-      5: Boolean,
-      6: Boolean
+      1: [
+        {
+          factor: {
+            type: String,
+            trim: true,
+            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      2: [
+        {
+          factor: {
+            type: String,
+            trim: true,
+            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      3: [
+        {
+          factor: {
+            type: String,
+            trim: true,
+            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      4: [
+        {
+          factor: {
+            type: String,
+            trim: true,
+            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      5: [
+        {
+          factor: {
+            type: String,
+            trim: true,
+            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      6: [
+        {
+          factor: {
+            type: String,
+            trim: true,
+            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ]
     },
     moderationFactorAlternatives: [
       {
-        type: String,
-        trim: true,
-        maxlength: [
-          300,
-          'Moderation factor alternatives can not be more than 300 characters'
-        ],
-        minlength: [
-          2,
-          'Moderation factor alternatives can not be less than 2 characters'
-        ]
+        factor: {
+          type: String,
+          trim: true,
+          maxlength: [
+            300,
+            'Moderation factor alternatives can not be more than 300 characters'
+          ],
+          minlength: [
+            2,
+            'Moderation factor alternatives can not be less than 2 characters'
+          ]
+        }
       }
     ],
     facilitators: {
-      1: Boolean,
-      2: Boolean,
-      3: Boolean,
-      4: Boolean
+      1: [
+        {
+          facilitator: {
+            type: String,
+            trim: true,
+            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      2: [
+        {
+          facilitator: {
+            type: String,
+            trim: true,
+            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      3: [
+        {
+          facilitator: {
+            type: String,
+            trim: true,
+            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ],
+      4: [
+        {
+          facilitator: {
+            type: String,
+            trim: true,
+            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
+            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
+          }
+        }
+      ]
     },
     goalWeeklyDay: {
       type: String,
@@ -138,35 +265,83 @@ const bigGoalSchema = new Schema<IBigGoal>(
       required: [true, 'Week day is required']
     },
     basicAspects: {
-      1: Boolean,
-      2: Boolean,
-      3: Boolean,
-      4: Boolean,
-      5: Boolean
+      1: {
+        type: Boolean,
+        default: false
+      },
+      2: {
+        type: Boolean,
+        default: false
+      },
+      3: {
+        type: Boolean,
+        default: false
+      },
+      4: {
+        type: Boolean,
+        default: false
+      },
+      5: {
+        type: Boolean,
+        default: false
+      }
     },
     optimizingAspects: {
-      1: Boolean,
-      2: Boolean,
-      3: Boolean,
-      4: Boolean,
-      5: Boolean,
-      6: Boolean,
-      7: Boolean,
-      8: Boolean,
-      9: Boolean,
-      10: Boolean
+      1: {
+        type: Boolean,
+        default: false
+      },
+      2: {
+        type: Boolean,
+        default: false
+      },
+      3: {
+        type: Boolean,
+        default: false
+      },
+      4: {
+        type: Boolean,
+        default: false
+      },
+      5: {
+        type: Boolean,
+        default: false
+      },
+      6: {
+        type: Boolean,
+        default: false
+      },
+      7: {
+        type: Boolean,
+        default: false
+      },
+      8: {
+        type: Boolean,
+        default: false
+      },
+      9: {
+        type: Boolean,
+        default: false
+      },
+      10: {
+        type: Boolean,
+        default: false
+      }
     },
     futureGoals: [
       {
-        type: String,
-        trim: true,
-        maxlength: [300, 'Future goals can not be more than 300 characters'],
-        minlength: [2, 'Future goals can not be less than 2 characters']
+        goal: {
+          type: String,
+          trim: true,
+          maxlength: [300, 'Future goals can not be more than 300 characters'],
+          minlength: [2, 'Future goals can not be less than 2 characters']
+        }
       }
     ],
     bigReward: {
       type: String,
       trim: true,
+      required: [true, 'Big reward is required'],
       maxlength: [200, 'Big reward can not be more than 200 characters'],
       minlength: [2, 'Big reward can not be less than 2 characters']
     },

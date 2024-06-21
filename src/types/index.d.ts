@@ -62,12 +62,28 @@ interface Contingency {
 }
 
 /* BigGoal types */
+interface IActivityAnalisys extends Document {
+  activity: string
+}
+
+interface IFutureGoal extends Document {
+  goal: string
+}
+
+interface IModerationFactor extends Document {
+  factor: string
+}
+
+interface IFacilitator extends Document {
+  facilitator: string
+}
+
 interface IBigGoal {
   generalResult: string
   specificResult: string
-  realDeadline: Date
   optimisticDeadline: Date
-  activityAnalysis: string[]
+  realDeadline?: Date
+  activityAnalysis: IActivityAnalisys[]
   activitiesFrecuency: string
   bigWhy: string
   expectation: string
@@ -81,24 +97,24 @@ interface IBigGoal {
     7: boolean
   }
   moderatingFactors: {
-    1: string[]
-    2: string[]
-    3: string[]
-    4: string[]
-    5: string[]
-    6: string[]
+    1: IModerationFactor[]
+    2: IModerationFactor[]
+    3: IModerationFactor[]
+    4: IModerationFactor[]
+    5: IModerationFactor[]
+    6: IModerationFactor[]
   }
-  moderationFactorAlternatives: string[]
+  moderationFactorAlternatives: IModerationFactor[]
   facilitators: {
-    1: string[]
-    2: string[]
-    3: string[]
-    4: string
+    1: IFacilitator[]
+    2: IFacilitator[]
+    3: IFacilitator[]
+    4: IFacilitator[]
   }
   goalWeeklyDay: WeekDay
   basicAspects: BasicAspects
   optimizingAspects: OptimizingAspects
-  futureGoals: string[]
+  futureGoals: IFutureGoal[]
   bigReward: string
   rewardWasTaken: boolean
   achieved: boolean
