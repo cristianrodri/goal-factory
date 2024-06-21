@@ -1,4 +1,4 @@
-import { TechniqueNumber } from '@/utils/enums'
+import { GoalType, TechniqueNumber } from '@/utils/enums'
 import { checkActivitiesHaveFallback } from '../activity/motivation'
 import { ApprovalTechniques } from './userTechniques'
 import { checkPreviousMotivationBooks } from '../motivation-book/motivation'
@@ -146,9 +146,23 @@ export const getGoalMotivationTechniques = async (
 
   // TASK_DISTRIBUTION_MODEL (25):
   // The big goal must have at least 1 task distribution model
-  const taskDistributionModel: ApprovalTechniques = {
+  const goalTaskDistributionModel: ApprovalTechniques = {
     realNumberTechnique: TechniqueNumber.TASK_DISTRIBUTION_MODEL,
     isApproved: isTaskDistributionApproved(currentGoals)
+  }
+
+  // ADVANCE_PROGRESS_OBJECTIVES (26):
+  // The big goal must have at least 1 performance goal
+  const goalAdvanceProgressObjectives: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.ADVANCE_PROGRESS_OBJECTIVES,
+    isApproved: currentGoals?.some(goal => goal.type === GoalType.PERFORMANCE)
+  }
+
+  // FALACE_MENTAL_PROJECTION (27):
+  // The goals must have optimistic deadline
+  const goalFalaceMentalProjection: ApprovalTechniques = {
+    realNumberTechnique: TechniqueNumber.FALACE_MENTAL_PROJECTION,
+    isApproved: currentGoals?.every(goal => !!goal?.optimisticDeadline)
   }
 
   const techniques = [
@@ -168,7 +182,9 @@ export const getGoalMotivationTechniques = async (
     goalPrecommitment,
     goalReduceAlternative,
     goalAutomaticHabit,
-    taskDistributionModel
+    goalTaskDistributionModel,
+    goalAdvanceProgressObjectives,
+    goalFalaceMentalProjection
   ]
 
   return techniques
