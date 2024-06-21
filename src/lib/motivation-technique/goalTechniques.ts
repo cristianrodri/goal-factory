@@ -39,10 +39,12 @@ export const getGoalMotivationTechniques = async (
   }
 
   // GOAL_OPTIMISTIC_LEVEL (4):
-  // The optimistic level related to this bigGoal must have at least one improvement
+  // The optimistic level related to this bigGoal must have at least one improvement and a real deadline
   const goalOptimisticLevel: ApprovalTechniques = {
     realNumberTechnique: TechniqueNumber.GOAL_OPTIMISTIC_LEVEL,
-    isApproved: bigGoal?.optimisticLevel?.improvements.length > 0
+    isApproved:
+      bigGoal?.optimisticLevel?.improvements.length > 0 &&
+      !!bigGoal?.realDeadline
   }
 
   // GOAL_WORST_CONTEXT (5):
