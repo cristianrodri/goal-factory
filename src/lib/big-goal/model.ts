@@ -7,176 +7,188 @@ import '@/lib/motivation-book/model'
 import { IBigGoal } from '@/types'
 import { WeekDay } from '@/utils/enums'
 import { toJSONTransform } from '@/utils/db'
-import '@/lib/motivation-techniques/visual-prospective/model'
-import '@/lib/motivation-techniques/optimistic-level/model'
-import '@/lib/motivation-techniques/worst-context/model'
-import '@/lib/motivation-techniques/optimal-accountability/model'
-import '@/lib/motivation-techniques/purpose-passion/model'
-import '@/lib/motivation-techniques/total-structure-focus/model'
-import '@/lib/motivation-techniques/optimized-energy/model'
-import '@/lib/motivation-techniques/contaminate-temptation/model'
-import '@/lib/motivation-techniques/interruption-stimulus/model'
-import '@/lib/motivation-techniques/pre-commitment/model'
-import '@/lib/motivation-techniques/reduce-alternative/model'
-import '@/lib/motivation-techniques/automatic-habit/model'
+import MotivationBook from '@/lib/motivation-book/model'
+import MotivationCalculation from '../motivation-calculation/model'
+import VisualProspective from '@/lib/motivation-techniques/visual-prospective/model'
+import OptimisticLevel from '@/lib/motivation-techniques/optimistic-level/model'
+import WorstContext from '@/lib/motivation-techniques/worst-context/model'
+import OptimalAccountability from '@/lib/motivation-techniques/optimal-accountability/model'
+import PurposePassion from '@/lib/motivation-techniques/purpose-passion/model'
+import TotalStructureFocus from '@/lib/motivation-techniques/total-structure-focus/model'
+import OptimizedEnergy from '@/lib/motivation-techniques/optimized-energy/model'
+import ContaminateTemptation from '@/lib/motivation-techniques/contaminate-temptation/model'
+import InterruptionStimulus from '@/lib/motivation-techniques/interruption-stimulus/model'
+import PreCommitment from '@/lib/motivation-techniques/pre-commitment/model'
+import ReduceAlternative from '@/lib/motivation-techniques/reduce-alternative/model'
+import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
 
-const bigGoalSchema = new Schema<IBigGoal>({
-  generalResult: {
-    type: String,
-    required: [true, 'General result is required'],
-    trim: true,
-    maxlength: [500, 'General result can not be more than 500 characters'],
-    minlength: [2, 'General result can not be less than 2 characters']
-  },
-  specificResult: {
-    type: String,
-    required: [true, 'Specific result is required'],
-    trim: true,
-    maxlength: [500, 'Specific result can not be more than 500 characters'],
-    minlength: [2, 'Specific result can not be less than 2 characters']
-  },
-  realDeadline: {
-    type: Date,
-    validate: {
-      validator: function (value: Date) {
-        // Check if the provided date is greater than or equal to the current day
-        return value >= new Date()
-      },
-      message: 'Real Deadline must be greater than or equal to the current day'
-    }
-  },
-  optimisticDeadline: {
-    type: Date,
-    required: [true, 'Deadline is required'],
-    validate: {
-      validator: function (value: Date) {
-        // Check if the provided date is greater than or equal to the current day
-        return value >= new Date()
-      },
-      message: 'Deadline must be greater than or equal to the current day'
-    }
-  },
-  activityAnalysis: [
-    {
+const bigGoalSchema = new Schema<IBigGoal>(
+  {
+    generalResult: {
       type: String,
+      required: [true, 'General result is required'],
       trim: true,
-      maxlength: [300, 'Activity analysis can not be more than 300 characters'],
-      minlength: [2, 'Activity analysis can not be less than 2 characters']
-    }
-  ],
-  activitiesFrecuency: {
-    type: String,
-    trim: true,
-    maxlength: [
-      1000,
-      'Activities frecuency can not be more than 1000 characters'
+      maxlength: [500, 'General result can not be more than 500 characters'],
+      minlength: [2, 'General result can not be less than 2 characters']
+    },
+    specificResult: {
+      type: String,
+      required: [true, 'Specific result is required'],
+      trim: true,
+      maxlength: [500, 'Specific result can not be more than 500 characters'],
+      minlength: [2, 'Specific result can not be less than 2 characters']
+    },
+    realDeadline: {
+      type: Date,
+      validate: {
+        validator: function (value: Date) {
+          // Check if the provided date is greater than or equal to the current day
+          return value >= new Date()
+        },
+        message:
+          'Real Deadline must be greater than or equal to the current day'
+      }
+    },
+    optimisticDeadline: {
+      type: Date,
+      required: [true, 'Deadline is required'],
+      validate: {
+        validator: function (value: Date) {
+          // Check if the provided date is greater than or equal to the current day
+          return value >= new Date()
+        },
+        message: 'Deadline must be greater than or equal to the current day'
+      }
+    },
+    activityAnalysis: [
+      {
+        type: String,
+        trim: true,
+        maxlength: [
+          300,
+          'Activity analysis can not be more than 300 characters'
+        ],
+        minlength: [2, 'Activity analysis can not be less than 2 characters']
+      }
     ],
-    minlength: [2, 'Activities frecuency can not be less than 2 characters']
-  },
-  bigWhy: {
-    type: String,
-    trim: true,
-    maxlength: [700, 'Big why can not be more than 700 characters'],
-    minlength: [2, 'Big why can not be less than 2 characters']
-  },
-  expectation: {
-    type: String,
-    trim: true,
-    maxlength: [700, 'Expectation can not be more than 700 characters'],
-    minlength: [2, 'Expectation can not be less than 2 characters']
-  },
-  compromises: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean,
-    5: Boolean,
-    6: Boolean,
-    7: Boolean
-  },
-  moderatingFactors: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean,
-    5: Boolean,
-    6: Boolean
-  },
-  moderationFactorAlternatives: [
-    {
+    activitiesFrecuency: {
       type: String,
       trim: true,
       maxlength: [
-        300,
-        'Moderation factor alternatives can not be more than 300 characters'
+        1000,
+        'Activities frecuency can not be more than 1000 characters'
       ],
-      minlength: [
-        2,
-        'Moderation factor alternatives can not be less than 2 characters'
-      ]
-    }
-  ],
-  facilitators: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean
-  },
-  goalWeeklyDay: {
-    type: String,
-    enum: {
-      values: Object.values(WeekDay),
-      message: 'Invalid goal type.'
+      minlength: [2, 'Activities frecuency can not be less than 2 characters']
     },
-    required: [true, 'Week day is required']
-  },
-  basicAspects: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean,
-    5: Boolean
-  },
-  optimizingAspects: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean,
-    5: Boolean,
-    6: Boolean,
-    7: Boolean,
-    8: Boolean,
-    9: Boolean,
-    10: Boolean
-  },
-  futureGoals: [
-    {
+    bigWhy: {
       type: String,
       trim: true,
-      maxlength: [300, 'Future goals can not be more than 300 characters'],
-      minlength: [2, 'Future goals can not be less than 2 characters']
+      maxlength: [700, 'Big why can not be more than 700 characters'],
+      minlength: [2, 'Big why can not be less than 2 characters']
+    },
+    expectation: {
+      type: String,
+      trim: true,
+      maxlength: [700, 'Expectation can not be more than 700 characters'],
+      minlength: [2, 'Expectation can not be less than 2 characters']
+    },
+    compromises: {
+      1: Boolean,
+      2: Boolean,
+      3: Boolean,
+      4: Boolean,
+      5: Boolean,
+      6: Boolean,
+      7: Boolean
+    },
+    moderatingFactors: {
+      1: Boolean,
+      2: Boolean,
+      3: Boolean,
+      4: Boolean,
+      5: Boolean,
+      6: Boolean
+    },
+    moderationFactorAlternatives: [
+      {
+        type: String,
+        trim: true,
+        maxlength: [
+          300,
+          'Moderation factor alternatives can not be more than 300 characters'
+        ],
+        minlength: [
+          2,
+          'Moderation factor alternatives can not be less than 2 characters'
+        ]
+      }
+    ],
+    facilitators: {
+      1: Boolean,
+      2: Boolean,
+      3: Boolean,
+      4: Boolean
+    },
+    goalWeeklyDay: {
+      type: String,
+      enum: {
+        values: Object.values(WeekDay),
+        message: 'Invalid goal type.'
+      },
+      required: [true, 'Week day is required']
+    },
+    basicAspects: {
+      1: Boolean,
+      2: Boolean,
+      3: Boolean,
+      4: Boolean,
+      5: Boolean
+    },
+    optimizingAspects: {
+      1: Boolean,
+      2: Boolean,
+      3: Boolean,
+      4: Boolean,
+      5: Boolean,
+      6: Boolean,
+      7: Boolean,
+      8: Boolean,
+      9: Boolean,
+      10: Boolean
+    },
+    futureGoals: [
+      {
+        type: String,
+        trim: true,
+        maxlength: [300, 'Future goals can not be more than 300 characters'],
+        minlength: [2, 'Future goals can not be less than 2 characters']
+      }
+    ],
+    bigReward: {
+      type: String,
+      trim: true,
+      maxlength: [200, 'Big reward can not be more than 200 characters'],
+      minlength: [2, 'Big reward can not be less than 2 characters']
+    },
+    rewardWasTaken: {
+      type: Boolean,
+      default: false
+    },
+    achieved: {
+      type: Boolean,
+      default: false
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User is required'],
+      ref: 'User'
     }
-  ],
-  bigReward: {
-    type: String,
-    trim: true,
-    maxlength: [200, 'Big reward can not be more than 200 characters'],
-    minlength: [2, 'Big reward can not be less than 2 characters']
   },
-  rewardWasTaken: {
-    type: Boolean,
-    default: false
-  },
-  achieved: {
-    type: Boolean,
-    default: false
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    required: [true, 'User is required'],
-    ref: 'User'
+  {
+    toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+    toObject: { virtuals: true } // So `console.log()` and other functions that use `toObject()` include virtuals
   }
-})
+)
 
 // Define a virtual property to populate the associated goal
 bigGoalSchema.virtual('goals', {
@@ -329,6 +341,20 @@ bigGoalSchema.pre('findOneAndDelete', async function () {
   await Activity.deleteMany({ bigGoal: id })
   await GoalDairy.deleteMany({ bigGoal: id })
   await GoalWeekly.deleteMany({ bigGoal: id })
+  await MotivationBook.deleteMany({ bigGoal: id })
+  await MotivationCalculation.deleteOne({ bigGoal: id })
+  await VisualProspective.deleteOne({ bigGoal: id })
+  await OptimisticLevel.deleteOne({ bigGoal: id })
+  await WorstContext.deleteOne({ bigGoal: id })
+  await OptimalAccountability.deleteOne({ bigGoal: id })
+  await PurposePassion.deleteOne({ bigGoal: id })
+  await TotalStructureFocus.deleteOne({ bigGoal: id })
+  await OptimizedEnergy.deleteOne({ bigGoal: id })
+  await ContaminateTemptation.deleteOne({ bigGoal: id })
+  await InterruptionStimulus.deleteOne({ bigGoal: id })
+  await PreCommitment.deleteOne({ bigGoal: id })
+  await ReduceAlternative.deleteOne({ bigGoal: id })
+  await AutomaticHabit.deleteOne({ bigGoal: id })
 })
 
 const BigGoal =
