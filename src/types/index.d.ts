@@ -33,7 +33,7 @@ interface IReward {
 }
 
 // Types used in the client side
-export type AuthUser = ClientId & Omit<UserData, 'password'>
+export type AuthUser = UserClientId & Omit<UserData, 'password'>
 
 interface BasicAspects {
   1: boolean
