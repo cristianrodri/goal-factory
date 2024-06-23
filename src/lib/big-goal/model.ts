@@ -1,4 +1,4 @@
-import { Document, Model, Schema, model, models } from 'mongoose'
+import { Document, Schema, model, models } from 'mongoose'
 import Goal from '@/lib/goal/model'
 import Activity from '@/lib/activity/model'
 import GoalDairy from '@/lib/goal-dairy/model'
@@ -21,6 +21,13 @@ import InterruptionStimulus from '@/lib/motivation-techniques/interruption-stimu
 import PreCommitment from '@/lib/motivation-techniques/pre-commitment/model'
 import ReduceAlternative from '@/lib/motivation-techniques/reduce-alternative/model'
 import AutomaticHabit from '@/lib/motivation-techniques/automatic-habit/model'
+import {
+  findOneAndDeleteOrThrow,
+  findOneAndUpdateOrThrow,
+  findOneOrThrow,
+  IBaseDocument,
+  IBaseModel
+} from '../baseSchema'
 
 const MODERATING_FACTOR_MESSAGE_MIN_LENGTH =
   'Moderating factors can not be less than 2 characters'
@@ -31,7 +38,12 @@ const FACILITATOR_MESSAGE_MIN_LENGTH =
 const FACILITATOR_MESSAGE_MAX_LENGTH =
   'Facilitator can not be more than 300 characters'
 
-const bigGoalSchema = new Schema<IBigGoal>(
+// Define your main automatic habit schema
+interface IBigGoalDocument extends IBigGoal, IBaseDocument {}
+
+interface IBigGoalModel extends IBaseModel<IBigGoalDocument> {}
+
+const bigGoalSchema = new Schema<IBigGoalDocument>(
   {
     generalResult: {
       type: String,
@@ -502,6 +514,16 @@ bigGoalSchema.methods.toJSON = function () {
   return toJSONTransform(this as Document)
 }
 
+// Add static method directly to schema
+bigGoalSchema.statics.findOneOrThrow =
+  findOneOrThrow as IBaseModel<IBigGoalDocument>['findOneOrThrow']
+
+bigGoalSchema.statics.findOneAndUpdateOrThrow =
+  findOneAndUpdateOrThrow as IBaseModel<IBigGoalDocument>['findOneAndUpdateOrThrow']
+
+bigGoalSchema.statics.findOneAndDeleteOrThrow =
+  findOneAndDeleteOrThrow as IBaseModel<IBigGoalDocument>['findOneAndDeleteOrThrow']
+
 bigGoalSchema.pre('findOneAndDelete', async function () {
   // Remove all the associated goals
   const id = (this as unknown as Document)._id
@@ -527,7 +549,7 @@ bigGoalSchema.pre('findOneAndDelete', async function () {
 })
 
 const BigGoal =
-  (models['BigGoal'] as Model<IBigGoal>) ||
-  model<IBigGoal>('BigGoal', bigGoalSchema)
+  (models['BigGoal'] as IBigGoalModel) ||
+  model<IBigGoalDocument, IBigGoalModel>('BigGoal', bigGoalSchema)
 
 export default BigGoal

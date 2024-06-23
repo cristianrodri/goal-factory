@@ -2,21 +2,38 @@ import BigGoal from '@/lib/big-goal/model'
 import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Status } from '@/utils/enums'
-import { NextResponse } from 'next/server'
+import { errorResponse, successResponse } from '@/utils/response'
 
 export const PUT = privateApi<Omit<IBigGoal, 'user'>, { id: string }>(
   async (userId, { body, params }) => {
-    const bigGoal = await BigGoal.findOneAndUpdate(
+    const {
+      activityAnalysis,
+      moderatingFactors,
+      moderationFactorAlternatives,
+      facilitators,
+      futureGoals
+    } = body
+
+    if (
+      activityAnalysis ||
+      moderatingFactors ||
+      moderationFactorAlternatives ||
+      facilitators ||
+      futureGoals
+    ) {
+      return errorResponse(
+        'Cannot edit array fields directly.',
+        Status.FORBIDDEN
+      )
+    }
+
+    const bigGoal = await BigGoal.findOneAndUpdateOrThrow(
       { user: userId, _id: params.id },
       {
-        ...body,
-        user: userId
-      },
-      { new: true }
+        $set: body
+      }
     )
 
-    return NextResponse.json(bigGoal, {
-      status: Status.CREATED
-    })
+    return successResponse(bigGoal)
   }
 )
