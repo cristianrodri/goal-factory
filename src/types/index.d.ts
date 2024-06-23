@@ -74,6 +74,10 @@ interface IModerationFactor extends Document {
   factor: string
 }
 
+interface IModeratorFactorAlternative extends Document {
+  alternative: string
+}
+
 interface IFacilitator extends Document {
   facilitator: string
 }
@@ -104,7 +108,7 @@ interface IBigGoal {
     5: IModerationFactor[]
     6: IModerationFactor[]
   }
-  moderationFactorAlternatives: IModerationFactor[]
+  moderationFactorAlternatives: IModeratorFactorAlternative[]
   facilitators: {
     1: IFacilitator[]
     2: IFacilitator[]

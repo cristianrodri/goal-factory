@@ -200,17 +200,11 @@ const bigGoalSchema = new Schema<IBigGoal>(
     },
     moderationFactorAlternatives: [
       {
-        factor: {
+        alternative: {
           type: String,
           trim: true,
-          maxlength: [
-            300,
-            'Moderation factor alternatives can not be more than 300 characters'
-          ],
-          minlength: [
-            2,
-            'Moderation factor alternatives can not be less than 2 characters'
-          ]
+          maxlength: [300, 'Alternative can not be more than 300 characters'],
+          minlength: [2, 'Alternative can not be less than 2 characters']
         }
       }
     ],
