@@ -4,7 +4,7 @@ import Activity from '@/lib/activity/model'
 import GoalDairy from '@/lib/goal-dairy/model'
 import GoalWeekly from '@/lib/goal-weekly/model'
 import '@/lib/motivation-book/model'
-import { IBigGoal } from '@/types'
+import { IBigGoal, IFacilitator } from '@/types'
 import { WeekDay } from '@/utils/enums'
 import { toJSONTransform } from '@/utils/db'
 import MotivationBook from '@/lib/motivation-book/model'
@@ -148,68 +148,35 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         default: false
       }
     },
-    moderatingFactors: {
-      1: [
-        {
-          factor: {
-            type: String,
-            trim: true,
-            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-          }
+    moderatingFactors: [
+      {
+        factor: {
+          type: String,
+          required: [true, 'Factor is required'],
+          trim: true,
+          maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+          minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+        },
+        num: {
+          type: Number,
+          required: [true, 'Moderating factor number is required'],
+          enum: {
+            values: [1, 2, 3, 4, 5, 6, 7],
+            message: 'Moderating factor number must be 1, 2, 3, 4, 5, 6 or 7'
+          },
+          validate: [
+            {
+              validator: function (arr: IFacilitator[]) {
+                const nums = arr.map(facilitator => facilitator.num)
+                return nums.length === new Set(nums).size
+              },
+              message:
+                'Moderating factor numbers must be unique within the document'
+            }
+          ]
         }
-      ],
-      2: [
-        {
-          factor: {
-            type: String,
-            trim: true,
-            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ],
-      3: [
-        {
-          factor: {
-            type: String,
-            trim: true,
-            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ],
-      4: [
-        {
-          factor: {
-            type: String,
-            trim: true,
-            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ],
-      5: [
-        {
-          factor: {
-            type: String,
-            trim: true,
-            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ],
-      6: [
-        {
-          factor: {
-            type: String,
-            trim: true,
-            maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ]
-    },
+      }
+    ],
     moderationFactorAlternatives: [
       {
         alternative: {
@@ -220,48 +187,34 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         }
       }
     ],
-    facilitators: {
-      1: [
-        {
-          facilitator: {
-            type: String,
-            trim: true,
-            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
-          }
+    facilitators: [
+      {
+        facilitator: {
+          type: String,
+          required: [true, 'Facilitator is required'],
+          trim: true,
+          maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
+          minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
+        },
+        num: {
+          type: Number,
+          required: [true, 'Facilitator number is required'],
+          enum: {
+            values: [1, 2, 3, 4],
+            message: 'Facilitator number must be 1, 2, 3, or 4'
+          },
+          validate: [
+            {
+              validator: function (arr: IFacilitator[]) {
+                const nums = arr.map(facilitator => facilitator.num)
+                return nums.length === new Set(nums).size
+              },
+              message: 'Facilitator numbers must be unique within the document'
+            }
+          ]
         }
-      ],
-      2: [
-        {
-          facilitator: {
-            type: String,
-            trim: true,
-            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ],
-      3: [
-        {
-          facilitator: {
-            type: String,
-            trim: true,
-            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ],
-      4: [
-        {
-          facilitator: {
-            type: String,
-            trim: true,
-            maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
-            minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
-          }
-        }
-      ]
-    },
+      }
+    ],
     goalWeeklyDay: {
       type: String,
       enum: {
