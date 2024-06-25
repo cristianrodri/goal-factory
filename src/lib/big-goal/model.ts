@@ -4,7 +4,7 @@ import Activity from '@/lib/activity/model'
 import GoalDairy from '@/lib/goal-dairy/model'
 import GoalWeekly from '@/lib/goal-weekly/model'
 import '@/lib/motivation-book/model'
-import { IBigGoal, IFacilitator } from '@/types'
+import { IBigGoal, IFacilitator, IModerationFactor } from '@/types'
 import { WeekDay } from '@/utils/enums'
 import { toJSONTransform } from '@/utils/db'
 import MotivationBook from '@/lib/motivation-book/model'
@@ -166,8 +166,8 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
           },
           validate: [
             {
-              validator: function (arr: IFacilitator[]) {
-                const nums = arr.map(facilitator => facilitator.num)
+              validator: function (arr: IModerationFactor[]) {
+                const nums = arr.map(moderatingFactor => moderatingFactor.num)
                 return nums.length === new Set(nums).size
               },
               message:
