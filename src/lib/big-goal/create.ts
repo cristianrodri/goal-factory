@@ -10,21 +10,9 @@ export const createBigGoal = async (
     ...body,
     user,
     activityAnalisys: [],
-    moderatingFactors: {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: []
-    },
+    moderatingFactors: [],
     moderationFactorAlternatives: [],
-    facilitators: {
-      1: [],
-      2: [],
-      3: [],
-      4: []
-    },
+    facilitators: [],
     futureGoals: []
   })
 
