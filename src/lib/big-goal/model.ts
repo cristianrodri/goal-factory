@@ -101,22 +101,19 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         1000,
         'Activities frecuency can not be more than 1000 characters'
       ],
-      minlength: [2, 'Activities frecuency can not be less than 2 characters'],
-      default: ''
+      minlength: [2, 'Activities frecuency can not be less than 2 characters']
     },
     bigWhy: {
       type: String,
       trim: true,
       maxlength: [700, 'Big why can not be more than 700 characters'],
-      minlength: [2, 'Big why can not be less than 2 characters'],
-      default: ''
+      minlength: [2, 'Big why can not be less than 2 characters']
     },
     expectation: {
       type: String,
       trim: true,
       maxlength: [700, 'Expectation can not be more than 700 characters'],
-      minlength: [2, 'Expectation can not be less than 2 characters'],
-      default: ''
+      minlength: [2, 'Expectation can not be less than 2 characters']
     },
     compromises: {
       1: {

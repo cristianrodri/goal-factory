@@ -90,9 +90,9 @@ interface IBigGoal {
   optimisticDeadline: Date
   realDeadline?: Date
   activityAnalysis: IActivityAnalisys[]
-  activitiesFrecuency: string
-  bigWhy: string
-  expectation: string
+  activitiesFrecuency?: string
+  bigWhy?: string
+  expectation?: string
   compromises: {
     1: boolean
     2: boolean
