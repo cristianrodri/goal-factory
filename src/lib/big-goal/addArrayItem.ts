@@ -1,9 +1,8 @@
 import {
   IActivityAnalisys,
   IBigGoal,
-  IFacilitator,
+  IFactor,
   IFutureGoal,
-  IModerationFactor,
   IModeratorFactorAlternative
 } from '@/types'
 import { Status } from '@/utils/enums'
@@ -14,11 +13,13 @@ export type PropertyBigGoalArray = keyof Pick<
   | 'activityAnalysis'
   | 'moderatingFactors'
   | 'moderationFactorAlternatives'
-  | 'facilitators'
+  | 'mediatingFactors'
   | 'futureGoals'
 >
 
-export type DataBigGoalArray = string | IModerationFactor | IFacilitator
+type Data = { num: number; factor: string }
+
+export type DataBigGoalArray = string | Data
 
 export const checkExistingItem = (
   bigGoal: IBigGoal,
@@ -28,11 +29,11 @@ export const checkExistingItem = (
   // If the property is moderatingFactors
   if (property === 'moderatingFactors') {
     // Check if the moderationFactor already exists
-    const moderatingFactorData = data as IModerationFactor
+    const moderatingFactorData = data as Data
 
     const foundFactor = bigGoal[property]
-      .filter(m => m.num === moderatingFactorData.num)
-      .some(
+      .find(m => m.num === moderatingFactorData.num)
+      ?.obstacles.some(
         moderatingFactor =>
           moderatingFactor.factor === moderatingFactorData.factor
       )
@@ -45,15 +46,15 @@ export const checkExistingItem = (
     }
   }
 
-  // If the property is facilitators
-  if (property === 'facilitators') {
+  // If the property is mediating factors
+  if (property === 'mediatingFactors') {
     // Check if the facilitator already exists
-    const facilitatorData = data as IFacilitator
+    const facilitatorData = data as Data
 
     const foundFacilitator = bigGoal[property]
-      .filter(f => f.num === facilitatorData.num)
-      .some(
-        facilitator => facilitator.facilitator === facilitatorData.facilitator
+      .find(f => f.num === facilitatorData.num)
+      ?.facilitators.some(
+        facilitator => facilitator.factor === facilitatorData.factor
       )
 
     if (foundFacilitator) {
@@ -120,13 +121,33 @@ export const addItem = (
   // If the property is moderatingFactors
   if (property === 'moderatingFactors') {
     // Add the moderation factor
-    bigGoal[property].push(data as IModerationFactor)
+    const moderatingData = data as Data
+
+    bigGoal[property] = bigGoal[property].map(moderatingFactor => {
+      if (moderatingFactor.num === moderatingData.num) {
+        moderatingFactor.obstacles.push({
+          factor: moderatingData.factor
+        } as IFactor)
+      }
+
+      return moderatingFactor
+    })
   }
 
-  // If the property is facilitators
-  if (property === 'facilitators') {
-    // Add the facilitator
-    bigGoal[property].push(data as IFacilitator)
+  // If the property is mediating facilitators
+  if (property === 'mediatingFactors') {
+    // Add the mediating factor
+    const mediatingData = data as Data
+
+    bigGoal[property] = bigGoal[property].map(mediatingFactor => {
+      if (mediatingFactor.num === mediatingData.num) {
+        mediatingFactor.facilitators.push({
+          factor: mediatingData.factor
+        } as IFactor)
+      }
+
+      return mediatingFactor
+    })
   }
 
   // If the property is futureGoals

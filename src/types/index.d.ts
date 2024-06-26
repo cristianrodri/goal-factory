@@ -70,8 +70,12 @@ interface IFutureGoal extends Document {
   goal: string
 }
 
-interface IModerationFactor extends Document {
+interface IFactor extends Document {
   factor: string
+}
+
+interface IModerationFactor extends Document {
+  obstacles: IFactor[]
   num: number
 }
 
@@ -79,8 +83,8 @@ interface IModeratorFactorAlternative extends Document {
   alternative: string
 }
 
-interface IFacilitator extends Document {
-  facilitator: string
+interface IMediatingFactor extends Document {
+  facilitators: IFactor[]
   num: number
 }
 
@@ -104,7 +108,7 @@ interface IBigGoal {
   }
   moderatingFactors: IModerationFactor[]
   moderationFactorAlternatives: IModeratorFactorAlternative[]
-  facilitators: IFacilitator[]
+  mediatingFactors: IMediatingFactor[]
   goalWeeklyDay: WeekDay
   basicAspects: BasicAspects
   optimizingAspects: OptimizingAspects

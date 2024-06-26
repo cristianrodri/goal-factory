@@ -4,7 +4,7 @@ import Activity from '@/lib/activity/model'
 import GoalDairy from '@/lib/goal-dairy/model'
 import GoalWeekly from '@/lib/goal-weekly/model'
 import '@/lib/motivation-book/model'
-import { IBigGoal, IFacilitator, IModerationFactor } from '@/types'
+import { IBigGoal, IMediatingFactor, IModerationFactor } from '@/types'
 import { WeekDay } from '@/utils/enums'
 import { toJSONTransform } from '@/utils/db'
 import MotivationBook from '@/lib/motivation-book/model'
@@ -147,13 +147,17 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
     },
     moderatingFactors: [
       {
-        factor: {
-          type: String,
-          required: [true, 'Factor is required'],
-          trim: true,
-          maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-          minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-        },
+        moderations: [
+          {
+            factor: {
+              type: String,
+              required: [true, 'Factor is required'],
+              trim: true,
+              maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
+              minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
+            }
+          }
+        ],
         num: {
           type: Number,
           required: [true, 'Moderating factor number is required'],
@@ -184,15 +188,19 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         }
       }
     ],
-    facilitators: [
+    mediatingFactors: [
       {
-        facilitator: {
-          type: String,
-          required: [true, 'Facilitator is required'],
-          trim: true,
-          maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
-          minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
-        },
+        facilitators: [
+          {
+            factor: {
+              type: String,
+              required: [true, 'Facilitator is required'],
+              trim: true,
+              maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
+              minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
+            }
+          }
+        ],
         num: {
           type: Number,
           required: [true, 'Facilitator number is required'],
@@ -202,7 +210,7 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
           },
           validate: [
             {
-              validator: function (arr: IFacilitator[]) {
+              validator: function (arr: IMediatingFactor[]) {
                 const nums = arr.map(facilitator => facilitator.num)
                 return nums.length === new Set(nums).size
               },

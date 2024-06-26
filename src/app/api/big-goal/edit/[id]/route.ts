@@ -10,7 +10,7 @@ export const PUT = privateApi<Omit<IBigGoal, 'user'>, { id: string }>(
       activityAnalysis,
       moderatingFactors,
       moderationFactorAlternatives,
-      facilitators,
+      mediatingFactors,
       futureGoals
     } = body
 
@@ -18,7 +18,7 @@ export const PUT = privateApi<Omit<IBigGoal, 'user'>, { id: string }>(
       activityAnalysis ||
       moderatingFactors ||
       moderationFactorAlternatives ||
-      facilitators ||
+      mediatingFactors ||
       futureGoals
     ) {
       return errorResponse(
