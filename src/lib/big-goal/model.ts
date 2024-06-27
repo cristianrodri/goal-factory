@@ -4,7 +4,7 @@ import Activity from '@/lib/activity/model'
 import GoalDairy from '@/lib/goal-dairy/model'
 import GoalWeekly from '@/lib/goal-weekly/model'
 import '@/lib/motivation-book/model'
-import { IBigGoal, IMediatingFactor, IModerationFactor } from '@/types'
+import { IBigGoal } from '@/types'
 import { WeekDay } from '@/utils/enums'
 import { toJSONTransform } from '@/utils/db'
 import MotivationBook from '@/lib/motivation-book/model'
@@ -28,15 +28,8 @@ import {
   IBaseDocument,
   IBaseModel
 } from '../baseSchema'
-
-const MODERATING_FACTOR_MESSAGE_MIN_LENGTH =
-  'Moderating factors can not be less than 2 characters'
-const MODERATING_FACTOR_MESSAGE_MAX_LENGTH =
-  'Moderating factors can not be more than 300 characters'
-const FACILITATOR_MESSAGE_MIN_LENGTH =
-  'Facilitator can not be less than 2 characters'
-const FACILITATOR_MESSAGE_MAX_LENGTH =
-  'Facilitator can not be more than 300 characters'
+import { moderatingFactorSchema } from './moderatingFactor/model'
+import { mediatingFactorSchema } from './mediatingFactor/model'
 
 // Define your main automatic habit schema
 interface IBigGoalDocument extends IBigGoal, IBaseDocument {}
@@ -145,39 +138,35 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         default: false
       }
     },
-    moderatingFactors: [
-      {
-        moderations: [
-          {
-            factor: {
-              type: String,
-              required: [true, 'Factor is required'],
-              trim: true,
-              maxlength: [300, MODERATING_FACTOR_MESSAGE_MAX_LENGTH],
-              minlength: [2, MODERATING_FACTOR_MESSAGE_MIN_LENGTH]
-            }
-          }
-        ],
-        num: {
-          type: Number,
-          required: [true, 'Moderating factor number is required'],
-          enum: {
-            values: [1, 2, 3, 4, 5, 6, 7],
-            message: 'Moderating factor number must be 1, 2, 3, 4, 5, 6 or 7'
-          },
-          validate: [
-            {
-              validator: function (arr: IModerationFactor[]) {
-                const nums = arr.map(moderatingFactor => moderatingFactor.num)
-                return nums.length === new Set(nums).size
-              },
-              message:
-                'Moderating factor numbers must be unique within the document'
-            }
-          ]
+    moderatingFactors: {
+      type: [moderatingFactorSchema],
+      default: [
+        {
+          num: 1,
+          obstacles: []
+        },
+        {
+          num: 2,
+          obstacles: []
+        },
+        {
+          num: 3,
+          obstacles: []
+        },
+        {
+          num: 4,
+          obstacles: []
+        },
+        {
+          num: 5,
+          obstacles: []
+        },
+        {
+          num: 6,
+          obstacles: []
         }
-      }
-    ],
+      ]
+    },
     moderationFactorAlternatives: [
       {
         alternative: {
@@ -188,38 +177,27 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         }
       }
     ],
-    mediatingFactors: [
-      {
-        facilitators: [
-          {
-            factor: {
-              type: String,
-              required: [true, 'Facilitator is required'],
-              trim: true,
-              maxlength: [300, FACILITATOR_MESSAGE_MAX_LENGTH],
-              minlength: [2, FACILITATOR_MESSAGE_MIN_LENGTH]
-            }
-          }
-        ],
-        num: {
-          type: Number,
-          required: [true, 'Facilitator number is required'],
-          enum: {
-            values: [1, 2, 3, 4],
-            message: 'Facilitator number must be 1, 2, 3, or 4'
-          },
-          validate: [
-            {
-              validator: function (arr: IMediatingFactor[]) {
-                const nums = arr.map(facilitator => facilitator.num)
-                return nums.length === new Set(nums).size
-              },
-              message: 'Facilitator numbers must be unique within the document'
-            }
-          ]
+    mediatingFactors: {
+      type: [mediatingFactorSchema],
+      default: [
+        {
+          num: 1,
+          facilitators: []
+        },
+        {
+          num: 2,
+          facilitators: []
+        },
+        {
+          num: 3,
+          facilitators: []
+        },
+        {
+          num: 4,
+          facilitators: []
         }
-      }
-    ],
+      ]
+    },
     goalWeeklyDay: {
       type: String,
       enum: {

@@ -74,7 +74,7 @@ interface IFactor extends Document {
   factor: string
 }
 
-interface IModerationFactor extends Document {
+interface IModerationFactor {
   obstacles: IFactor[]
   num: number
 }
@@ -83,7 +83,7 @@ interface IModeratorFactorAlternative extends Document {
   alternative: string
 }
 
-interface IMediatingFactor extends Document {
+interface IMediatingFactor {
   facilitators: IFactor[]
   num: number
 }
