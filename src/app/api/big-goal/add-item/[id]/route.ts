@@ -26,6 +26,6 @@ export const POST = privateApi<RequestBody, { id: string }>(
 
     await bigGoal.save()
 
-    return successResponse(bigGoal, Status.CREATED)
+    return successResponse(bigGoal[property], Status.CREATED)
   }
 )
