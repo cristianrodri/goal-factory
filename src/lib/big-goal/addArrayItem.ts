@@ -17,15 +17,19 @@ export type PropertyBigGoalArray = keyof Pick<
   | 'futureGoals'
 >
 
-type Data = { num: number; factor: string }
+export type Data = { num: number; factor: string }
 
 export type DataBigGoalArray = string | Data
 
-export const checkExistingItem = (
+export type ParametersTuple = [
   bigGoal: IBigGoal,
   property: PropertyBigGoalArray,
   data: DataBigGoalArray
-) => {
+]
+
+export const checkExistingItem = (...args: ParametersTuple) => {
+  const [bigGoal, property, data] = args
+
   // If the property is moderatingFactors
   if (property === 'moderatingFactors') {
     // Check if the moderationFactor already exists
@@ -113,11 +117,9 @@ export const checkExistingItem = (
   }
 }
 
-export const addItem = (
-  bigGoal: IBigGoal,
-  property: PropertyBigGoalArray,
-  data: DataBigGoalArray
-) => {
+export const addItem = (...args: ParametersTuple) => {
+  const [bigGoal, property, data] = args
+
   // If the property is moderatingFactors
   if (property === 'moderatingFactors') {
     // Add the moderation factor

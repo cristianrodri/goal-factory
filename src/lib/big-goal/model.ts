@@ -30,6 +30,9 @@ import {
 } from '../baseSchema'
 import { moderatingFactorSchema } from './moderatingFactor/model'
 import { mediatingFactorSchema } from './mediatingFactor/model'
+import { futureGoalsSchema } from './futureGoals/model'
+import { activityAnalysisSchema } from './activityAnalysis/model'
+import { moderationFactorAlternativesSchema } from './moderationFactorAlternatives/model'
 
 // Define your main automatic habit schema
 interface IBigGoalDocument extends IBigGoal, IBaseDocument {}
@@ -74,19 +77,7 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
           'Real Deadline must be greater than or equal to the current day'
       }
     },
-    activityAnalysis: [
-      {
-        activity: {
-          type: String,
-          trim: true,
-          maxlength: [
-            300,
-            'Activity analysis can not be more than 300 characters'
-          ],
-          minlength: [2, 'Activity analysis can not be less than 2 characters']
-        }
-      }
-    ],
+    activityAnalysis: [activityAnalysisSchema],
     activitiesFrecuency: {
       type: String,
       trim: true,
@@ -167,16 +158,7 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         }
       ]
     },
-    moderationFactorAlternatives: [
-      {
-        alternative: {
-          type: String,
-          trim: true,
-          maxlength: [300, 'Alternative can not be more than 300 characters'],
-          minlength: [2, 'Alternative can not be less than 2 characters']
-        }
-      }
-    ],
+    moderationFactorAlternatives: [moderationFactorAlternativesSchema],
     mediatingFactors: {
       type: [mediatingFactorSchema],
       default: [
@@ -270,16 +252,7 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
         default: false
       }
     },
-    futureGoals: [
-      {
-        goal: {
-          type: String,
-          trim: true,
-          maxlength: [300, 'Future goals can not be more than 300 characters'],
-          minlength: [2, 'Future goals can not be less than 2 characters']
-        }
-      }
-    ],
+    futureGoals: [futureGoalsSchema],
     bigReward: {
       type: String,
       trim: true,

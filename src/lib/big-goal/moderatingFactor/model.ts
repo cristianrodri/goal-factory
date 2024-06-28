@@ -1,6 +1,7 @@
 import { IModerationFactor } from '@/types'
-import { Schema } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 import { factorSchema } from '../factor/model'
+import { toJSONTransform } from '@/utils/db'
 
 export const moderatingFactorSchema = new Schema<IModerationFactor>(
   {
@@ -16,3 +17,8 @@ export const moderatingFactorSchema = new Schema<IModerationFactor>(
   },
   { _id: false }
 )
+
+// Use the transformation function within the toJSON method
+moderatingFactorSchema.methods.toJSON = function () {
+  return toJSONTransform(this as Document)
+}
