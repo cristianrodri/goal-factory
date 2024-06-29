@@ -41,7 +41,8 @@ export enum MotivationType {
 
 export enum Param {
   BIG_GOAL = 'bigGoal',
-  ID = 'id'
+  ID = 'id',
+  PARENT_GOAL = 'parentGoal'
 }
 
 export enum TechniqueNumber {

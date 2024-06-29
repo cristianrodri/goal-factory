@@ -1,17 +1,18 @@
 import Goal from '@/lib/goal/model'
 import { privateApi } from '@/utils/api'
-import { NextResponse } from 'next/server'
+import { Param } from '@/utils/enums'
+import { successResponse } from '@/utils/response'
+import { getParam } from '@/utils/url'
 
-export const GET = privateApi(async (userId, { req }) => {
-  const { searchParams } = new URL(req.url)
-  const bigGoal = searchParams.get('bigGoal')?.trim()
-  const parentGoal = searchParams.get('parentGoal')?.trim()
+export const GET = privateApi(async (user, { req }) => {
+  const bigGoal = getParam(req, Param.BIG_GOAL)
+  const parentGoal = getParam(req, Param.PARENT_GOAL)
 
-  const data = await Goal.find({
-    user: userId,
+  const goals = await Goal.find({
+    user,
     bigGoal,
     ...(parentGoal ? { goal: parentGoal } : {})
   })
 
-  return NextResponse.json(data)
+  return successResponse(goals)
 })
