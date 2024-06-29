@@ -1,12 +1,12 @@
 import { getBigGoal } from '@/lib/big-goal/get'
 import { privateApi } from '@/utils/api'
-import { NextResponse } from 'next/server'
+import { successResponse } from '@/utils/response'
 
 export const GET = privateApi<unknown, { id: string }>(
-  async (userId, { params }) => {
+  async (user, { params }) => {
     // Add the user id to the class
-    const data = await getBigGoal(params.id, userId)
+    const data = await getBigGoal(params.id, user)
 
-    return NextResponse.json(data)
+    return successResponse(data)
   }
 )
