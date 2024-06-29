@@ -8,7 +8,7 @@ import { IBigGoal } from '@/types'
 import { WeekDay } from '@/utils/enums'
 import { toJSONTransform } from '@/utils/db'
 import MotivationBook from '@/lib/motivation-book/model'
-import MotivationCalculation from '../motivation-calculation/model'
+import MotivationCalculation from '@/lib/motivation-calculation/model'
 import VisualProspective from '@/lib/motivation-techniques/visual-prospective/model'
 import OptimisticLevel from '@/lib/motivation-techniques/optimistic-level/model'
 import WorstContext from '@/lib/motivation-techniques/worst-context/model'
@@ -27,12 +27,16 @@ import {
   findOneOrThrow,
   IBaseDocument,
   IBaseModel
-} from '../baseSchema'
+} from '@/lib/baseSchema'
 import { moderatingFactorSchema } from './moderatingFactor/model'
 import { mediatingFactorSchema } from './mediatingFactor/model'
 import { futureGoalsSchema } from './futureGoals/model'
 import { activityAnalysisSchema } from './activityAnalysis/model'
 import { moderationFactorAlternativesSchema } from './moderationFactorAlternatives/model'
+import {
+  basicAspectsSchema,
+  optimizingAspectsSchema
+} from '@/lib/inner-schemas/basic-aspects/model'
 
 // Define your main automatic habit schema
 interface IBigGoalDocument extends IBigGoal, IBaseDocument {}
@@ -188,70 +192,8 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
       },
       required: [true, 'Week day is required']
     },
-    basicAspects: {
-      1: {
-        type: Boolean,
-        default: false
-      },
-      2: {
-        type: Boolean,
-        default: false
-      },
-      3: {
-        type: Boolean,
-        default: false
-      },
-      4: {
-        type: Boolean,
-        default: false
-      },
-      5: {
-        type: Boolean,
-        default: false
-      }
-    },
-    optimizingAspects: {
-      1: {
-        type: Boolean,
-        default: false
-      },
-      2: {
-        type: Boolean,
-        default: false
-      },
-      3: {
-        type: Boolean,
-        default: false
-      },
-      4: {
-        type: Boolean,
-        default: false
-      },
-      5: {
-        type: Boolean,
-        default: false
-      },
-      6: {
-        type: Boolean,
-        default: false
-      },
-      7: {
-        type: Boolean,
-        default: false
-      },
-      8: {
-        type: Boolean,
-        default: false
-      },
-      9: {
-        type: Boolean,
-        default: false
-      },
-      10: {
-        type: Boolean,
-        default: false
-      }
-    },
+    basicAspects: basicAspectsSchema,
+    optimizingAspects: optimizingAspectsSchema,
     futureGoals: [futureGoalsSchema],
     bigReward: {
       type: String,

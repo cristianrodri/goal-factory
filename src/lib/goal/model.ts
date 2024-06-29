@@ -2,6 +2,11 @@ import { IGoal } from '@/types'
 import { toJSONTransform } from '@/utils/db'
 import { GoalType } from '@/utils/enums'
 import { Document, Model, Schema, model, models } from 'mongoose'
+import {
+  basicAspectsSchema,
+  optimizingAspectsSchema
+} from '@/lib/inner-schemas/basic-aspects/model'
+import { rediSchema } from '@/lib/inner-schemas/redi/model'
 
 const goalSchema = new Schema<IGoal>({
   type: {
@@ -56,50 +61,14 @@ const goalSchema = new Schema<IGoal>({
     type: Number,
     default: 0
   },
-  basicAspects: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean,
-    5: Boolean
-  },
-  optimizingAspects: {
-    1: Boolean,
-    2: Boolean,
-    3: Boolean,
-    4: Boolean,
-    5: Boolean,
-    6: Boolean,
-    7: Boolean,
-    8: Boolean,
-    9: Boolean,
-    10: Boolean
-  },
+  basicAspects: basicAspectsSchema,
+  optimizingAspects: optimizingAspectsSchema,
   difficulty: {
     type: Number,
-    min: 1,
-    max: 10
+    min: [1, 'Difficulty must be at least 1'],
+    max: [10, 'Difficulty must not exceed 10']
   },
-  challenge: {
-    type: Number,
-    min: 1,
-    max: 10
-  },
-  specific: {
-    type: Number,
-    min: 1,
-    max: 10
-  },
-  directed: {
-    type: Number,
-    min: 1,
-    max: 10
-  },
-  immediate: {
-    type: Number,
-    min: 1,
-    max: 10
-  },
+  redi: rediSchema,
   achieved: {
     type: Boolean,
     default: false

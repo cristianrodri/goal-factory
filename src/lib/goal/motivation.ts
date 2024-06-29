@@ -4,17 +4,19 @@ import moment from 'moment'
 
 export const isDifficultiesApproved = (goals: IGoal[]) => {
   // If goal is not achieved yet and the difficulty is less than 4 or greater than 6
-  return !goals.some(goal => goal.difficulty < 4 || goal.difficulty > 6)
+  return !goals.some(
+    goal => (goal?.difficulty as number) < 4 || (goal?.difficulty as number) > 6
+  )
 }
 
 export const isRediApproved = (goals: IGoal[]) => {
   // Every goal should have at least challenge, specific, directed, and immediate aspects greater than 7
   return !goals.some(
     goal =>
-      goal.challenge < 7 ||
-      goal.specific < 7 ||
-      goal.directed < 7 ||
-      goal.immediate < 7
+      (goal?.redi?.challenge as number) < 7 ||
+      (goal?.redi?.specific as number) < 7 ||
+      (goal?.redi?.directed as number) < 7 ||
+      (goal?.redi?.immediate as number) < 7
   )
 }
 

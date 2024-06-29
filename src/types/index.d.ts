@@ -35,7 +35,7 @@ interface IReward {
 // Types used in the client side
 export type AuthUser = UserClientId & Omit<UserData, 'password'>
 
-interface BasicAspects {
+interface IBasicAspects {
   1: boolean
   2: boolean
   3: boolean
@@ -43,7 +43,7 @@ interface BasicAspects {
   5: boolean
 }
 
-interface OptimizingAspects {
+interface IOptimizingAspects {
   1: boolean
   2: boolean
   3: boolean
@@ -110,8 +110,8 @@ interface IBigGoal {
   moderationFactorAlternatives: IModeratorFactorAlternative[]
   mediatingFactors: IMediatingFactor[]
   goalWeeklyDay: WeekDay
-  basicAspects: BasicAspects
-  optimizingAspects: OptimizingAspects
+  basicAspects: IBasicAspects
+  optimizingAspects: IOptimizingAspects
   futureGoals: IFutureGoal[]
   bigReward: string
   rewardWasTaken: boolean
@@ -120,20 +120,24 @@ interface IBigGoal {
 }
 
 /* Goal types */
+interface IRedi {
+  challenge: number
+  specific: number
+  directed: number
+  immediate: number
+}
+
 interface IGoal {
   type: GoalType
   description: string
   startsOn: Date
   optimisticDeadline: Date
-  realDeadline: Date
+  realDeadline?: Date
   progress: number
-  basicAspects: BasicAspects
-  optimizingAspects: OptimizingAspects
-  difficulty: number
-  challenge: number
-  specific: number
-  directed: number
-  immediate: number
+  basicAspects: IBasicAspects
+  optimizingAspects: IOptimizingAspects
+  difficulty?: number
+  redi?: IRedi
   achieved: boolean
   parentGoal?: Schema.Types.ObjectId
   activities?: IActivity[]
