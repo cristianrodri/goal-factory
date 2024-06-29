@@ -1,14 +1,14 @@
 import { privateApi } from '@/utils/api'
-import { NextResponse } from 'next/server'
 import BigGoal from '@/lib/big-goal/model'
+import { successResponse } from '@/utils/response'
 
 export const DELETE = privateApi<unknown, { id: string }>(
-  async (userId, { params }) => {
+  async (user, { params }) => {
     const data = await BigGoal.findOneAndDelete({
-      user: userId,
+      user,
       _id: params.id
     })
 
-    return NextResponse.json(data)
+    return successResponse(data)
   }
 )
