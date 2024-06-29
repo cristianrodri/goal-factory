@@ -2,14 +2,13 @@ import {
   DataBigGoalArray,
   PropertyBigGoalArray
 } from '@/lib/big-goal/addArrayItem'
+import { filterQuery } from '@/lib/big-goal/filter-query'
 import BigGoal from '@/lib/big-goal/model'
 import { updateItem } from '@/lib/big-goal/updateArrayItem'
-import { IBigGoal } from '@/types'
 import { privateApi } from '@/utils/api'
 import { Param, Status } from '@/utils/enums'
 import { errorResponse, successResponse } from '@/utils/response'
 import { getParam } from '@/utils/url'
-import { FilterQuery } from 'mongoose'
 
 type RequestBody = {
   [key in PropertyBigGoalArray]: { data: DataBigGoalArray }
@@ -25,27 +24,7 @@ export const PUT = privateApi<RequestBody, { id: string }>(
 
     const property = Object.keys(body)[0] as PropertyBigGoalArray
 
-    const filterData: FilterQuery<IBigGoal> = {}
-
-    if (property === 'moderatingFactors') {
-      filterData[property] = {
-        $elemMatch: {
-          'obstacles._id': itemId
-        }
-      }
-    } else if (property === 'mediatingFactors') {
-      filterData[property] = {
-        $elemMatch: {
-          'facilitators._id': itemId
-        }
-      }
-    } else {
-      filterData[property] = {
-        $elemMatch: {
-          _id: itemId
-        }
-      }
-    }
+    const filterData = filterQuery(property, itemId)
 
     // Get the big goal
     const bigGoal = await BigGoal.findOneOrThrow({
