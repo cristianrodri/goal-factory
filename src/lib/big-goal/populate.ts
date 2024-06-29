@@ -1,7 +1,7 @@
 import {
   IAutomaticHabit,
   IContaminateTemptation,
-  IGoal,
+  IGoalWithActivities,
   IInterruptionStimulus,
   IMotivationBook,
   IOptimalAccountability,
@@ -20,7 +20,7 @@ import { CustomError } from '@/utils/error'
 
 export const getPopulatedBigGoals = async (user: string, bigGoalId: string) => {
   const bigGoal = await BigGoal.findOne({ _id: bigGoalId, user })
-    .populate<{ goals: IGoal[] }>({
+    .populate<{ goals: IGoalWithActivities[] }>({
       path: 'goals',
       populate: {
         path: 'activities'

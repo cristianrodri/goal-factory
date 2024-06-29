@@ -7,6 +7,7 @@ import {
   optimizingAspectsSchema
 } from '@/lib/inner-schemas/basic-aspects/model'
 import { rediSchema } from '@/lib/inner-schemas/redi/model'
+import moment from 'moment'
 
 const goalSchema = new Schema<IGoal>({
   type: {
@@ -31,7 +32,7 @@ const goalSchema = new Schema<IGoal>({
     validate: {
       validator: function (value: Date) {
         // Check if the provided date is greater than or equal to the current day
-        return value >= new Date()
+        return moment(value) > moment().startOf('day')
       },
       message: 'Start date must be greater than or equal to the current day'
     }

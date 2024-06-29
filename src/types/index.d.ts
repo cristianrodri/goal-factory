@@ -127,7 +127,7 @@ interface IRedi {
   immediate: number
 }
 
-interface IGoal {
+interface IGoal extends Document {
   type: GoalType
   description: string
   startsOn: Date
@@ -140,9 +140,12 @@ interface IGoal {
   redi?: IRedi
   achieved: boolean
   parentGoal?: Schema.Types.ObjectId
-  activities?: IActivity[]
   bigGoal: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
+}
+
+interface IGoalWithActivities extends IGoal {
+  activities: IActivity[]
 }
 
 /* Activity types */

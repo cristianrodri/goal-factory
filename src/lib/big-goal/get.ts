@@ -26,14 +26,12 @@ export const getAllBigGoals = async (userId: string) => {
 }
 
 export const getBigGoal = async (id: string, userId: string) => {
-  try {
-    const bigGoal = await BigGoal.findOne({
-      _id: id,
-      user: userId
-    }).populate<PopulatedBigGoal>({ path: 'goals', populate: 'activities' })
+  const bigGoal = await BigGoal.findOne({
+    _id: id,
+    user: userId
+  }).populate<PopulatedBigGoal>({ path: 'goals', populate: 'activities' })
 
-    return bigGoal
-  } catch (error) {
-    throw new CustomError('Big Goal not found', Status.NOT_FOUND)
-  }
+  if (!bigGoal) throw new CustomError('Big Goal not found', Status.NOT_FOUND)
+
+  return bigGoal
 }
