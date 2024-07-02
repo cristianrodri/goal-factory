@@ -37,6 +37,7 @@ import {
   basicAspectsSchema,
   optimizingAspectsSchema
 } from '@/lib/inner-schemas/basic-aspects/model'
+import moment from 'moment'
 
 // Define your main automatic habit schema
 interface IBigGoalDocument extends IBigGoal, IBaseDocument {}
@@ -198,7 +199,6 @@ const bigGoalSchema = new Schema<IBigGoalDocument>(
     bigReward: {
       type: String,
       trim: true,
-      required: [true, 'Big reward is required'],
       maxlength: [200, 'Big reward can not be more than 200 characters'],
       minlength: [2, 'Big reward can not be less than 2 characters']
     },
@@ -374,6 +374,18 @@ bigGoalSchema.statics.findOneAndUpdateOrThrow =
 
 bigGoalSchema.statics.findOneAndDeleteOrThrow =
   findOneAndDeleteOrThrow as IBaseModel<IBigGoalDocument>['findOneAndDeleteOrThrow']
+
+// Pre-save middleware to set realDeadline based on optimisticDeadline
+bigGoalSchema.pre('save', function (next) {
+  if (this.isNew && this.optimisticDeadline) {
+    const currentDate = moment()
+    const optimisticDeadline = moment(this.optimisticDeadline)
+    const diff = optimisticDeadline.diff(currentDate)
+    const doubledDiff = diff * 2
+    this.realDeadline = currentDate.add(doubledDiff, 'milliseconds').toDate()
+  }
+  next()
+})
 
 bigGoalSchema.pre('findOneAndDelete', async function () {
   // Remove all the associated goals

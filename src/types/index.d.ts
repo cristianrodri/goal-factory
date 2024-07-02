@@ -113,7 +113,7 @@ interface IBigGoal {
   basicAspects: IBasicAspects
   optimizingAspects: IOptimizingAspects
   futureGoals: IFutureGoal[]
-  bigReward: string
+  bigReward?: string
   rewardWasTaken: boolean
   achieved: boolean
   user: Schema.Types.ObjectId
